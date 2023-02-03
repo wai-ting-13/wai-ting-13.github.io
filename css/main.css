@@ -1,0 +1,34 @@
+html {
+    background-color: rgb(24, 24, 24);
+}
+
+*{
+    color:rgb(208, 208, 208);
+    font-family:Verdana,sans-serif;
+}
+
+#Message{
+    position: relative;
+    display: block;
+    top: 35%;
+    margin: auto;
+    text-align: center;
+    font-size: 500%;
+}
+
+#links{
+    position: fixed;
+    margin-right: 1.5%;
+    z-index: 4;
+    display: block;
+    bottom: 4%;
+    right : 0;
+}
+
+#links a{
+    font-size: 1em;
+    display : inline;
+    float :left;
+    font-weight: bold;
+    margin-right: 1.5em;
+}

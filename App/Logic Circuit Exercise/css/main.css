@@ -1,0 +1,45 @@
+body{
+    margin: 0;
+}
+
+#defaultCanvas0 {
+    border: 2px black solid;
+}
+
+#header{
+    z-index: 10;
+    width: 100%;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
+
+#header, #main_buttons > a, button, #Submit_Button{
+    background-color: rgba(50, 57, 66, 0.952);
+    text-decoration: none;
+}
+
+#main_buttons > *{
+    display: inline;
+    width: fit-content;
+    font-size: large;
+    font-weight: bold;
+    font-family: 'Ubuntu', sans-serif;
+    letter-spacing: 1px;
+    border: 2px white solid;
+    border-radius: 10px;
+    color: white;
+    margin: 3px;
+    margin-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+}
+
+
+#main_buttons > #Submit_Button{
+    transition: all 2s;
+    border-radius: 50px;
+}

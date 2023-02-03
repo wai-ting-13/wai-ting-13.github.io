@@ -1,0 +1,43 @@
+function item_map(){
+    let map = {
+      "慈悲短劍" : {"name": "慈悲短劍", "category": "Dagger", "requires": {"str": "7", "dex": "12", "int": "0", "fai": "0", "arc": "0"}},
+      "脇差" : {"name": "脇差", "category": "Dagger", "requires": {"str": "9", "dex": "13", "int": "0", "fai": "0", "arc": "0"}},
+      "逆刺" : {"name": "逆刺", "category": "Dagger", "requires": {"str": "5", "dex": "13", "int": "0", "fai": "0", "arc": "13"}},
+      "黑刀" : {"name": "黑刀", "category": "Dagger", "requires": {"str": "8", "dex": "12", "int": "0", "fai": "18", "arc": "0"}},
+      "夜與火之劍" : {"name": "夜與火之劍", "category": "Straight Sword", "requires": {"str": "12", "dex": "12", "int": "24", "fai": "24", "arc": "0"}},
+      "緊密孿生劍" : {"name": "緊密孿生劍", "category": "Greatsword", "requires": {"str": "18", "dex": "18", "int": "0", "fai": "20", "arc": "0"}},
+      "暗月大劍" : {"name": "暗月大劍", "category": "Greatsword", "requires": {"str": "16", "dex": "11", "int": "38", "fai": "0", "arc": "0"}},
+      "神軀化劍" : {"name": "神軀化劍", "category": "Greatsword", "requires": {"str": "14", "dex": "24", "int": "0", "fai": "22", "arc": "0"}},
+      "巨劍" : {"name": "巨劍", "category": "Colossal Sword", "requires": {"str": "31", "dex": "12", "int": "0", "fai": "0", "arc": "0"}},
+      "王室巨劍" : {"name": "王室巨劍", "category": "Colossal Sword", "requires": {"str": "26", "dex": "18", "int": "22", "fai": "0", "arc": "0"}},
+      "遺跡大劍" : {"name": "遺跡大劍", "category": "Colossal Sword", "requires": {"str": "50", "dex": "0", "int": "16", "fai": "0", "arc": "0"}},
+      "碎星大劍" : {"name": "碎星大劍", "category": "Colossal Sword", "requires": {"str": "38", "dex": "12", "int": "15", "fai": "0", "arc": "0"}},
+      "狩獵神祇大劍" : {"name": "狩獵神祇大劍", "category": "Colossal Sword", "requires": {"str": "20", "dex": "22", "int": "0", "fai": "20", "arc": "0"}},
+      "瑪利喀斯的黑劍" : {"name": "瑪利喀斯的黑劍", "category": "Colossal Sword", "requires": {"str": "34", "dex": "12", "int": "0", "fai": "20", "arc": "0"}},
+      "結冰針" : {"name": "結冰針", "category": "Thrusting Sword", "requires": {"str": "11", "dex": "18", "int": "0", "fai": "0", "arc": "0"}},
+      "龍王岩劍" : {"name": "龍王岩劍", "category": "Heavy Thrusting Sword", "requires": {"str": "18", "dex": "37", "int": "0", "fai": "0", "arc": "0"}},
+      "剝屍曲劍" : {"name": "剝屍曲劍", "category": "Curved Sword", "requires": {"str": "9", "dex": "14", "int": "0", "fai": "0", "arc": "0"}},
+      "山賊彎刀" : {"name": "山賊彎刀", "category": "Curved Sword", "requires": {"str": "11", "dex": "13", "int": "0", "fai": "0", "arc": "0"}},
+      "賽施爾長刀" : {"name": "賽施爾長刀", "category": "Curved Sword", "requires": {"str": "7", "dex": "13", "int": "0", "fai": "0", "arc": "0"}},
+      "艾絲緹薄翼" : {"name": "艾絲緹薄翼", "category": "Curved Sword", "requires": {"str": "7", "dex": "17", "int": "20", "fai": "0", "arc": "0"}},
+      "蒙葛特咒劍" : {"name": "蒙葛特咒劍", "category": "Curved Greatsword", "requires": {"str": "14", "dex": "35", "int": "0", "fai": "0", "arc": "17"}},
+      "打刀" : {"name": "打刀", "category": "Katana", "requires": {"str": "11", "dex": "15", "int": "0", "fai": "0", "arc": "0"}},
+      "長牙" : {"name": "長牙", "category": "Katana", "requires": {"str": "18", "dex": "22", "int": "0", "fai": "0", "arc": "0"}},
+      "名刀月隱" : {"name": "名刀月隱", "category": "Katana", "requires": {"str": "12", "dex": "18", "int": "23", "fai": "0", "arc": "0"}},
+      "屍山血海" : {"name": "屍山血海", "category": "Katana", "requires": {"str": "12", "dex": "18", "int": "0", "fai": "0", "arc": "20"}},
+      "瑪蓮妮亞的義手刀" : {"name": "瑪蓮妮亞的義手刀", "category": "Katana", "requires": {"str": "16", "dex": "48", "int": "0", "fai": "0", "arc": "0"}},
+      "騎士雙頭劍" : {"name": "騎士雙頭劍", "category": "Twinblade", "requires": {"str": "16", "dex": "18", "int": "0", "fai": "0", "arc": "0"}},
+      "石像鬼雙頭劍" : {"name": "石像鬼雙頭劍", "category": "Twinblade", "requires": {"str": "18", "dex": "15", "int": "0", "fai": "0", "arc": "0"}},
+      "艾琉諾拉雙頭刀" : {"name": "艾琉諾拉雙頭刀", "category": "Twinblade", "requires": {"str": "12", "dex": "21", "int": "0", "fai": "0", "arc": "19"}},
+      "瑪莉卡的石槌" : {"name": "瑪莉卡的石槌", "category": "Hammers", "requires": {"str": "20", "dex": "12", "int": "0", "fai": "19", "arc": "0"}},
+      "吞世權杖" : {"name": "吞世權杖", "category": "Great Hammers", "requires": {"str": "24", "dex": "20", "int": "0", "fai": "25", "arc": "0"}},
+      "古蘭桑克斯的雷電" : {"name": "古蘭桑克斯的雷電", "category": "Spear", "requires": {"str": "20", "dex": "40", "int": "0", "fai": "0", "arc": "0"}},
+      "黑夜騎兵劍刃戟" : {"name": "黑夜騎兵劍刃戟", "category": "Halberds", "requires": {"str": "26", "dex": "10", "int": "0", "fai": "0", "arc": "0"}},
+      "狩獵神祇聖印記" : {"name": "狩獵神祇聖印記", "category": "Sacred Seal", "requires": {"str": "4", "dex": "0", "int": "0", "fai": "27", "arc": "0"}},
+      "癲火聖印記" : {"name": "癲火聖印記", "category": "Sacred Seal", "requires": {"str": "0", "dex": "0", "int": "0", "fai": "0", "arc": "0"}},
+      "指頭聖印記" : {"name": "指頭聖印記", "category": "Sacred Seal", "requires": {"str": "4", "dex": "0", "int": "0", "fai": "0", "arc": "10"}},
+
+    };
+    return map;
+}
+function cate_list() { return ['Colossal Sword', 'Curved Greatsword', 'Curved Sword', 'Dagger', 'Great Hammers', 'Greatsword', 'Halberds', 'Hammers', 'Heavy Thrusting Sword', 'Katana', 'Sacred Seal', 'Spear', 'Straight Sword', 'Thrusting Sword', 'Twinblade'] }

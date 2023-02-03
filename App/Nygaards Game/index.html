@@ -1,0 +1,109 @@
+<html>
+
+<head>
+    <meta charset="uft8">
+    <link rel="stylesheet" href="css/main.css" media="all" charset="utf-8">
+    <style>
+        
+    </style>
+</head>
+
+<body>
+    <section id="guide">
+        <button id="cross">X</button>
+        <p>
+            <b>Rules</b>
+            <br><br>
+            Two player play this game in 3x3 board.
+            <br><br>
+            Player complete 3-in-the-row with same parity or complete a row with sum = 15 win the game.
+            <br><br>
+            First player can place [1,3,5,7,9]; Second player can place [2,4,6,8].
+            <br><br><br><br>
+            <b>How to play</b>
+            <br><br>
+            Select a number from left number pad and click the blank of the board.
+            <br><br>
+            Press "AI Move" to let AI take its action.
+            <br><br>
+            Press "Restart" to restart the game.
+            <br><br><br><br>
+            Reminder: You may wait for completion of AI operation for few seconds.
+            <br><br>
+            Press the <b>X</b> button on the right corner to close this guide.
+        </p>
+    </section>
+    <section id="main">
+        <table>
+            <tbody id="board">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p id="msgBox"></p>
+
+        <table>
+            <tr>
+                <td>
+                    <table id="keypad">
+                        <tbody>
+                            <tr>
+                                <td><button>1</button></td>
+                                <td><button>2</button></td>
+                                <td><button>3</button></td>
+                            </tr>
+                            <tr>
+                                <td><button>4</button< /td>
+                                <td><button>5</button></td>
+                                <td><button>6</button></td>
+
+                            </tr>
+                            <tr>
+                                <td><button>7</button></td>
+                                <td><button>8</button></td>
+                                <td><button>9</button></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </td>
+
+                <td width="70%"></td>
+                <td>
+                    <table id="button_container">
+                        <tbody>
+                            <tr>
+                                <td><button id="help" class="button">AI Move</button></td>
+                            </tr>
+                            <tr>
+                                <td><button id="Restart" class="button">Restart</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+
+
+</body>
+
+<script src="Think.js"></script>
+<script src="Control.js"></script>
+
+</html>
