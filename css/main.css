@@ -40,6 +40,8 @@ section {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    margin-bottom: 2%;
+    margin-top: 2%;
 }
 
 #left > #profile > img{
@@ -50,6 +52,7 @@ section {
     text-align: center;
     font-size: larger;
     font-weight: 800;
+
 }
 
 #left > #profile > #description{
@@ -92,6 +95,8 @@ section {
 
 .info::-webkit-scrollbar {
     width: 0.5em;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(18, 106, 150);
 }
 
 .info::-webkit-scrollbar-track{
@@ -99,7 +104,7 @@ section {
 }
 
 .info::-webkit-scrollbar-thumb{
-    background-color: rgb(18, 106, 150);
+    background-color: rgb(18, 106, 150) rgb(18, 106, 150);
     border-radius: 40px;
     
 }
