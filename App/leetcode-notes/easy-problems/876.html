@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="../easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="../easy-problems/876.html" class="active">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="../easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="../easy-problems/876.html" class="active">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="../medium-problems/151.html">151. Reverse Words in a String</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../hard-problems/65.html">65. Valid Number</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -169,7 +169,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="876-middle-of-the-linked-list"><a class="header" href="#876-middle-of-the-linked-list">876.	Middle of the Linked List</a></h1>
-<h2 id="description-of-the-question"><a class="header" href="#description-of-the-question">Description of the Question</a></h2>
+<h2 id="description-of-the-problem"><a class="header" href="#description-of-the-problem">Description of the Problem</a></h2>
 <p>Given the <code>head</code> of a singly linked list, return the middle node of the linked list.</p>
 <p>If there are two middle nodes, return the second middle node.</p>
 <p><strong>Example 1:</strong></p>
@@ -188,10 +188,10 @@ Explanation: Since the list has two middle nodes with values 3 and 4, we return 
 <li><code>1 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 <h2 id="solution"><a class="header" href="#solution">Solution</a></h2>
-<p><strong>Fast and Slow Pointers</strong></p>
-<p>Slow pointer move to right by 1 and fast pointer move to right by 2 if possible;</p>
-<p>Slow pointer must point to the middle node or previous node of the middle node</p>
 <h3 id="explanation"><a class="header" href="#explanation">Explanation</a></h3>
+<p><strong>Fast and Slow Pointers</strong></p>
+<p>Slow pointer move to right by 1 and fast pointer move to right by 2 if possible.</p>
+<p>At the end of loop, slow pointer must point to the middle node or previous node of the middle node</p>
 <p>Here we assume the linkedlist use 0-based indexing (i.e. list[0] indicate first element of the list)</p>
 <p>At the termination of the loop, there are only two possible case:</p>
 <ol>
@@ -227,10 +227,22 @@ class Solution {
 }
 </code></pre>
 <h3 id="complexity"><a class="header" href="#complexity">Complexity</a></h3>
-<p><strong>Time complexity: \( T(n) = O(n/2) \)</strong></p>
-<p>There are only nearly n/2 iterations</p>
-<p><strong>Auxiliary Space: \( S(n) = O(1) \)</strong></p>
-<p>Use only constant number of varibles</p>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( T(n) = O(n/2) \)
+<ul>
+<li>There are only nearly n/2 iterations</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)
+<ul>
+<li>Use only constant number of variables</li>
+</ul>
+</li>
+</ul>
 <h2 id="futher-discussion"><a class="header" href="#futher-discussion">Futher Discussion</a></h2>
 <h3 id="alternative-way-to-implements-linkedlist-in-rust-and-how-to-move-a-pointer-in-rust"><a class="header" href="#alternative-way-to-implements-linkedlist-in-rust-and-how-to-move-a-pointer-in-rust">Alternative way to implements LinkedList in Rust and How to move a pointer in Rust</a></h3>
 <p>Althougt it is possible to implement LinkedList in Rust by <code>Rc&lt;RefCell&lt;T&gt;&gt;</code>, I do not know why leetcode refuse to use it. I would like to provide another implementation that supports fast and slow pointers approach. The key difficulty is moving pointer.</p>
@@ -305,6 +317,22 @@ fn main() {
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

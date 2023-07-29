@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="medium-problems/151.html">151. Reverse Words in a String</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="hard-problems/65.html">65. Valid Number</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -189,6 +189,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

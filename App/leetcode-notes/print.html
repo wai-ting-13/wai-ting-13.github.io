@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="medium-problems/151.html">151. Reverse Words in a String</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="hard-problems/65.html">65. Valid Number</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -183,16 +183,18 @@
 <li>The web will be <strong>updated very slowly</strong> because explaining each solved problem will be time-consuming.</li>
 <li>Some of explnations and solutions may not be correct. Espectially for the complexity of an algorithm. Sometimes I do not use rigorous calculation/proof.</li>
 </ul>
-<h2 id="update-info"><a class="header" href="#update-info">Update Info</a></h2>
+<h2 id="update-notes"><a class="header" href="#update-notes">Update Notes</a></h2>
 <ul>
 <li>Last Updated: 2023.Jul.29
 <ul>
-<li>Add Problem 1, 3, 206 and 876.</li>
+<li>Add Problem 3, 65, 151.</li>
+<li>For Problem 3, Calucation of Average Time Complexity was added</li>
+<li>I suggest to read <strong>Problem 151</strong>. You will have deeper understanding about programming and Computer Science (If my explnation has no error). </li>
 </ul>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="1-two-sum---easy"><a class="header" href="#1-two-sum---easy">1. Two Sum - Easy</a></h1>
-<h2 id="description-of-the-question"><a class="header" href="#description-of-the-question">Description of the Question</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="1-two-sum"><a class="header" href="#1-two-sum">1. Two Sum</a></h1>
+<h2 id="description-of-the-problem"><a class="header" href="#description-of-the-problem">Description of the Problem</a></h2>
 <p>Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to <code>target</code>.</p>
 <p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
 <p>You can return the answer in any order.</p>
@@ -267,12 +269,24 @@ public class Solution_2 {
 }
 </code></pre>
 <h3 id="complexity"><a class="header" href="#complexity">Complexity</a></h3>
-<p><strong>Time complexity: \( T(n) = \mathcal{\Theta}(n) \)</strong></p>
-<p>Assume hashMap get/put use constant time</p>
-<p><strong>Auxiliary Space: \( S(n) = O(2n) \)</strong></p>
-<p>It store at most 2n (key and value) elements in HashMap</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="206-reverse-linked-lists---easy"><a class="header" href="#206-reverse-linked-lists---easy">206. Reverse Linked Lists - Easy</a></h1>
-<h2 id="description-of-the-question-1"><a class="header" href="#description-of-the-question-1">Description of the Question</a></h2>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( T(n) = \mathcal{\Theta}(n) \)
+<ul>
+<li>Assume hashMap get/put use constant time</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(2n) \)
+<ul>
+<li>It store at most 2n (key and value) elements in HashMap</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="206-reverse-linked-lists"><a class="header" href="#206-reverse-linked-lists">206. Reverse Linked Lists</a></h1>
+<h2 id="description-of-the-problem-1"><a class="header" href="#description-of-the-problem-1">Description of the Problem</a></h2>
 <p>Given the head of a singly linked list, reverse the list, and return the reversed list.</p>
 <p><strong>Example 1:</strong></p>
 <pre><code>Input: head = [1,2,3,4,5]
@@ -336,11 +350,20 @@ impl Solution {
 }
 </code></pre>
 <h3 id="complexity-1"><a class="header" href="#complexity-1">Complexity</a></h3>
-<p><strong>Time complexity: \( T(n) = \mathcal{\Theta}(n) \)</strong></p>
-<p>Traversal of all nodes in LinkedList</p>
-<p><strong>Auxiliary Space: \( S(n) = O(1) \)</strong></p>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( T(n) = \mathcal{\Theta}(n) \)
+<ul>
+<li>Traversal of all nodes in LinkedList</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="876-middle-of-the-linked-list"><a class="header" href="#876-middle-of-the-linked-list">876.	Middle of the Linked List</a></h1>
-<h2 id="description-of-the-question-2"><a class="header" href="#description-of-the-question-2">Description of the Question</a></h2>
+<h2 id="description-of-the-problem-2"><a class="header" href="#description-of-the-problem-2">Description of the Problem</a></h2>
 <p>Given the <code>head</code> of a singly linked list, return the middle node of the linked list.</p>
 <p>If there are two middle nodes, return the second middle node.</p>
 <p><strong>Example 1:</strong></p>
@@ -359,10 +382,10 @@ Explanation: Since the list has two middle nodes with values 3 and 4, we return 
 <li><code>1 &lt;= Node.val &lt;= 100</code></li>
 </ul>
 <h2 id="solution-2"><a class="header" href="#solution-2">Solution</a></h2>
-<p><strong>Fast and Slow Pointers</strong></p>
-<p>Slow pointer move to right by 1 and fast pointer move to right by 2 if possible;</p>
-<p>Slow pointer must point to the middle node or previous node of the middle node</p>
 <h3 id="explanation-2"><a class="header" href="#explanation-2">Explanation</a></h3>
+<p><strong>Fast and Slow Pointers</strong></p>
+<p>Slow pointer move to right by 1 and fast pointer move to right by 2 if possible.</p>
+<p>At the end of loop, slow pointer must point to the middle node or previous node of the middle node</p>
 <p>Here we assume the linkedlist use 0-based indexing (i.e. list[0] indicate first element of the list)</p>
 <p>At the termination of the loop, there are only two possible case:</p>
 <ol>
@@ -398,10 +421,22 @@ class Solution {
 }
 </code></pre>
 <h3 id="complexity-2"><a class="header" href="#complexity-2">Complexity</a></h3>
-<p><strong>Time complexity: \( T(n) = O(n/2) \)</strong></p>
-<p>There are only nearly n/2 iterations</p>
-<p><strong>Auxiliary Space: \( S(n) = O(1) \)</strong></p>
-<p>Use only constant number of varibles</p>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( T(n) = O(n/2) \)
+<ul>
+<li>There are only nearly n/2 iterations</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)
+<ul>
+<li>Use only constant number of variables</li>
+</ul>
+</li>
+</ul>
 <h2 id="futher-discussion"><a class="header" href="#futher-discussion">Futher Discussion</a></h2>
 <h3 id="alternative-way-to-implements-linkedlist-in-rust-and-how-to-move-a-pointer-in-rust"><a class="header" href="#alternative-way-to-implements-linkedlist-in-rust-and-how-to-move-a-pointer-in-rust">Alternative way to implements LinkedList in Rust and How to move a pointer in Rust</a></h3>
 <p>Althougt it is possible to implement LinkedList in Rust by <code>Rc&lt;RefCell&lt;T&gt;&gt;</code>, I do not know why leetcode refuse to use it. I would like to provide another implementation that supports fast and slow pointers approach. The key difficulty is moving pointer.</p>
@@ -446,8 +481,8 @@ fn main() {
 }
 </code></pre>
 <p>For another way to use fast and slow pointers without re-implement the LinkedList, see: <a href="https://leetcode.com/problems/middle-of-the-linked-list/solutions/1483630/rust-fastslow-pointer-solution/">link from leetcode</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="3-longest-substring-without-repeating-characters---medium"><a class="header" href="#3-longest-substring-without-repeating-characters---medium">3. Longest Substring Without Repeating Characters - Medium</a></h1>
-<h2 id="description-of-the-question-3"><a class="header" href="#description-of-the-question-3">Description of the Question</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="3-longest-substring-without-repeating-characters"><a class="header" href="#3-longest-substring-without-repeating-characters">3. Longest Substring Without Repeating Characters</a></h1>
+<h2 id="description-of-the-problem-3"><a class="header" href="#description-of-the-problem-3">Description of the Problem</a></h2>
 <p>Given a string <code>s</code>, find the length of the longest substring without repeating characters.</p>
 <p><strong>Example 1:</strong></p>
 <pre><code>Input: s = &quot;abcabcbb&quot;
@@ -471,14 +506,14 @@ Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence an
 <li>s consists of English letters, digits, symbols and spaces.</li>
 </ul>
 <h2 id="solution-3"><a class="header" href="#solution-3">Solution</a></h2>
-<p><strong>Sliding Window</strong>
-Keep expanding our sliding window to find all substring without repeating character.</p>
-<p>If new appended character is repeated, trim the current substring and append the new character.</p>
 <h3 id="explanation-3"><a class="header" href="#explanation-3">Explanation</a></h3>
+<p><strong>Sliding Window</strong></p>
+<p>Keep expanding our sliding window to find all substring without repeating character.</p>
+<p>If new appended character is repeated, trim the current substring and append the new character.</p>
 <p>Suppose before an iteration we have a substring without repeating character <code>AcB</code> where Capital letters represent may-be empty substring and non-capital letter represents 1 character. </p>
 <p>If we meet new character <code>d</code> which is different from <code>c</code>, it is fine. Just append to the substring to form a new </p>
 <p>Otherwise, if <code>c</code> is the new character, then trim <code>Ac</code> and append <code>c</code>. New Substring becomes <code>Bc</code> which is a valid substring.</p>
-<p>The above reasoning illustrates that the algorithm must scan all valid substrings. The remaining work is to record the longest one.</p>
+<p>The above reasoning illustrates that the algorithm must scan all longest valid substrings. The remaining work is to record the longest one.</p>
 <h3 id="code-rust-2"><a class="header" href="#code-rust-2">Code (Rust)</a></h3>
 <pre><code class="language-Rust">impl Solution {
     pub fn length_of_longest_substring(s: String) -&gt; i32 {
@@ -534,15 +569,357 @@ Keep expanding our sliding window to find all substring without repeating charac
     }
 }
 </code></pre>
-<h3 id="complexity-3"><a class="header" href="#complexity-3">Complexity</a></h3>
-<p><strong>Time complexity (\(n\) is length of the string)</strong> </p>
+<h3 id="complexity-n-is-length-of-the-string"><a class="header" href="#complexity-n-is-length-of-the-string">Complexity (\(n\) is length of the string)</a></h3>
+<p><strong>Time complexity:</strong> </p>
 <ul>
 <li>Worst case: \( T(n) = \mathcal{\Theta}(n^2) \) (String contains no repeating characters)</li>
-<li>Average case: <strong>Missing</strong>  (I am going to calculate it using the same way which used to calcuate the average time complexity of Qsort)</li>
+<li>Average case: \( T(n) = O(n) \) (see <a href="medium-problems/3.html#average-time-complexity-for-the-algorithm">Further Discussion</a>)</li>
 <li>Best case: \( T(n) = \mathcal{\Theta}(n) \) (String repeats same character)</li>
 </ul>
-<p><strong>Auxiliary Space: \( S(n) = O(1) \)</strong></p>
-<p>Depends on implementation, Rust can archive achieve \( O(1) \)</p>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)</li>
+<li>Depends on implementation, Rust can achieve \( O(1) \)</li>
+</ul>
+<h2 id="further-discussion"><a class="header" href="#further-discussion">Further Discussion</a></h2>
+<h3 id="average-time-complexity-for-the-algorithm"><a class="header" href="#average-time-complexity-for-the-algorithm">Average Time Complexity for the algorithm</a></h3>
+<h4 id="lemma-the-algorithm-run-in--onx--where-n-is-length-of-the-string-and-x-is-number-of-comparsion"><a class="header" href="#lemma-the-algorithm-run-in--onx--where-n-is-length-of-the-string-and-x-is-number-of-comparsion">Lemma: The algorithm run in \( O(n+X) \) where n is length of the string and X is number of comparsion.</a></h4>
+<p>Proof: We have n iterations and each iteration performs certain number of character comparsion to find first index of the same character.</p>
+<h4 id="theorem-the-expected-number-of-comparsion-is--on-"><a class="header" href="#theorem-the-expected-number-of-comparsion-is--on-">Theorem: The expected number of comparsion is \( O(n) \)</a></h4>
+<p>Proof: </p>
+<p>Assume \( M \) is the number of characters of the program choose to form a string and each character is equally likely to be chosen independently.</p>
+<p>Let \( X_{ij} =  \unicode{x1D7D9}  \text{ { i-th character is compared to j-th character } }   \)</p>
+<p>Consider a sequence of characters \( c_i c_{i+1} c_{i+2} ... c_{j-1} \) and a character \( c_j \) in a loop, \( c_i \) and \(c_j\) compares each other if-and-only-if the sequence of characters does not contains repeating characters. Otherwise the substring will be trimmed by our algorithm before the current loop.</p>
+<p>The probability of \( c_i c_{i+1} c_{i+2} ... c_{j-1} \) does not contain repeating characters, according to formula of birthday paradox, is \(\frac{M!}{M^{(j-i)} (M - (j - i))! }\)</p>
+<p>The total number of comparsion \(\mathbb{E}[X] = \sum_{i = 0}^{n - 2} \sum_{j = i+1}^{n - 1} \mathbb{E}[ X_{ij} ] \)</p>
+<p>\(= \sum_{i = 0}^{n - 2} \sum_{j = i+1}^{n - 1} \frac{M!}{M^{(j-i)} (M - (j - i))! } \)</p>
+<p>\(= \sum_{i = 0}^{n - 2} \sum_{ k = 1}^{n - 1 - i} \frac{M!}{M^{k} (M - k)! } \)</p>
+<p>\( \le \sum_{i = 0}^{n - 2} \sum_{k = 1}^{M} \frac{M!}{M^{k} (M - k)! } \)</p>
+<p>\( \le \sum_{i = 0}^{n - 2} \int_{0}^{M} e^{ - x^2 / M^x} dx \ (\because \text{approximation of the &quot;birthday formula&quot;}) \)</p>
+<p>\( = \sum_{i = 0}^{n - 2} \frac{M\sqrt{\pi}}{2} \)</p>
+<p>\( = (n-1) \frac{M\sqrt{\pi}}{2} \)</p>
+<p>\( = (n-1) \frac{95 \cdot \sqrt{\pi}}{2} \ (\because \text{according to ASCII table, Dec32 to Dec126 are the characters the Leetcode program will choose}) \)</p>
+<p>\( \approx (n-1) 149 \)</p>
+<p>\( = O(n) \)</p>
+<h4 id="corollary-the-average-running-time-of-the-algorithm-is-on"><a class="header" href="#corollary-the-average-running-time-of-the-algorithm-is-on">Corollary: The average running time of the algorithm is \(O(n)\)</a></h4>
+<p>Followed by the lemma and theorem.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="151-reverse-words-in-a-string"><a class="header" href="#151-reverse-words-in-a-string">151. Reverse Words in a String</a></h1>
+<h2 id="description-of-the-problem-4"><a class="header" href="#description-of-the-problem-4">Description of the Problem</a></h2>
+<p>Given an input string <code>s</code>, reverse the order of the <strong>words</strong>.</p>
+<p>A <strong>word</strong> is defined as a sequence of non-space characters. The <strong>words</strong> in s will be separated by at least one space.</p>
+<p>Return <em>a string of the words in reverse order concatenated by a single space</em>.</p>
+<p><strong>Note</strong> that <code>s</code> may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: s = &quot;the sky is blue&quot;
+Output: &quot;blue is sky the&quot;
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: s = &quot;  hello world  &quot;
+Output: &quot;world hello&quot;
+Explanation: Your reversed string should not contain leading or trailing spaces.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: s = &quot;a good   example&quot;
+Output: &quot;example good a&quot;
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 104</code></li>
+<li><code>s</code> contains English letters (upper-case and lower-case), digits, and spaces ' '.</li>
+<li>There is at least one word in <code>s</code>.</li>
+</ul>
+<p>Follow-up: If the string data type is mutable in your language, can you solve it in-place with <code>O(1)</code> extra space?</p>
+<h2 id="solution-4"><a class="header" href="#solution-4">Solution</a></h2>
+<p>Simple Idea:</p>
+<ul>
+<li>To reverse each word in a string, do mirroring to each word and then do mirroring to the whole string.</li>
+<li>To do mirroring for each word, we have to scan each word (using sliding windows, i.e. tokenise)</li>
+<li>The follow-up question requires us to do almost any operations in-place. We can first copy each token to suitable place by sliding windows method. For example, <code>____ABC</code> becomes <code>ABC_ABC</code>.</li>
+</ul>
+<p>Reminder:</p>
+<ul>
+<li>(*) To fullfill the follow-up question, do not create too much copy of the <code>String</code>. Keep in mind that even if some methods/functions do not have <code>new</code> keyword, the code behind these methods/functions may contain <code>new</code> keyword in their implementation (i.e. they use extra space). For example, in Java, <code>.substring(i, j)</code> will create new <code>String</code> in Heap. To know more about this, please look at the source code. 
+<ul>
+<li>Rust provides source code in their offcial website. </li>
+<li>You can also look at the source code of Java via IDE.</li>
+</ul>
+</li>
+<li>In my opinion, the key idea of the problems is to illistrate you are able to acheive \( O(1) \) conceptually. It is not necessary to implement it so carefully.</li>
+</ul>
+<p><strong>My definition to &quot;extra/auxiliary space&quot; is excluding input space and output space</strong></p>
+<h3 id="explanation-4"><a class="header" href="#explanation-4">Explanation</a></h3>
+<h3 id="code-rust-3"><a class="header" href="#code-rust-3">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn reverse_words(s: String) -&gt; String {
+        let space_in_u8 = 32;
+
+        // According to RustDoc: &quot;This consumes the `String`, so we do not need to copy its contents&quot;
+        // i.e. convert it into Vec&lt;u8&gt; costs O(1) Space
+        let mut v = s.into_bytes();
+
+        // i, j for sliding window,
+        // k is location of cell to be filled-in
+        let (mut i, mut j, mut k, n) = (0,0,0,v.len());
+        while j &lt; n {
+            match (v[i] == space_in_u8, v[j]==space_in_u8){
+
+                // Case 1: Sliding window contains only space, move two pointers
+                (true, true) =&gt; {i+=1; j+=1;},
+
+                // Impossible case
+                (true, false) =&gt; {panic!(&quot;Reaches impossible case&quot;);},
+
+                // Case 2: sliding window complete the scanning of a word
+                (false, true) =&gt; {
+
+                    // If the &quot;current result&quot; has some word, append space
+                    if k &gt; 0 {
+                        v[k] = space_in_u8;
+                        k+=1;
+                    }
+
+                    // v[k..k+j-i] = v[i..j].reverse()
+                    Solution::copy_and_reverse(&amp;mut v, i, j, &amp;mut k);
+
+                    // reset pointer location by right j by 1, i points to where j locates
+                    j+=1;
+                    i=j;
+                },
+
+                // Case 3: Sliding window contains only characters
+                // It may not complete the scanning
+                (false, false) =&gt; {
+                    j+=1;
+                    // If j reaches the end of string, do copy_and_reverse
+                    if j == n {
+                        if k &gt; 0 {
+                            v[k] = space_in_u8;
+                            k+=1;
+                        }
+                        Solution::copy_and_reverse(&amp;mut v, i, j, &amp;mut k);
+                    }
+                }
+
+            }
+        }
+
+        v.truncate(k); // cut unnecessary characters 
+        Solution::reverse_string(&amp;mut v, 0, k); // reverse the whole string
+
+        // Convert Vec&lt;u8&gt; back to String
+        // It costs O(1) according to String implmentation (see source code of Rust)
+        // i.e. give ownership of Vec&lt;u8&gt; to String Struct
+        return unsafe { String::from_utf8_unchecked(v) }; 
+    }
+
+    // v[k..k+j-i] = v=[i..j].reverse()
+    fn copy_and_reverse(v: &amp;mut Vec&lt;u8&gt;, begin: usize, end: usize, k: &amp;mut usize){
+        let k_origin = *k;
+
+        // v[k..k+j-i] = v=[i..j]
+        for i in (begin..end){
+            v[*k] = v[i];
+            *k +=1;
+        }
+
+        Solution::reverse_string(v, k_origin, k_origin+end-begin);
+    }
+
+    // v[k..k+j-i].reverse()
+    fn reverse_string(v: &amp;mut Vec&lt;u8&gt;, begin: usize, end: usize){
+        let (mut i, mut j) = (begin, end - 1);
+        while i &lt; j {
+            let tmp = v[i];
+            v[i] = v[j];
+            v[j] = tmp;
+            i+=1;
+            j-=1;
+        }
+    }
+}
+</code></pre>
+<h3 id="complexity-n-is-length-of-the-string-1"><a class="header" href="#complexity-n-is-length-of-the-string-1">Complexity (\(n\) is length of the string)</a></h3>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( O(n) \)</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( O(1) \)
+<ul>
+<li>Depends on Programming Language and implementation</li>
+<li>Conceptually it can acheive O(1) Space</li>
+</ul>
+</li>
+</ul>
+<h2 id="further-discussion-1"><a class="header" href="#further-discussion-1">Further Discussion</a></h2>
+<h3 id="limitation-of-a-programming-language-and-turing-equivalence"><a class="header" href="#limitation-of-a-programming-language-and-turing-equivalence">Limitation of a Programming Language and Turing Equivalence(?)</a></h3>
+<p>Some people argue that each language has its limitation. For instance, Java cannot actually acheive \(O(1)\) extra space in this problem. To some extent, I will agree. Theoretically, however, if each programming language simluates <strong>Universal Turing Machine</strong>, they should be equivalent. This implies that there is no operation Rust can do but Java can't. The only matter is the cost for one language to simulate another. Just like to simulates Two-Tape Turing Machine by the One-Tape, we need more steps/operations in One-Tape Turing Machine.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="65-valid-number"><a class="header" href="#65-valid-number">65. Valid Number</a></h1>
+<h2 id="description-of-the-problem-5"><a class="header" href="#description-of-the-problem-5">Description of the Problem</a></h2>
+<p>A <strong>valid number</strong> can be split up into these components (in order):</p>
+<ol>
+<li>A <strong>decimal number</strong> or an <strong>integer</strong>.</li>
+<li>(Optional) An <code>'e'</code> or <code>'E'</code>, followed by an integer.</li>
+</ol>
+<p>A <strong>decimal number</strong> can be split up into these components (in order):</p>
+<ol>
+<li>(Optional) A sign character (either <code>'+'</code> or <code>'-'</code>).</li>
+<li>One of the following formats:
+<ol>
+<li>One or more digits, followed by a dot <code>'.'</code>.</li>
+<li>One or more digits, followed by a dot <code>'.'</code>, followed by one or more digits.</li>
+<li>A dot <code>'.'</code>, followed by one or more digits.</li>
+</ol>
+</li>
+</ol>
+<p>An <strong>integer</strong> can be split up into these components (in order):</p>
+<ol>
+<li>(Optional) A sign character (either <code>'+'</code> or <code>'-'</code>).</li>
+<li>One or more digits.</li>
+</ol>
+<p>For example, all the following are valid numbers: <code>[&quot;2&quot;, &quot;0089&quot;, &quot;-0.1&quot;, &quot;+3.14&quot;, &quot;4.&quot;, &quot;-.9&quot;, &quot;2e10&quot;, &quot;-90E3&quot;, &quot;3e+7&quot;, &quot;+6e-1&quot;, &quot;53.5e93&quot;, &quot;-123.456e789&quot;], while the following are not valid numbers: [&quot;abc&quot;, &quot;1a&quot;, &quot;1e&quot;, &quot;e3&quot;, &quot;99e2.5&quot;, &quot;--6&quot;, &quot;-+3&quot;, &quot;95a54e53&quot;]</code>.</p>
+<p>Given a string <code>s</code>, return <code>true</code> if <code>s</code> is a valid number.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: s = &quot;0&quot;
+Output: true
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: s = &quot;e&quot;
+Output: false
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: s = &quot;.&quot;
+Output: false
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 20</code></li>
+<li><code>s</code> consists of only English letters (both uppercase and lowercase), digits (<code>0-9</code>), plus <code>'+'</code>, minus <code>'-'</code>, or dot <code>'.'</code>.</li>
+</ul>
+<h2 id="solution-5"><a class="header" href="#solution-5">Solution</a></h2>
+<p>For any problem about format. I suggest every one first to write a <strong>Extended Backus-Naur Form</strong> or <strong>Regular Expression</strong> to represent correct format.</p>
+<p>We can split the string by special char such as <code>e</code>, <code>E</code> and <code>.</code> and check the validity of substrings.</p>
+<h3 id="explanation-5"><a class="header" href="#explanation-5">Explanation</a></h3>
+<h4 id="extended-backus-naur-form-of-valid-number"><a class="header" href="#extended-backus-naur-form-of-valid-number">Extended Backus-Naur Form of Valid Number</a></h4>
+<p>\( \langle goal \rangle ::= (\text{'+'} | \text{'-'})? \langle base \rangle  ((\text{'e'}|\text{'E'})?\langle  expo \rangle )? \)</p>
+<p>\(\langle  expo \rangle ::= (\text{'+'} | \text{'-'})? \langle  digits \rangle \)</p>
+<p>\(\langle  base \rangle ::= \langle  digits \rangle \)</p>
+<p>\( \ | \langle  digits \rangle  \text{'.'}  \)</p>
+<p>\( \ | \ \text{'.'} \langle  digits \rangle \)</p>
+<p>\( \ |  \langle  digits \rangle  \text{'.'} \langle  digits \rangle  \)</p>
+<p>\( \langle  digits \rangle ::= (\text{'0'} | \text{'1'} | ... | \text{'9'})^+  \)</p>
+<h3 id="code-rust-4"><a class="header" href="#code-rust-4">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+
+    fn split_at_char(s: &amp;str, v : char) -&gt; (&amp;str, &amp;str){
+        let option_index = s.find(v);
+
+        return match option_index {
+            Some(index) =&gt; {
+                let len = s.len();
+
+                // Exclude the character we found
+                return (&amp;s[0..index], &amp;s[index+1..len]);
+            },
+            None =&gt; (s, &amp;&quot;&quot;),
+        }
+
+    }
+
+    #[inline]
+    fn process_first_char( s : &amp;str) -&gt; &amp;str{
+        return if s.len() &gt; 0 {
+            if s[0..1].find(&quot;+&quot;).is_some() || s[0..1].find(&quot;-&quot;).is_some() {&amp;s[1..]} else {s}
+        }
+        else {
+            s
+        };
+    }
+
+    fn is_digits(s: &amp;str, is_empty_true : bool) -&gt; bool{
+        for c in s.chars() {
+            match c {
+                '0'..='9' =&gt; {},
+                _ =&gt; {return false;},
+            }
+        }
+
+        return if s == &quot;&quot; { is_empty_true } else { true };
+    }
+
+    fn is_signed_digits(s: &amp;str, is_empty_true : bool) -&gt; bool{
+        let s = Solution::process_first_char(s);
+        return Solution::is_digits(s, is_empty_true);
+    }
+
+    // Principal function of Solution
+    pub fn is_number(s: String) -&gt; bool {
+        if s.len() == 0 {
+            return false;
+        }
+
+        let s = Solution::process_first_char(&amp;s);
+
+        // Determine 'e' or 'E'
+        let char_e = match ( s.find('e'), s.find('E') ) {
+            (None,None) =&gt; { '\0' }, // dummy value
+            (None,Some(_)) =&gt; { 'E' },
+            (Some(_),None) =&gt; { 'e' },
+            (Some(_),Some(_)) =&gt; { 'e' },
+        };
+
+        let (base, expo) = Solution::split_at_char(s, char_e);
+        let (lhs, rhs) = Solution::split_at_char(base, '.');
+
+        let (has_dot, has_e) = (
+                s.find('.').is_some(),
+                s.find('e').is_some() || s.find('E').is_some()
+        );
+
+        return match (has_dot, has_e) {
+
+            // Case: &lt;base&gt; ('e'|'E') &lt;expo&gt;
+            (true, true) =&gt;
+                (lhs.len() &gt; 0 || rhs.len() &gt; 0) &amp;&amp;
+                Solution::is_digits(lhs, true) &amp;&amp;
+                Solution::is_digits(rhs, true) &amp;&amp;
+                Solution::is_signed_digits(expo, false),
+
+            // Case: &lt;lhs&gt;? '.' &lt;rhs&gt;?
+            //      =&gt; &lt;lhs&gt; '.' &lt;rhs&gt;
+            //      =&gt; '.' &lt;rhs&gt;
+            //      =&gt; &lt;lhs&gt; '.'
+            (true, false) =&gt;
+                (lhs.len() &gt; 0 || rhs.len() &gt;0) &amp;&amp;
+                Solution::is_digits(lhs, true) &amp;&amp;
+                Solution::is_digits(rhs, true),
+
+            // Case: &lt;base&gt; ('e'|'E') &lt;expo&gt;
+            (false, true) =&gt;
+                Solution::is_digits(lhs, false) &amp;&amp;
+                Solution::is_signed_digits(expo, false),
+
+            // Case: &lt;base&gt;
+            (false, false) =&gt; Solution::is_digits(lhs, false),
+
+        };
+    }
+
+}
+</code></pre>
+<h3 id="complexity-n-is-the-length-of-string"><a class="header" href="#complexity-n-is-the-length-of-string">Complexity (n is the length of string)</a></h3>
+<p><strong>Time complexity:</strong> </p>
+<ul>
+<li>T(n) = O(n)</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>S(n) = O(1)</li>
+</ul>
+<h2 id="further-discussion-2"><a class="header" href="#further-discussion-2">Further Discussion</a></h2>
+<p>It is not difficult to see that this type of problems (i.e. Parsing) can be easily to solved by Haskell (Especially if we use Parser library such as <code>ParSec</code>). If I were an interviewee I would argue that it is suitable to use functional programming language instead of the imperative one.</p>
 
                     </main>
 
@@ -561,6 +938,22 @@ Keep expanding our sliding window to find all substring without repeating charac
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
