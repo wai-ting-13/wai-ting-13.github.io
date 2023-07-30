@@ -1,0 +1,1990 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Leetcode Notes</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="medium-problems/7.html">7. Reverse Integer</a></li><li class="chapter-item expanded "><a href="medium-problems/78.html">78. Subsets</a></li><li class="chapter-item expanded "><a href="medium-problems/151.html">151. Reverse Words in a String</a></li><li class="chapter-item expanded "><a href="medium-problems/179.html">179. Largest Number</a></li><li class="chapter-item expanded "><a href="medium-problems/435.html">435. Non-overlapping Intervals</a></li><li class="chapter-item expanded "><a href="medium-problems/2095.html">2095. Delete the Middle Node of a Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="hard-problems/65.html">65. Valid Number</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Solutions w/o explanation</li><li class="chapter-item expanded "><div>Easy</div></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="medium-problems-no-explain/2.html">2. Add Two Numbers</a></li><li class="chapter-item expanded "><a href="medium-problems-no-explain/17.html">17. Letter Combination of a Phone Number</a></li><li class="chapter-item expanded "><a href="medium-problems-no-explain/19.html">19. Remove Nth Node From End of List</a></li><li class="chapter-item expanded "><a href="medium-problems-no-explain/150.html">150. Evaluate Reverse Polish Notation</a></li><li class="chapter-item expanded "><a href="medium-problems-no-explain/371.html">371. Sum of Two Integers</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Leetcode Notes</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p>Welcome to my book for leetcode problems. Here you can find meaningful problems from Leetcode and my explantions of solutions.</p>
+<h2 id="programming-language-used-in-solutions"><a class="header" href="#programming-language-used-in-solutions">Programming Language used in solutions</a></h2>
+<ul>
+<li>Rust</li>
+<li>Java</li>
+</ul>
+<h2 id="kind-reminder"><a class="header" href="#kind-reminder">Kind Reminder</a></h2>
+<ul>
+<li>The book is not completed yet. I am still writing explanations for problems.</li>
+<li>The book will contain only few <strong>Easy</strong> problems because most of them are not meaningful.</li>
+<li>The web will be <strong>updated very slowly</strong> because explaining each solved problem will be time-consuming.</li>
+<li>Some of explnations and solutions may not be correct. Espectially for the complexity of an algorithm. Sometimes I do not use rigorous calculation/proof.</li>
+</ul>
+<h2 id="update-notes"><a class="header" href="#update-notes">Update Notes</a></h2>
+<ul>
+<li>Last Updated: 2023.Jul.30</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="1-two-sum"><a class="header" href="#1-two-sum">1. Two Sum</a></h1>
+<h2 id="description-of-the-problem"><a class="header" href="#description-of-the-problem">Description of the Problem</a></h2>
+<p>Given an array of integers <code>nums</code> and an integer <code>target</code>, return indices of the two numbers such that they add up to <code>target</code>.</p>
+<p>You may assume that each input would have exactly one solution, and you may not use the same element twice.</p>
+<p>You can return the answer in any order.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: nums = [3,2,4], target = 6
+Output: [1,2]
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: nums = [3,3], target = 6
+Output: [0,1]
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>\(2 &lt;= nums.length &lt;= 10^4\)</li>
+<li>\(-10^9 &lt;= nums[i] &lt;= 10^9\)</li>
+<li>\(-10^9 &lt;= target &lt;= 10^9\)</li>
+<li>Only one valid answer exists.</li>
+</ul>
+<p>Follow-up: Can you come up with an algorithm that is less than \(O(n^2)\) time complexity?</p>
+<h2 id="solution"><a class="header" href="#solution">Solution</a></h2>
+<h3 id="explanation"><a class="header" href="#explanation">Explanation</a></h3>
+<p>\( \text{IF} \ num[i]+num[j]==target \ \text{THEN} \ return [i,j] \)</p>
+<p>\( \Longleftrightarrow \)</p>
+<p>\( \text{IF} \ num[i]==target - num[j] \ \text{THEN} \  return [i,j] \)</p>
+<h3 id="code-rust"><a class="header" href="#code-rust">Code (Rust)</a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::HashMap;
+
+impl Solution {
+    pub fn two_sum(nums: Vec&lt;i32&gt;, target: i32) -&gt; Vec&lt;i32&gt; {
+        let mut hashMap = HashMap::new();
+
+        for i in 0..nums.len(){
+            let complement = target - nums[i];
+            if hashMap.contains_key(&amp;complement){
+                return vec![
+                    i as i32 , hashMap[&amp;complement] as i32
+                ];
+            }
+            hashMap.insert(nums[i], i);
+        }
+        return vec![];
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="code-java"><a class="header" href="#code-java">Code (Java)</a></h3>
+<pre><code class="language-java">import java.util.HashMap;
+
+public class Solution_2 {
+    public int[] twoSum(int [] nums, int target){
+
+        // It stores (num-&gt;index)
+        HashMap &lt;Integer,Integer&gt; hashmap = new HashMap();
+
+        for(int i = 0; i &lt; nums.length; i++){
+            int complement = target - nums[i];
+            if ( hashmap.containsKey(complement) ){
+                return new int[] { hashmap.get(complement), i};
+            }
+            hashmap.put(nums[i], i);
+        }
+
+        return null;
+    }
+
+}
+</code></pre>
+<h3 id="complexity"><a class="header" href="#complexity">Complexity</a></h3>
+<p><strong>Time complexity: \(n is length of nums\)</strong></p>
+<ul>
+<li>\( T(n) = O(n) \)
+<ul>
+<li>Assume hashMap get/put use constant time</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(2n) \)
+<ul>
+<li>It store at most 2n (key and value) elements in HashMap</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="206-reverse-linked-lists"><a class="header" href="#206-reverse-linked-lists">206. Reverse Linked Lists</a></h1>
+<h2 id="description-of-the-problem-1"><a class="header" href="#description-of-the-problem-1">Description of the Problem</a></h2>
+<p>Given the head of a singly linked list, reverse the list, and return the reversed list.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: head = [1,2]
+Output: [2,1]
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: head = []
+Output: []
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the list is the range <code>[0, 5000]</code>.</li>
+<li><code>-5000 &lt;= Node.val &lt;= 5000</code></li>
+</ul>
+<h2 id="solution-1"><a class="header" href="#solution-1">Solution</a></h2>
+<h3 id="explanation-1"><a class="header" href="#explanation-1">Explanation</a></h3>
+<p>The following (Rust) code can be verified by the loop invariant </p>
+<p>Invariant: All nodes before the current node are properly reversed</p>
+<p>Proof: </p>
+<ul>
+<li>Initialisation: Before the begin of the loop, No node is before the current node, the invariant is vacuously true</li>
+<li>Maintenance: Suppose the invariant is true before an iteration, having perform re-ordering operations, all nodes before the current node (originally it is next node) is properly reversed</li>
+<li>Termination: After all iterations, all nodes in the LinkedList are reversed properly</li>
+</ul>
+<h3 id="code-rust-1"><a class="header" href="#code-rust-1">Code (Rust)</a></h3>
+<pre><code class="language-Rust">// Definition for singly-linked list.
+// #[derive(PartialEq, Eq, Clone, Debug)]
+// pub struct ListNode {
+//   pub val: i32,
+//   pub next: Option&lt;Box&lt;ListNode&gt;&gt;
+// }
+// 
+// impl ListNode {
+//   #[inline]
+//   fn new(val: i32) -&gt; Self {
+//     ListNode {
+//       next: None,
+//       val
+//     }
+//   }
+// }
+
+
+impl Solution {
+    pub fn reverse_list(head: Option&lt;Box&lt;ListNode&gt;&gt;) -&gt; Option&lt;Box&lt;ListNode&gt;&gt; {
+        let mut curr = head;
+        let mut prev = None;
+
+        while let Some(mut node) = curr.take() {
+            curr = node.next; // Transfer the ownership of node.next to curr, node.next becomes None
+            node.next = prev; // The next node of the current node should point to previous node
+            prev = Some(node); // Current nodebecomes preivous node for next iteration
+        }
+
+        return prev;
+    }
+}
+</code></pre>
+<h3 id="complexity-1"><a class="header" href="#complexity-1">Complexity</a></h3>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( T(n) = \mathcal{\Theta}(n) \)
+<ul>
+<li>Traversal of all nodes in LinkedList</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="876-middle-of-the-linked-list"><a class="header" href="#876-middle-of-the-linked-list">876.	Middle of the Linked List</a></h1>
+<h2 id="description-of-the-problem-2"><a class="header" href="#description-of-the-problem-2">Description of the Problem</a></h2>
+<p>Given the <code>head</code> of a singly linked list, return the middle node of the linked list.</p>
+<p>If there are two middle nodes, return the second middle node.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: head = [1,2,3,4,5]
+Output: [3,4,5]
+Explanation: The middle node of the list is node 3.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: head = [1,2,3,4,5,6]
+Output: [4,5,6]
+Explanation: Since the list has two middle nodes with values 3 and 4, we return the second one.
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the list is in the range <code>[1, 100]</code>.</li>
+<li><code>1 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+<h2 id="solution-2"><a class="header" href="#solution-2">Solution</a></h2>
+<h3 id="explanation-2"><a class="header" href="#explanation-2">Explanation</a></h3>
+<p><strong>Fast and Slow Pointers</strong></p>
+<p>Slow pointer move to right by 1 and fast pointer move to right by 2 if possible.</p>
+<p>At the end of loop, slow pointer must point to the middle node or previous node of the middle node</p>
+<p>Here we assume the linkedlist use 0-based indexing (i.e. list[0] indicate first element of the list)</p>
+<p>At the termination of the loop, there are only two possible case:</p>
+<ol>
+<li>fast pointer point to <strong>last</strong> element of the linkedlist</li>
+<li>fast pointer point to <strong>second last</strong> element of the linkedlist;</li>
+</ol>
+<p>Suppose the loop ran <code>k</code> times. It implies that fast pointer mvoed to right by <code>2k</code> and slow pointer moved to right by <code>k</code>.</p>
+<p>In case 1, this is because the number of nodes in the linkedlist is odd number. The total number of nodes is <code>2k + 1</code>. <code>list[k]</code> is the middle node because there are <code>k</code> elements in <code>list[0..k]</code> and in <code>list[k+1..2k+1]</code> elements<sup class="footnote-reference"><a href="#1">1</a></sup>. </p>
+<p>In case 2, this is becuase the number of nodes in the linkedlist is even number. The total number of nodes is 2k + 2. <code>list[0..k]</code> and <code>list[k+1..2k+2]</code> contains half number of total elements.<sup class="footnote-reference"><a href="#1">1</a></sup> Thus return slow.next;</p>
+<p><sup class="footnote-reference"><a href="#1">1</a></sup> The sub-indexing is exclusive. For example<code> A[i..j]</code> does not include <code>A[j]</code></p>
+<h3 id="code-java-1"><a class="header" href="#code-java-1">Code (Java)</a></h3>
+<pre><code class="language-Java">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast.next != null &amp;&amp; fast.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return fast.next == null? slow : slow.next;
+    }
+}
+</code></pre>
+<h3 id="complexity-2"><a class="header" href="#complexity-2">Complexity</a></h3>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( T(n) = O(n/2) \)
+<ul>
+<li>There are only nearly n/2 iterations</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)
+<ul>
+<li>Use only constant number of variables</li>
+</ul>
+</li>
+</ul>
+<h2 id="futher-discussion"><a class="header" href="#futher-discussion">Futher Discussion</a></h2>
+<h3 id="alternative-way-to-implements-linkedlist-in-rust-and-how-to-move-a-pointer-in-rust"><a class="header" href="#alternative-way-to-implements-linkedlist-in-rust-and-how-to-move-a-pointer-in-rust">Alternative way to implements LinkedList in Rust and How to move a pointer in Rust</a></h3>
+<p>Althougt it is possible to implement LinkedList in Rust by <code>Rc&lt;RefCell&lt;T&gt;&gt;</code>, I do not know why leetcode refuse to use it. I would like to provide another implementation that supports fast and slow pointers approach. The key difficulty is moving pointer.</p>
+<pre><code class="language-Rust">use std::rc::Rc;
+use std::cell::RefCell;
+
+#[derive(Debug, PartialEq)]
+struct LinkedNode {
+    val : i32,
+    next : Option&lt;Rc&lt;RefCell&lt;LinkedNode&gt;&gt;&gt;,
+}
+
+impl LinkedNode {
+    fn new(val : i32, next: Option&lt;Rc&lt;RefCell&lt;LinkedNode&gt;&gt;&gt;) -&gt; Option&lt;Rc&lt;RefCell&lt;LinkedNode&gt;&gt;&gt;{
+        Some(
+            Rc::new(
+                RefCell::new(
+                    LinkedNode{
+                        val, 
+                        next
+                    }
+                )
+            )
+        )
+    }
+}
+
+fn main() {
+
+    let node_2 = LinkedNode::new(2, None);
+    let node_1 = LinkedNode::new(1, node_2.clone() );
+
+    let head = LinkedNode::new(0,  node_1);
+    
+    // Move pointer by flat_map
+    let safe_fast_pointer = head.clone()
+        .and_then(|n| {let n = n.borrow(); n.next.clone() })
+        .and_then(|n| {let n = n.borrow(); n.next.clone() });
+    
+    assert_eq!(safe_fast_pointer, node_2);
+    
+}
+</code></pre>
+<p>For another way to use fast and slow pointers without re-implement the LinkedList, see: <a href="https://leetcode.com/problems/middle-of-the-linked-list/solutions/1483630/rust-fastslow-pointer-solution/">link from leetcode</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="3-longest-substring-without-repeating-characters"><a class="header" href="#3-longest-substring-without-repeating-characters">3. Longest Substring Without Repeating Characters</a></h1>
+<h2 id="description-of-the-problem-3"><a class="header" href="#description-of-the-problem-3">Description of the Problem</a></h2>
+<p>Given a string <code>s</code>, find the length of the longest substring without repeating characters.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: s = &quot;abcabcbb&quot;
+Output: 3
+Explanation: The answer is &quot;abc&quot;, with the length of 3.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: s = &quot;bbbbb&quot;
+Output: 1
+Explanation: The answer is &quot;b&quot;, with the length of 1.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: s = &quot;pwwkew&quot;
+Output: 3
+Explanation: The answer is &quot;wke&quot;, with the length of 3.
+Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence and not a substring.
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>\(0 &lt;= s.length &lt;= 5 * 10^4\)</li>
+<li>s consists of English letters, digits, symbols and spaces.</li>
+</ul>
+<h2 id="solution-3"><a class="header" href="#solution-3">Solution</a></h2>
+<h3 id="explanation-3"><a class="header" href="#explanation-3">Explanation</a></h3>
+<p><strong>Sliding Window</strong></p>
+<p>Keep expanding our sliding window to find all substring without repeating character.</p>
+<p>If new appended character is repeated, trim the current substring and append the new character.</p>
+<p>Suppose before an iteration we have a substring without repeating character <code>AcB</code> where Capital letters represent may-be empty substring and non-capital letter represents 1 character. </p>
+<p>If we meet new character <code>d</code> which is different from <code>c</code>, it is fine. Just append to the substring to form a new </p>
+<p>Otherwise, if <code>c</code> is the new character, then trim <code>Ac</code> and append <code>c</code>. New Substring becomes <code>Bc</code> which is a valid substring.</p>
+<p>The above reasoning illustrates that the algorithm must scan all longest valid substrings. The remaining work is to record the longest one.</p>
+<h3 id="code-rust-2"><a class="header" href="#code-rust-2">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn length_of_longest_substring(s: String) -&gt; i32 {
+        // Sliding window for longest substring, j is exclusive
+        let (mut longest_i, mut longest_j) : (usize, usize) = (0,0);
+
+        // Sliding window for current substring, j is exclusive
+        let (mut i, mut j) : (usize, usize)  = (0,0);
+
+        for (k, c) in s.chars().enumerate() {
+
+            // Find 1st index of char c in current substring (&amp;s[i..j])
+            // IF new appended character c appear in current substring,
+            // i.e. substring has the form of AcBc where current substring consists of substring A, B and character c, 
+            // THEN trim is, such that it becomes Bc
+            if let Some(index) = (&amp;s[i..j]).find(c){
+                i += index + 1; 
+            }
+
+            j = k + 1; // the end of the window move right by 1
+
+            // IF the current window size is larger, THEN update.
+            if j - i &gt; longest_j - longest_i {
+                longest_i = i;
+                longest_j = j;
+            }
+            
+        }
+
+        return (longest_j - longest_i) as i32;
+    }
+} 
+</code></pre>
+<h3 id="code-java-2"><a class="header" href="#code-java-2">Code (Java)</a></h3>
+<pre><code class="language-Java">class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if ( s== null || s.isEmpty() ) return 0;
+
+        int start = 0; int end =1;
+        int max = 1;
+
+        while( end &lt; s.length() ){
+            String subString = s.substring(start, end);
+            int indexOfChar = (int) (subString.indexOf(s.charAt(end)));
+            if (indexOfChar &gt;= 0){
+                start = start + indexOfChar + 1;
+            }
+            end++;
+            max = max &lt; end - start ? end - start : max;
+        }
+
+        return max;
+    }
+}
+</code></pre>
+<h3 id="complexity-n-is-length-of-the-string"><a class="header" href="#complexity-n-is-length-of-the-string">Complexity (\(n\) is length of the string)</a></h3>
+<p><strong>Time complexity:</strong> </p>
+<ul>
+<li>Worst case: \( T(n) = \mathcal{\Theta}(n^2) \) 
+<ul>
+<li>String contains no repeating characters</li>
+</ul>
+</li>
+<li>Average case: \( T(n) = O(n) \) 
+<ul>
+<li>(see <a href="medium-problems/3.html#average-time-complexity-for-the-algorithm">Further Discussion</a>)</li>
+</ul>
+</li>
+<li>Best case: \( T(n) = \mathcal{\Theta}(n) \) 
+<ul>
+<li>String repeats same character</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)</li>
+<li>Depends on implementation, Rust can achieve \( O(1) \)</li>
+</ul>
+<h2 id="further-discussion"><a class="header" href="#further-discussion">Further Discussion</a></h2>
+<h3 id="average-time-complexity-for-the-algorithm"><a class="header" href="#average-time-complexity-for-the-algorithm">Average Time Complexity for the algorithm</a></h3>
+<h4 id="lemma-the-algorithm-run-in--onx--where-n-is-length-of-the-string-and-x-is-number-of-comparison"><a class="header" href="#lemma-the-algorithm-run-in--onx--where-n-is-length-of-the-string-and-x-is-number-of-comparison">Lemma: The algorithm run in \( O(n+X) \) where n is length of the string and X is number of comparison.</a></h4>
+<p>Proof: We have n iterations and each iteration performs certain number of character comparison to find first index of the same character.</p>
+<h4 id="theorem-the-expected-number-of-comparison-is--on-"><a class="header" href="#theorem-the-expected-number-of-comparison-is--on-">Theorem: The expected number of comparison is \( O(n) \)</a></h4>
+<p>Proof: </p>
+<p>Assume \( M \) is the number of characters of the program choose to form a string and each character is equally likely to be chosen independently.</p>
+<p>Let \( X_{ij} =  \unicode{x1D7D9}  \text{ { i-th character is compared to j-th character } }   \)</p>
+<p>Consider a sequence of characters \( c_i c_{i+1} c_{i+2} ... c_{j-1} \) and a character \( c_j \) in a loop, \( c_i \) and \(c_j\) compares each other if-and-only-if the sequence of characters does not contains repeating characters. Otherwise the substring will be trimmed by our algorithm before the current loop.</p>
+<p>The probability of \( c_i c_{i+1} c_{i+2} ... c_{j-1} \) does not contain repeating characters, according to formula of birthday paradox, is \(\frac{M!}{M^{(j-i)} (M - (j - i))! }\)</p>
+<p>The total number of comparison \(\mathbb{E}[X] = \sum_{i = 0}^{n - 2} \sum_{j = i+1}^{n - 1} \mathbb{E}[ X_{ij} ] \)</p>
+<p>\(= \sum_{i = 0}^{n - 2} \sum_{j = i+1}^{n - 1} \frac{M!}{M^{(j-i)} (M - (j - i))! } \)</p>
+<p>\(= \sum_{i = 0}^{n - 2} \sum_{ k = 1}^{n - 1 - i} \frac{M!}{M^{k} (M - k)! } \)</p>
+<p>\( \le \sum_{i = 0}^{n - 2} \sum_{k = 1}^{M} \frac{M!}{M^{k} (M - k)! } \)</p>
+<p>\( \le \sum_{i = 0}^{n - 2} \int_{0}^{M} e^{ - x^2 / 2M } dx \) \(\because\) Approximation of the &quot;birthday formula&quot;</p>
+<p>\( = \sum_{i = 0}^{n - 2} \frac{\sqrt{M\pi}}{\sqrt{2}} \ erf(\sqrt{\frac{M}{2}}) \)</p>
+<p>\( \approx (n-1) 12.21 \) \(\because\) In ASCII table, dec32 to dec126 are charcters can be type in keyboard</p>
+<p>\( = O(n) \)</p>
+<h4 id="corollary-the-average-running-time-of-the-algorithm-is-on"><a class="header" href="#corollary-the-average-running-time-of-the-algorithm-is-on">Corollary: The average running time of the algorithm is \(O(n)\)</a></h4>
+<p>Followed by the lemma and theorem.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="7-reverse-integer"><a class="header" href="#7-reverse-integer">7. Reverse Integer</a></h1>
+<h2 id="description-of-the-problem-4"><a class="header" href="#description-of-the-problem-4">Description of the Problem</a></h2>
+<p>Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range <code>[-2^31, 2^31 - 1]</code>, then return <code>0</code>.</p>
+<p><strong>Assume the environment does not allow you to store 64-bit integers (signed or unsigned).</strong></p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: x = 123
+Output: 321
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: x = -123
+Output: -321
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: x = 120
+Output: 21
+</code></pre>
+<p><strong>Constraints:</strong>
+<code>-2^31 &lt;= x &lt;= 2^31 - 1</code></p>
+<h2 id="solution-4"><a class="header" href="#solution-4">Solution</a></h2>
+<h3 id="explanation-4"><a class="header" href="#explanation-4">Explanation</a></h3>
+<p>Method 1: Use standard library to convert integer</p>
+<p>Method 2: Do the Method by yourself. First perform checking of overflow/underflow. Then reverse the integer.</p>
+<p><strong>Checking of Overflow/Underflow</strong></p>
+<p>If a reverse integer overflows (or underflows), then it has at least 10 digits. (Since <code>i32::MAX</code> and <code>i32::MIN</code> has 10 digits). By contraposition, any number has less than 10 digits does not overflows (nor underflows).</p>
+<p>To check whether a reversed full-digit integer overflows (or underflows), we can compare the number with <code>i32::MAX</code> or <code>i32::MIN</code> digit-by-digit. </p>
+<p>Example 1: reverse of <code>2091748912</code> is <code>2198471902</code>. Compare the reversed with <code>i32::MAX</code> digit-by-digit</p>
+<pre><code>2198471902
+2147483647
+-----------
+1st digit: they are equal (i.e. 2) ==&gt; compare next digit
+2nd digit: they are equal (i.e. 1) ==&gt; compare next digit
+3nd digit: 9 &gt; 4 ==&gt; It overflows
+</code></pre>
+<p>Example 2: reverse of <code>2091748012</code> is <code>2108471902</code>. Compare the reversed with <code>i32::MAX</code> digit-by-digit</p>
+<pre><code>2108471902
+2147483647
+-----------
+1st digit: they are equal (i.e. 2) ==&gt; compare next digit
+2nd digit: they are equal (i.e. 1) ==&gt; compare next digit
+3nd digit: 0 &lt; 4 ==&gt; It is not possible to overflow
+</code></pre>
+<p>After the checking, just simply calculate the reversed value.</p>
+<h3 id="code---method-1-rust"><a class="header" href="#code---method-1-rust">Code - Method 1 (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn reverse(n: i32) -&gt; i32 {
+        let result = 
+        if n &gt; 0 {
+            n.to_string() // convert the number into String
+            .chars().rev() // reverse the number_string
+            .collect::&lt;String&gt;() 
+            .parse::&lt;i32&gt;() // try to parse the reversed number_string
+        }
+        else{
+            n.to_string() // convert the number into String
+            .chars().skip(1) // skip 1st character i.e. minus sign
+            .collect::&lt;String&gt;() // convert it into String due to its type
+            .chars().rev() // reverse the number_string
+            .collect::&lt;String&gt;()
+            .parse::&lt;i32&gt;() // try to parse the reversed number_string
+            .map(|x| -x)
+        };
+
+        // Unwrap the result
+        return if let Ok(x) = result{
+            x
+        }
+        else{
+            0
+        };
+    }
+}
+</code></pre>
+<h3 id="code---method-2-rust"><a class="header" href="#code---method-2-rust">Code - Method 2 (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+
+    pub fn reverse(n: i32) -&gt; i32 {
+        static MAX_POW : u32 = 9; // std::i32::MAX and std::i32::MIN has 10 digits
+        static TEN : i32 = 10;
+        if Solution::will_overflow_or_underflow(n){
+            return 0;
+        }
+
+        // Calculate the sum
+        let mut sum = 0;
+        let mut n = n;
+        while n != 0 {
+            sum *= 10;
+            sum += n % 10;
+            n /= 10;
+        }
+
+        return sum;
+    }
+
+    fn will_overflow_or_underflow(n : i32) -&gt; bool {
+        static MAX_POW : u32 = 9;
+        static TEN : i32 = 10;
+
+        // if the number is not in full-digit, so is its reverse
+        if ( n&gt;= 0 &amp;&amp; n &lt; TEN.pow(MAX_POW)) || (n &lt; 0 &amp;&amp; n &gt; -TEN.pow(MAX_POW)){
+            return false;
+        }
+
+        // Otherwise, check whether the reverse will overflow
+        let mut is_not_overflow = true;
+        let mut is_continued;
+        for p in 0..=MAX_POW{
+            let digit_n = n / TEN.pow(p) % 10;
+            if n &gt;= 0{
+                let digit_max = std::i32::MAX / TEN.pow(MAX_POW - p) % 10;
+                is_not_overflow = digit_n &lt;= digit_max;
+                // If the digits are equal, then we have to check next digits
+                // Otherwise, its reverse must be smaller than std::i32::MAX
+                is_continued = is_not_overflow &amp;&amp; digit_n == digit_max;
+            }else{
+                let digit_min = std::i32::MIN / TEN.pow(MAX_POW - p) % 10;
+                is_not_overflow = digit_n &gt;= digit_min;
+                // Similarly, if the digits are equal, then we have to check next digits
+                // Otherwise, its reverse must be smaller than std::i32::MIN
+                is_continued = is_not_overflow &amp;&amp; digit_n == digit_min;
+            }
+
+            if !is_continued{break;}
+        }
+        return !is_not_overflow;
+    }
+}
+</code></pre>
+<h3 id="complexity---method-2-d-is-the-number-of-digits"><a class="header" href="#complexity---method-2-d-is-the-number-of-digits">Complexity - Method 2 (\(d\) is the number of digits)</a></h3>
+<p><strong>Time complexity:</strong> </p>
+<ul>
+<li>\( T(n) = O(2d) \)
+<ul>
+<li>Perform Overflow/Underflow checking and Calculate the reversed number</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)
+<ul>
+<li>Extracted digits are stored in local variables</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="78-subsets"><a class="header" href="#78-subsets">78. Subsets</a></h1>
+<h2 id="description-of-the-problem-5"><a class="header" href="#description-of-the-problem-5">Description of the Problem</a></h2>
+<p>Given an integer array <code>nums</code> of unique elements, return all possible subsets (the power set).</p>
+<p>The solution set must not contain duplicate subsets. Return the solution in any order.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: nums = [0]
+Output: [[],[0]]
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 10</code></li>
+<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
+<li>All the numbers of nums are unique.</li>
+</ul>
+<h2 id="solution-5"><a class="header" href="#solution-5">Solution</a></h2>
+<h3 id="explanation-5"><a class="header" href="#explanation-5">Explanation</a></h3>
+<p>For any elements in a set, we have two options (Yes-No Question Method): either it is in the subset and it isn't in the subset.</p>
+<h3 id="code-rust-3"><a class="header" href="#code-rust-3">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+
+    fn helper_subset(mut xs: Vec&lt;i32&gt;) -&gt; Vec&lt;Vec&lt;i32&gt;&gt;{
+        if xs.len() == 0 {
+            return vec![vec![]];
+        }
+
+        let lst = xs.pop().unwrap();
+
+        // The left solution contains subset which `lst` isn't the member of these subsets
+        let mut left = Solution::helper_subset(xs.clone());
+
+        // The solution contains subsets which `lst` is the member of these subsets
+        let mut right = Solution::helper_subset(xs);
+        for s in right.iter_mut(){
+            (*s).push(lst);
+        }
+
+        for s in right.into_iter(){
+            left.push(s);
+        }
+
+        return left;
+    }
+
+    pub fn subsets(nums: Vec&lt;i32&gt;) -&gt; Vec&lt;Vec&lt;i32&gt;&gt; {
+        return Solution::helper_subset(nums);
+    }
+}
+</code></pre>
+<h3 id="complexity-n-is-the-number-of-elements-in-the-set"><a class="header" href="#complexity-n-is-the-number-of-elements-in-the-set">Complexity (n is the number of elements in the set)</a></h3>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( \Theta(2^n) \)
+<ul>
+<li>Recursive Approach: \(T(n) = 2 \cdot T(n - 1)\)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( O(2^n) \)
+<ul>
+<li>Stores \(2^n\) elements</li>
+<li>\(n\) for stack calls</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="151-reverse-words-in-a-string"><a class="header" href="#151-reverse-words-in-a-string">151. Reverse Words in a String</a></h1>
+<h2 id="description-of-the-problem-6"><a class="header" href="#description-of-the-problem-6">Description of the Problem</a></h2>
+<p>Given an input string <code>s</code>, reverse the order of the <strong>words</strong>.</p>
+<p>A <strong>word</strong> is defined as a sequence of non-space characters. The <strong>words</strong> in s will be separated by at least one space.</p>
+<p>Return <em>a string of the words in reverse order concatenated by a single space</em>.</p>
+<p><strong>Note</strong> that <code>s</code> may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: s = &quot;the sky is blue&quot;
+Output: &quot;blue is sky the&quot;
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: s = &quot;  hello world  &quot;
+Output: &quot;world hello&quot;
+Explanation: Your reversed string should not contain leading or trailing spaces.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: s = &quot;a good   example&quot;
+Output: &quot;example good a&quot;
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 104</code></li>
+<li><code>s</code> contains English letters (upper-case and lower-case), digits, and spaces ' '.</li>
+<li>There is at least one word in <code>s</code>.</li>
+</ul>
+<p>Follow-up: If the string data type is mutable in your language, can you solve it in-place with <code>O(1)</code> extra space?</p>
+<h2 id="solution-6"><a class="header" href="#solution-6">Solution</a></h2>
+<h3 id="explanation-6"><a class="header" href="#explanation-6">Explanation</a></h3>
+<p>Simple Idea:</p>
+<ul>
+<li>To reverse each word in a string, do mirroring to each word and then do mirroring to the whole string.</li>
+<li>To do mirroring for each word, we have to scan each word (using sliding windows, i.e. tokenise)</li>
+<li>The follow-up question requires us to do almost any operations in-place. We can first copy each token to suitable place by sliding windows method. For example, <code>____ABC</code> becomes <code>ABC_ABC</code>.</li>
+</ul>
+<p>Reminder:</p>
+<ul>
+<li>(*) To fullfill the follow-up question, do not create too much copy of the <code>String</code>. Keep in mind that even if some methods/functions do not have <code>new</code> keyword, the code behind these methods/functions may contain <code>new</code> keyword in their implementation (i.e. they use extra space). For example, in Java, <code>.substring(i, j)</code> will create new <code>String</code> in Heap. To know more about this, please look at the source code. 
+<ul>
+<li>Rust provides source code in their offcial website. </li>
+<li>You can also look at the source code of Java via IDE.</li>
+</ul>
+</li>
+<li>In my opinion, the key idea of the problems is to illistrate you are able to acheive \( O(1) \) conceptually. It is not necessary to implement it so carefully.</li>
+</ul>
+<p><strong>My definition to &quot;extra/auxiliary space&quot; is excluding input space and output space</strong></p>
+<h3 id="code-rust-4"><a class="header" href="#code-rust-4">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn reverse_words(s: String) -&gt; String {
+        let space_in_u8 = 32;
+
+        // According to RustDoc: &quot;This consumes the `String`, so we do not need to copy its contents&quot;
+        // i.e. convert it into Vec&lt;u8&gt; costs O(1) Space
+        let mut v = s.into_bytes();
+
+        // i, j for sliding window,
+        // k is location of cell to be filled-in
+        let (mut i, mut j, mut k, n) = (0,0,0,v.len());
+        while j &lt; n {
+            match (v[i] == space_in_u8, v[j]==space_in_u8){
+
+                // Case 1: Sliding window contains only space, move two pointers
+                (true, true) =&gt; {i+=1; j+=1;},
+
+                // Impossible case
+                (true, false) =&gt; {panic!(&quot;Reaches impossible case&quot;);},
+
+                // Case 2: sliding window complete the scanning of a word
+                (false, true) =&gt; {
+
+                    // If the &quot;current result&quot; has some word, append space
+                    if k &gt; 0 {
+                        v[k] = space_in_u8;
+                        k+=1;
+                    }
+
+                    // v[k..k+j-i] = v[i..j].reverse()
+                    Solution::copy_and_reverse(&amp;mut v, i, j, &amp;mut k);
+
+                    // reset pointer location by right j by 1, i points to where j locates
+                    j+=1;
+                    i=j;
+                },
+
+                // Case 3: Sliding window contains only characters
+                // It may not complete the scanning
+                (false, false) =&gt; {
+                    j+=1;
+                    // If j reaches the end of string, do copy_and_reverse
+                    if j == n {
+                        if k &gt; 0 {
+                            v[k] = space_in_u8;
+                            k+=1;
+                        }
+                        Solution::copy_and_reverse(&amp;mut v, i, j, &amp;mut k);
+                    }
+                }
+
+            }
+        }
+
+        v.truncate(k); // cut unnecessary characters 
+        Solution::reverse_string(&amp;mut v, 0, k); // reverse the whole string
+
+        // Convert Vec&lt;u8&gt; back to String
+        // It costs O(1) according to String implmentation (see source code of Rust)
+        // i.e. give ownership of Vec&lt;u8&gt; to String Struct
+        return unsafe { String::from_utf8_unchecked(v) }; 
+    }
+
+    // v[k..k+j-i] = v=[i..j].reverse()
+    fn copy_and_reverse(v: &amp;mut Vec&lt;u8&gt;, begin: usize, end: usize, k: &amp;mut usize){
+        let k_origin = *k;
+
+        // v[k..k+j-i] = v=[i..j]
+        for i in (begin..end){
+            v[*k] = v[i];
+            *k +=1;
+        }
+
+        Solution::reverse_string(v, k_origin, k_origin+end-begin);
+    }
+
+    // v[k..k+j-i].reverse()
+    fn reverse_string(v: &amp;mut Vec&lt;u8&gt;, begin: usize, end: usize){
+        let (mut i, mut j) = (begin, end - 1);
+        while i &lt; j {
+            let tmp = v[i];
+            v[i] = v[j];
+            v[j] = tmp;
+            i+=1;
+            j-=1;
+        }
+    }
+}
+</code></pre>
+<h3 id="complexity-n-is-length-of-the-string-1"><a class="header" href="#complexity-n-is-length-of-the-string-1">Complexity (\(n\) is length of the string)</a></h3>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( O(2n) \)
+<ul>
+<li>Mirroring the whole string cost \( n / 2 \)</li>
+<li>Copying and mirroring a token cost \( m + m / 2 \) where m is the length of token. Since sum of the length of tokens does not exceed \(n\). The total cost less than \( 3n/2 \)</li>
+<li>The combined complexity is \( O(2n) \)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( O(1) \)
+<ul>
+<li>Depends on Programming Language and implementation</li>
+<li>Conceptually it can acheive O(1) Space</li>
+</ul>
+</li>
+</ul>
+<h2 id="further-discussion-1"><a class="header" href="#further-discussion-1">Further Discussion</a></h2>
+<h3 id="limitation-of-a-programming-language-and-turing-equivalence"><a class="header" href="#limitation-of-a-programming-language-and-turing-equivalence">Limitation of a Programming Language and Turing Equivalence(?)</a></h3>
+<p>Some people argue that each language has its limitation. For instance, Java cannot actually acheive \(O(1)\) extra space in this problem. </p>
+<p>To some extent, I will agree. Theoretically, however, if each programming language simluates <strong>Universal Turing Machine</strong>, they should be equivalent. This implies that there is no operation Rust can do but Java can't. The only matter is the cost for one language to simulate another. Just like to simulates Two-Tape Turing Machine by the One-Tape, we need more steps/operations in One-Tape Turing Machine.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="179-largest-number"><a class="header" href="#179-largest-number">179. Largest Number</a></h1>
+<h2 id="description-of-the-problem-7"><a class="header" href="#description-of-the-problem-7">Description of the Problem</a></h2>
+<p>Given a list of non-negative integers <code>nums</code>, arrange them such that they form the largest number and return it.</p>
+<p>Since the result may be very large, so you need to return a string instead of an integer.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: nums = [10,2]
+Output: &quot;210&quot;
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: nums = [3,30,34,5,9]
+Output: &quot;9534330&quot;
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>1 &lt;= nums.length &lt;= 100</li>
+<li>0 &lt;= nums[i] &lt;= 10^9</li>
+</ul>
+<h2 id="solution-7"><a class="header" href="#solution-7">Solution</a></h2>
+<h3 id="explanation-7"><a class="header" href="#explanation-7">Explanation</a></h3>
+<h4 id="greediness-of-the-problem"><a class="header" href="#greediness-of-the-problem">Greediness of the Problem</a></h4>
+<h5 id="greedy-choice-properties"><a class="header" href="#greedy-choice-properties">Greedy-choice Properties</a></h5>
+<p>To acheive the largest number, we have to choose the most signficant digits that make the whole number largest. And</p>
+<p>to choose the most signficant digits, simply pick the number in <code>nums</code> such that their &quot;concatenation&quot; is the largest. </p>
+<p>For example, in <code>[3,30,34,5,9]</code>, <code>9</code> is the suitable choice because: </p>
+<ul>
+<li>9 3 _ &gt; 3 9 _</li>
+<li>9 3 0 &gt; 3 0 9 </li>
+<li>9 3 4 &gt; 3 4 9 </li>
+<li>9 5 _ &gt; 5 9 _</li>
+</ul>
+<p>i.e. If <code>9</code> is in position of the most signficant digits, the whole number is the largest.</p>
+<p>Thus, before choosing numbers, we can sort the <code>nums</code> by their &quot;concatenation value&quot; in descending order.</p>
+<h5 id="optimal-substructure-properties"><a class="header" href="#optimal-substructure-properties">Optimal Substructure Properties</a></h5>
+<p>After choosing the most signficant digits, the remaining problem is to find most signficant digits for remaining positions of the whole number.</p>
+<h3 id="code-rust-5"><a class="header" href="#code-rust-5">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn largest_number(mut nums: Vec&lt;i32&gt;) -&gt; String {
+        nums
+        .sort_by(
+            |a,b| format!(&quot;{}&quot;, b)
+            .cmp(
+                &amp;format!(&quot;{}&quot;, a)
+            )
+        );
+        
+        nums.into_iter()
+        .fold( 
+            String::from(&quot;&quot;),
+            |mut acc, x| 
+                if acc == &quot;0&quot;  { 
+                    x.to_string() 
+                } 
+                else { 
+                    acc.push_str(&amp;x.to_string()); 
+                    acc 
+                }
+        )
+    }
+}
+</code></pre>
+<h3 id="complexity-n-is-length-of-the-array"><a class="header" href="#complexity-n-is-length-of-the-array">Complexity (\(n\) is length of the array)</a></h3>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( O(n \lg n) \)
+<ul>
+<li>For any Greedy algorithm, \( O(n \lg n + f(n) ) \) is its time complexity where \( f(n) \) is the time to check whether the current choice match the requirement of the problem (Technically, it is to check whether the choice makes an Independent Set, see <a href="https://en.wikipedia.org/wiki/Matroid">Wikipedia: Matroid</a>). Since, any concatenation of numbers makes valid number, in this case \( f(n)  = O(1) \)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( O(n \lg n) \)
+<ul>
+<li>My implementation creates \( O(n \lg n) \) <code>String</code> for numerical comparison in total although they are create temporarily and <code>drop</code> quickly after comparison.</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="435-non-overlapping-intervals"><a class="header" href="#435-non-overlapping-intervals">435. Non-overlapping Intervals</a></h1>
+<h2 id="description-of-the-problem-8"><a class="header" href="#description-of-the-problem-8">Description of the Problem</a></h2>
+<p>Given an array of intervals intervals where <code>intervals[i] = [starti, endi]</code>, return <em>the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping</em>.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: intervals = [[1,2],[2,3],[3,4],[1,3]]
+Output: 1
+Explanation: [1,3] can be removed and the rest of the intervals are non-overlapping.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: intervals = [[1,2],[1,2],[1,2]]
+Output: 2
+Explanation: You need to remove two [1,2] to make the rest of the intervals non-overlapping.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: intervals = [[1,2],[2,3]]
+Output: 0
+Explanation: You don't need to remove any of the intervals since they're already non-overlapping.
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= intervals.length &lt;= 105</code></li>
+<li><code>intervals[i].length == 2</code></li>
+<li><code>-5 * 10^4 &lt;= starti &lt; endi &lt;= 5 * 10^4</code></li>
+</ul>
+<h2 id="solution-8"><a class="header" href="#solution-8">Solution</a></h2>
+<h3 id="explanation-8"><a class="header" href="#explanation-8">Explanation</a></h3>
+<p>The problem is equivalent to classical <strong>Activity Selection Problem</strong> which is to maximise the number of compatiable activities. Thus, in the following explanation, we assume that our goal is to maximise the number of activities in our schdule.</p>
+<p>To solve the above problem, we choose activities one-by-one with earliest finish time (Greedy Algorithm).</p>
+<p><strong>Optimal Substructure Property</strong></p>
+<p>Suppose an activity \(a_k\) with interval \((s_k, f_k)\) is in optimal schedule from \(f_i\) to \(s_j\). The optimal solution can be divided into 3 parts: \( A_{ik} \cup a_k \cup A_{kj} \) where \( A_{ik} \) is optimal schedule start after \(f_i\) and finsih before \(s_k\) and \( A_{kj} \) is optimal schedule start after \(f_k\) and finsih before \(s_j\).</p>
+<p>In other word, we can use Divide-and-Conquer to find optimal solution. i.e. choose an activity \(a_k\) such that the combined solution is maximum.</p>
+<p>\[ \arg\max_{k} | A_{0k} \cup a_k \cup A_{kn} | \]</p>
+<p><strong>Greedy-choice Property</strong></p>
+<p>Suppose we have an optimal schedule \(A^*\) contains \(a_k\) which has earliest finish time in \( A^* \). </p>
+<p>Suppose \( a_j \) has earliest finish time in the set of activities. </p>
+<p>Replace \( a_k \) by \( a_j \) still yield the optimal schedule.</p>
+<h3 id="code-java-3"><a class="header" href="#code-java-3">Code (Java)</a></h3>
+<pre><code class="language-Java">class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (ai, aj) -&gt;  ai[1] - aj[1]);
+        int count = 0;
+        final int [] prev = intervals[0];
+        int prev_start = prev[0];
+        int prev_end = prev[1];
+
+        for(int i = 1; i &lt; intervals.length; i++){
+            int[] curr = intervals[i];
+            int curr_start = curr[0];
+            int curr_end = curr[1];
+            if(curr_start &lt; prev_end ){
+                count ++;
+            }
+            else{
+                prev_start = curr_start;
+                prev_end = curr_end;
+            }
+        }
+
+        return count;
+    }
+}
+</code></pre>
+<h3 id="complexity-3"><a class="header" href="#complexity-3">Complexity</a></h3>
+<p><strong>Time complexity:</strong> </p>
+<ul>
+<li>\(O(n\lg n + n)\)
+<ul>
+<li>Sorting + Selection</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( O(1) \)</li>
+</ul>
+<h2 id="further-discussion-2"><a class="header" href="#further-discussion-2">Further Discussion</a></h2>
+<p>It is absolutely a bad way to implement a tuple <code>(a, b)</code> by Array. Especially since Rust support tuples, storing two number (start time and finish time) in Vector is not the good practice. The following code is alternative implementation and solution.</p>
+<pre><code class="language-Rust">type Interval = (i32, i32);
+
+struct Solution{}
+
+impl Solution {
+    pub fn erase_overlap_intervals(intervals: Vec&lt;Interval&gt;) -&gt; i32 {
+        let mut intervals = intervals;
+        intervals.sort_by( |(_,f1), (_,f2)| f1.cmp(&amp;f2) );
+        let mut count = 0;
+        let (mut prev_start, mut prev_end) = intervals[0];
+        for (curr_start, curr_end) in intervals.into_iter().skip(1) {
+            if curr_start &lt; prev_end {
+                count += 1;
+            }
+            else{
+                prev_start = curr_start;
+                prev_end = curr_end;
+            }
+        }
+
+        return count;
+    }
+}
+
+
+fn main(){
+    println!(&quot;{}&quot;, Solution::erase_overlap_intervals( vec![(1,2),(2,3),(3,4),(1,3)] ) );
+    println!(&quot;{}&quot;, Solution::erase_overlap_intervals( vec![(1,2),(1,2),(1,2)] ) );
+    println!(&quot;{}&quot;, Solution::erase_overlap_intervals( vec![(1,2),(2,3)] ) );
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="2095-delete-the-middle-node-of-a-linked-list"><a class="header" href="#2095-delete-the-middle-node-of-a-linked-list">2095. Delete the Middle Node of a Linked List</a></h1>
+<h2 id="description-of-the-problem-9"><a class="header" href="#description-of-the-problem-9">Description of the Problem</a></h2>
+<p>You are given the <code>head</code> of a linked list. <strong>Delete</strong> the <strong>middle node</strong>, and return the <code>head</code> <em>of the modified linked list</em>.</p>
+<p>The <strong>middle node</strong> of a linked list of size <code>n</code> is the <code>⌊n / 2⌋th node</code> from the start using <strong>0-based indexing</strong>, where <code>⌊x⌋</code> denotes the largest integer less than or equal to <code>x</code>.</p>
+<p>For <code>n</code> = <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>, and <code>5</code>, the middle nodes are <code>0</code>, <code>1</code>, <code>1</code>, <code>2</code>, and <code>2</code>, respectively.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: head = [1,3,4,7,1,2,6]
+Output: [1,3,4,1,2,6]
+Explanation:
+The above figure represents the given linked list. The indices of the nodes are written below.
+Since n = 7, node 3 with value 7 is the middle node, which is marked in red.
+We return the new list after removing this node. 
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: head = [1,2,3,4]
+Output: [1,2,4]
+Explanation:
+The above figure represents the given linked list.
+For n = 4, node 2 with value 3 is the middle node, which is marked in red.
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: head = [2,1]
+Output: [2]
+Explanation:
+The above figure represents the given linked list.
+For n = 2, node 1 with value 1 is the middle node, which is marked in red.
+Node 0 with value 2 is the only node remaining after removing node 1.
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the list is in the range [1, 10^5].</li>
+<li>1 &lt;= Node.val &lt;= 10^5</li>
+</ul>
+<h2 id="solution-9"><a class="header" href="#solution-9">Solution</a></h2>
+<h3 id="explanation-9"><a class="header" href="#explanation-9">Explanation</a></h3>
+<p>It is almost the same as <a href="medium-problems/../easy-problems/876.html">876.	Middle of the Linked List</a> except we want both pointers move to left by 1 for deletion at the end of the loop. </p>
+<p>To acheive this, we have to make sure that there is at least 3 nodes after the faster pointer. Hence, at the termination of the loop, the number of node must less than 3. The slow pointer always point to the previous node of the middle node.</p>
+<h3 id="code-java-4"><a class="header" href="#code-java-4">Code (Java)</a></h3>
+<pre><code class="language-Java">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+
+class Solution {
+    public ListNode deleteMiddle(ListNode head){
+        if (head == null || head.next == null)
+            return null;
+        
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast.next != null &amp;&amp; fast.next.next != null &amp;&amp; fast.next.next.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        slow.next = slow.next.next;
+
+        return head;
+    }
+}
+</code></pre>
+<h3 id="code-c"><a class="header" href="#code-c">Code (C++)</a></h3>
+<pre><code class="language-C++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        if (head == nullptr || head-&gt;next == nullptr)
+            return nullptr;
+        
+        ListNode * slow = head;
+        ListNode * fast = head;
+
+        while (
+            fast-&gt;next != nullptr 
+            &amp;&amp; fast-&gt;next-&gt;next != nullptr 
+            &amp;&amp; fast-&gt;next-&gt;next-&gt;next != nullptr
+            ){
+            slow = slow-&gt;next;
+            fast = fast-&gt;next-&gt;next;
+        }
+
+        slow-&gt;next = slow-&gt;next-&gt;next;
+
+        return head;
+    }
+};
+</code></pre>
+<h3 id="complexity-4"><a class="header" href="#complexity-4">Complexity</a></h3>
+<p><strong>Time complexity:</strong> </p>
+<ul>
+<li>\(T(n) = O(n/2)\)</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\(S(n) = O(1)\)</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="65-valid-number"><a class="header" href="#65-valid-number">65. Valid Number</a></h1>
+<h2 id="description-of-the-problem-10"><a class="header" href="#description-of-the-problem-10">Description of the Problem</a></h2>
+<p>A <strong>valid number</strong> can be split up into these components (in order):</p>
+<ol>
+<li>A <strong>decimal number</strong> or an <strong>integer</strong>.</li>
+<li>(Optional) An <code>'e'</code> or <code>'E'</code>, followed by an integer.</li>
+</ol>
+<p>A <strong>decimal number</strong> can be split up into these components (in order):</p>
+<ol>
+<li>(Optional) A sign character (either <code>'+'</code> or <code>'-'</code>).</li>
+<li>One of the following formats:
+<ol>
+<li>One or more digits, followed by a dot <code>'.'</code>.</li>
+<li>One or more digits, followed by a dot <code>'.'</code>, followed by one or more digits.</li>
+<li>A dot <code>'.'</code>, followed by one or more digits.</li>
+</ol>
+</li>
+</ol>
+<p>An <strong>integer</strong> can be split up into these components (in order):</p>
+<ol>
+<li>(Optional) A sign character (either <code>'+'</code> or <code>'-'</code>).</li>
+<li>One or more digits.</li>
+</ol>
+<p>For example, all the following are valid numbers: <code>[&quot;2&quot;, &quot;0089&quot;, &quot;-0.1&quot;, &quot;+3.14&quot;, &quot;4.&quot;, &quot;-.9&quot;, &quot;2e10&quot;, &quot;-90E3&quot;, &quot;3e+7&quot;, &quot;+6e-1&quot;, &quot;53.5e93&quot;, &quot;-123.456e789&quot;], while the following are not valid numbers: [&quot;abc&quot;, &quot;1a&quot;, &quot;1e&quot;, &quot;e3&quot;, &quot;99e2.5&quot;, &quot;--6&quot;, &quot;-+3&quot;, &quot;95a54e53&quot;]</code>.</p>
+<p>Given a string <code>s</code>, return <code>true</code> if <code>s</code> is a valid number.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: s = &quot;0&quot;
+Output: true
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: s = &quot;e&quot;
+Output: false
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: s = &quot;.&quot;
+Output: false
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 20</code></li>
+<li><code>s</code> consists of only English letters (both uppercase and lowercase), digits (<code>0-9</code>), plus <code>'+'</code>, minus <code>'-'</code>, or dot <code>'.'</code>.</li>
+</ul>
+<h2 id="solution-10"><a class="header" href="#solution-10">Solution</a></h2>
+<p>For any problem about format. I suggest every one first to write a <strong>Extended Backus-Naur Form</strong> or <strong>Regular Expression</strong> to represent correct format.</p>
+<p>We can split the string by special char such as <code>e</code>, <code>E</code> and <code>.</code> and check the validity of substrings.</p>
+<h3 id="explanation-10"><a class="header" href="#explanation-10">Explanation</a></h3>
+<h4 id="extended-backus-naur-form-of-valid-number"><a class="header" href="#extended-backus-naur-form-of-valid-number">Extended Backus-Naur Form of Valid Number</a></h4>
+<p>\( \langle goal \rangle ::= (\text{'+'} | \text{'-'})? \langle base \rangle  ((\text{'e'}|\text{'E'})?\langle  expo \rangle )? \)</p>
+<p>\(\langle  expo \rangle ::= (\text{'+'} | \text{'-'})? \langle  digits \rangle \)</p>
+<p>\(\langle  base \rangle ::= \langle  digits \rangle \)</p>
+<p>\( \ | \langle  digits \rangle  \text{'.'}  \)</p>
+<p>\( \ | \ \text{'.'} \langle  digits \rangle \)</p>
+<p>\( \ |  \langle  digits \rangle  \text{'.'} \langle  digits \rangle  \)</p>
+<p>\( \langle  digits \rangle ::= (\text{'0'} | \text{'1'} | ... | \text{'9'})^+  \)</p>
+<h3 id="code-rust-6"><a class="header" href="#code-rust-6">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+
+    fn split_at_char(s: &amp;str, v : char) -&gt; (&amp;str, &amp;str){
+        let option_index = s.find(v);
+
+        return match option_index {
+            Some(index) =&gt; {
+                let len = s.len();
+
+                // Exclude the character we found
+                return (&amp;s[0..index], &amp;s[index+1..len]);
+            },
+            None =&gt; (s, &amp;&quot;&quot;),
+        }
+
+    }
+
+    #[inline]
+    fn process_first_char( s : &amp;str) -&gt; &amp;str{
+        return if s.len() &gt; 0 {
+            if s[0..1].find(&quot;+&quot;).is_some() || s[0..1].find(&quot;-&quot;).is_some() {&amp;s[1..]} else {s}
+        }
+        else {
+            s
+        };
+    }
+
+    fn is_digits(s: &amp;str, is_empty_true : bool) -&gt; bool{
+        for c in s.chars() {
+            match c {
+                '0'..='9' =&gt; {},
+                _ =&gt; {return false;},
+            }
+        }
+
+        return if s == &quot;&quot; { is_empty_true } else { true };
+    }
+
+    fn is_signed_digits(s: &amp;str, is_empty_true : bool) -&gt; bool{
+        let s = Solution::process_first_char(s);
+        return Solution::is_digits(s, is_empty_true);
+    }
+
+    // Principal function of Solution
+    pub fn is_number(s: String) -&gt; bool {
+        if s.len() == 0 {
+            return false;
+        }
+
+        let s = Solution::process_first_char(&amp;s);
+
+        // Determine 'e' or 'E'
+        let char_e = match ( s.find('e'), s.find('E') ) {
+            (None,None) =&gt; { '\0' }, // dummy value
+            (None,Some(_)) =&gt; { 'E' },
+            (Some(_),None) =&gt; { 'e' },
+            (Some(_),Some(_)) =&gt; { 'e' },
+        };
+
+        let (base, expo) = Solution::split_at_char(s, char_e);
+        let (lhs, rhs) = Solution::split_at_char(base, '.');
+
+        let (has_dot, has_e) = (
+                s.find('.').is_some(),
+                s.find('e').is_some() || s.find('E').is_some()
+        );
+
+        return match (has_dot, has_e) {
+
+            // Case: &lt;base&gt; ('e'|'E') &lt;expo&gt;
+            (true, true) =&gt;
+                (lhs.len() &gt; 0 || rhs.len() &gt; 0) &amp;&amp;
+                Solution::is_digits(lhs, true) &amp;&amp;
+                Solution::is_digits(rhs, true) &amp;&amp;
+                Solution::is_signed_digits(expo, false),
+
+            // Case: &lt;lhs&gt;? '.' &lt;rhs&gt;?
+            //      =&gt; &lt;lhs&gt; '.' &lt;rhs&gt;
+            //      =&gt; '.' &lt;rhs&gt;
+            //      =&gt; &lt;lhs&gt; '.'
+            (true, false) =&gt;
+                (lhs.len() &gt; 0 || rhs.len() &gt;0) &amp;&amp;
+                Solution::is_digits(lhs, true) &amp;&amp;
+                Solution::is_digits(rhs, true),
+
+            // Case: &lt;base&gt; ('e'|'E') &lt;expo&gt;
+            (false, true) =&gt;
+                Solution::is_digits(lhs, false) &amp;&amp;
+                Solution::is_signed_digits(expo, false),
+
+            // Case: &lt;base&gt;
+            (false, false) =&gt; Solution::is_digits(lhs, false),
+
+        };
+    }
+
+}
+</code></pre>
+<h3 id="complexity-n-is-the-length-of-string"><a class="header" href="#complexity-n-is-the-length-of-string">Complexity (n is the length of string)</a></h3>
+<p><strong>Time complexity:</strong> </p>
+<ul>
+<li>\( T(n) = \Theta(n) \)</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( S(n) = O(1) \)</li>
+</ul>
+<h2 id="further-discussion-3"><a class="header" href="#further-discussion-3">Further Discussion</a></h2>
+<p>It is not difficult to see that this type of problems (i.e. Parsing) can be easily to solved by Haskell (Especially if we use Parser library such as <code>ParSec</code>). If I were an interviewee I would argue that it is suitable to use functional programming language instead of the imperative one.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="2-add-two-numbers"><a class="header" href="#2-add-two-numbers">2. Add Two Numbers</a></h1>
+<h2 id="description-of-the-problem-11"><a class="header" href="#description-of-the-problem-11">Description of the Problem</a></h2>
+<p>You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.</p>
+<p>You may assume the two numbers do not contain any leading zero, except the number 0 itself.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [7,0,8]
+Explanation: 342 + 465 = 807.
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: l1 = [0], l2 = [0]
+Output: [0]
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+Output: [8,9,9,9,0,0,0,1]
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in each linked list is in the range <code>[1, 100]</code>.</li>
+<li><code>0 &lt;= Node.val &lt;= 9</code></li>
+<li>It is guaranteed that the list represents a number that does not have leading zeros.</li>
+</ul>
+<h2 id="solution-11"><a class="header" href="#solution-11">Solution</a></h2>
+<h3 id="code-rust-7"><a class="header" href="#code-rust-7">Code (Rust)</a></h3>
+<pre><code class="language-Rust">// Definition for singly-linked list.
+// #[derive(PartialEq, Eq, Clone, Debug)]
+// pub struct ListNode {
+//   pub val: i32,
+//   pub next: Option&lt;Box&lt;ListNode&gt;&gt;
+// }
+// 
+// impl ListNode {
+//   #[inline]
+//   fn new(val: i32) -&gt; Self {
+//     ListNode {
+//       next: None,
+//       val
+//     }
+//   }
+// }
+impl Solution {
+    pub fn reverse_list(head: Option&lt;Box&lt;ListNode&gt;&gt;) -&gt; Option&lt;Box&lt;ListNode&gt;&gt; {
+        let mut curr = head;
+        let mut prev = None;
+
+        while let Some(mut node) = curr.take() {
+            curr = node.next;
+            node.next = prev;
+            prev = Some(node);
+        }
+
+        return prev;
+    }
+
+    pub fn add_two_numbers(l1: Option&lt;Box&lt;ListNode&gt;&gt;, l2: Option&lt;Box&lt;ListNode&gt;&gt;) 
+        -&gt; Option&lt;Box&lt;ListNode&gt;&gt; {
+        let mut carry : i32 = 0;
+        let mut l1 = l1;
+        let mut l2 = l2;
+        let mut curr = Some(Box::new(ListNode::new(0))); // Dummy head
+
+
+        while l1.is_some() || l2.is_some() || carry &gt; 0
+        {
+            let mut sum = carry;
+            if let Some(node) = l1 {
+                sum += node.val;
+                l1 = node.next;
+            }
+
+            if let Some(node) = l2 {
+                sum += node.val;
+                l2 = node.next;
+            }
+
+            let mut node = ListNode::new(sum % 10);
+            node.next = curr;
+            curr = Some(Box::new(node));
+            carry = sum / 10;
+        }
+
+        curr = Solution::reverse_list(curr);
+        
+        if let Some(node) = curr {
+            curr = node.next;
+        }
+
+        return curr;
+    }
+}
+</code></pre>
+<h3 id="code-java-5"><a class="header" href="#code-java-5">Code (Java)</a></h3>
+<pre><code class="language-Java">class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode result = new ListNode(0); // Sentinel node
+        ListNode current = result;
+        int carry = 0;
+        while (l1 != null || l2 != null || carry &gt; 0) {
+            int sum = carry;
+            if (l1 != null){
+                sum += l1.val;
+                l1 = l1.next;
+            }
+
+            if (l2 != null){
+                sum += l2.val;
+                l2 = l2.next;
+            }
+
+            carry = sum / 10;
+            current.next = new ListNode(sum % 10);
+            current = current.next;
+        }
+        return result.next;
+    }
+}
+</code></pre>
+<h3 id="code-c-1"><a class="header" href="#code-c-1">Code (C++)</a></h3>
+<pre><code class="language-C++">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode * dummyHead = new ListNode();
+        ListNode * curr = dummyHead;
+        
+        int carry = 0;
+
+        while( l1 != nullptr || l2 != nullptr || carry &gt; 0){
+                int val = 
+                    (l1 != nullptr ? l1-&gt;val : 0) +
+                    (l2 != nullptr ? l2-&gt;val : 0) +
+                    carry;
+                carry = val &gt;= 10 ? 1 : 0;
+                curr-&gt;next = new ListNode( val % 10 );
+                
+                curr = curr-&gt;next;
+                l1 = (l1 == nullptr) ? nullptr : l1-&gt;next;
+                l2 = (l2 == nullptr) ? nullptr : l2-&gt;next;
+        }
+        return dummyHead-&gt;next;
+    }
+};
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="17-letter-combination-of-a-phone-number"><a class="header" href="#17-letter-combination-of-a-phone-number">17. Letter Combination of a Phone Number</a></h1>
+<h2 id="description-of-the-problem-12"><a class="header" href="#description-of-the-problem-12">Description of the Problem</a></h2>
+<p>Given a string containing digits from <code>2-9</code> inclusive, return all possible letter combinations that the number could represent. Return the answer in <strong>any order</strong>.</p>
+<p>A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: digits = &quot;23&quot;
+Output: [&quot;ad&quot;,&quot;ae&quot;,&quot;af&quot;,&quot;bd&quot;,&quot;be&quot;,&quot;bf&quot;,&quot;cd&quot;,&quot;ce&quot;,&quot;cf&quot;]
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: digits = &quot;&quot;
+Output: []
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: digits = &quot;2&quot;
+Output: [&quot;a&quot;,&quot;b&quot;,&quot;c&quot;]
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>0 &lt;= digits.length &lt;= 4</code></li>
+<li><code>digits[i]</code> is a digit in the range <code>['2', '9']</code>.</li>
+</ul>
+<h2 id="solution-12"><a class="header" href="#solution-12">Solution</a></h2>
+<h3 id="code-rust-8"><a class="header" href="#code-rust-8">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn letter_combinations(digits: String) -&gt; Vec&lt;String&gt; {
+        // m a -&gt; (a -&gt; m b) -&gt; m b
+        let product = | v1: &amp;Vec&lt;String&gt;, v2 : &amp;Vec&lt;&amp;str&gt; | -&gt; Vec&lt;String&gt; {
+            v1.iter().map(
+                |e1| v2.iter().map(
+                    |e2| format!(&quot;{}{}&quot;, e1, e2)
+                ).collect::&lt;Vec&lt;String&gt;&gt;()
+            )
+            .flatten().collect::&lt;Vec&lt;String&gt;&gt;()
+        };
+
+        let mut result : Vec&lt;String&gt; = vec![];
+
+        for c in digits.chars() {
+            let rhs = match c {
+                '2' =&gt; vec![&quot;a&quot;, &quot;b&quot;, &quot;c&quot;],
+                '3' =&gt; vec![&quot;d&quot;, &quot;e&quot;, &quot;f&quot;],
+                '4' =&gt; vec![&quot;g&quot;, &quot;h&quot;, &quot;i&quot;],
+                '5' =&gt; vec![&quot;j&quot;, &quot;k&quot;, &quot;l&quot;],
+                '6' =&gt; vec![&quot;m&quot;, &quot;n&quot;, &quot;o&quot;],
+                '7' =&gt; vec![&quot;p&quot;, &quot;q&quot;, &quot;r&quot;, &quot;s&quot;],
+                '8' =&gt; vec![&quot;t&quot;, &quot;u&quot;, &quot;v&quot;],
+                '9' =&gt; vec![&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;],
+                _ =&gt; panic!(&quot;Impossible&quot;),
+            };
+
+            result = 
+                if result.len() == 0 { product(&amp;vec![&quot;&quot;.to_string()], &amp;rhs) } 
+                else { product(&amp;result, &amp;rhs) };
+        }
+
+        return result;
+    }
+}
+</code></pre>
+<h3 id="code-java-6"><a class="header" href="#code-java-6">Code (Java)</a></h3>
+<pre><code class="language-Java">class Solution {
+    public List&lt;String&gt; letterCombinations(String digits) {
+        if ( digits.equals(&quot;&quot;) )
+            return Collections.emptyList();
+        
+        List&lt;String&gt; result = List.of(&quot;&quot;);
+
+        for (char d : digits.toCharArray()){
+            switch(d){
+                case '2':
+                    result = product(result, List.of(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;));
+                    break;
+                case '3':
+                    result = product(result, List.of(&quot;d&quot;, &quot;e&quot;, &quot;f&quot;));
+                    break;
+                case '4':
+                    result = product(result, List.of(&quot;g&quot;, &quot;h&quot;, &quot;i&quot;));
+                    break;
+                case '5':
+                    result = product(result, List.of(&quot;j&quot;, &quot;k&quot;, &quot;l&quot;));
+                    break;
+                case '6':
+                    result = product(result, List.of(&quot;m&quot;, &quot;n&quot;, &quot;o&quot;));
+                    break;
+                case '7':
+                    result = product(result, List.of(&quot;p&quot;, &quot;q&quot;, &quot;r&quot;, &quot;s&quot;));
+                    break;
+                case '8':
+                    result = product(result, List.of(&quot;t&quot;, &quot;u&quot;, &quot;v&quot;));
+                    break;
+                case '9':
+                    result = product(result, List.of(&quot;w&quot;, &quot;x&quot;, &quot;y&quot;, &quot;z&quot;));
+                    break;
+            }
+        }
+
+        return result;
+
+    }
+
+    List&lt;String&gt; product(List&lt;String&gt; list1, List&lt;String&gt; list2){
+        List&lt;String&gt; list3 = new ArrayList&lt;&gt;();
+        for(String s1 : list1){
+            for(String s2 : list2){
+                list3.add(s1+s2);
+            }
+        }
+        return list3;
+    }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="19-remove-nth-node-from-end-of-list"><a class="header" href="#19-remove-nth-node-from-end-of-list">19. Remove Nth Node From End of List</a></h1>
+<h2 id="description-of-the-problem-13"><a class="header" href="#description-of-the-problem-13">Description of the Problem</a></h2>
+<p>Given the <code>head</code> of a linked list, remove the nth node from the end of the list and return its <code>head</code>.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: head = [1,2,3,4,5], n = 2
+Output: [1,2,3,5]
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: head = [1], n = 1
+Output: []
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: head = [1,2], n = 1
+Output: [1]
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>The number of nodes in the list is sz.</li>
+<li>1 &lt;= sz &lt;= 30</li>
+<li>0 &lt;= Node.val &lt;= 100</li>
+<li>1 &lt;= n &lt;= sz</li>
+</ul>
+<p>Follow up: Could you do this in one pass?</p>
+<h2 id="solution-does-not-fullfill-the-follow-up-question"><a class="header" href="#solution-does-not-fullfill-the-follow-up-question">Solution (Does not fullfill the follow-up question)</a></h2>
+<h3 id="code-java-7"><a class="header" href="#code-java-7">Code (Java)</a></h3>
+<pre><code class="language-Java">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode currentNode = head;
+        int len = 0;
+        while(currentNode != null){
+            len++;
+            currentNode = currentNode.next;
+        }
+
+        ListNode sentinelHead = new ListNode(-1, head);
+        currentNode = sentinelHead;
+        while( len - n &gt; 0 ){
+            n++;
+            currentNode = currentNode.next;
+        }
+        currentNode.next = currentNode.next.next;
+        return sentinelHead.next;
+    }
+}
+</code></pre>
+<h3 id="code-rust-9"><a class="header" href="#code-rust-9">Code (Rust)</a></h3>
+<pre><code class="language-Rust">// Definition for singly-linked list.
+// #[derive(PartialEq, Eq, Clone, Debug)]
+// pub struct ListNode {
+//   pub val: i32,
+//   pub next: Option&lt;Box&lt;ListNode&gt;&gt;
+// }
+// 
+// impl ListNode {
+//   #[inline]
+//   fn new(val: i32) -&gt; Self {
+//     ListNode {
+//       next: None,
+//       val
+//     }
+//   }
+// }
+impl Solution {
+    pub fn remove_nth_from_end(head: Option&lt;Box&lt;ListNode&gt;&gt;, n: i32) 
+        -&gt; Option&lt;Box&lt;ListNode&gt;&gt; {
+
+        let mut n = n;
+        // Reverse The List
+        let mut curr = head;
+        let mut prev = None;
+        while let Some(mut node) = curr.take() {
+            curr = node.next;
+            node.next = prev;
+            prev = Some(node);
+        }
+
+        // Reverse again and delete
+        curr = prev;
+        prev = None;
+        while let Some(mut node) = curr.take() {
+            n-=1;
+            if (n != 0){
+                curr = node.next;
+                node.next = prev;
+                prev = Some(node);
+            }else{
+                curr = node.next;
+            }
+        }
+
+        return prev;
+    }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="150-evaluate-reverse-polish-notation"><a class="header" href="#150-evaluate-reverse-polish-notation">150. Evaluate Reverse Polish Notation</a></h1>
+<h2 id="description-of-the-problem-14"><a class="header" href="#description-of-the-problem-14">Description of the Problem</a></h2>
+<p>You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.</p>
+<p>Evaluate the expression. Return an integer that represents the value of the expression.</p>
+<p>Note that:</p>
+<ul>
+<li>The valid operators are <code>'+'</code>, <code>'-'</code>, <code>'*'</code>, and <code>'/'</code>.</li>
+<li>Each operand may be an integer or another expression.</li>
+<li>The division between two integers always <strong>truncates toward zero</strong>.</li>
+<li>There will not be any division by zero.</li>
+<li>The input represents a valid arithmetic expression in a reverse polish notation.</li>
+<li>The answer and all the intermediate calculations can be represented in a <strong>32-bit</strong> integer.</li>
+</ul>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: tokens = [&quot;2&quot;,&quot;1&quot;,&quot;+&quot;,&quot;3&quot;,&quot;*&quot;]
+Output: 9
+Explanation: ((2 + 1) * 3) = 9
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: tokens = [&quot;4&quot;,&quot;13&quot;,&quot;5&quot;,&quot;/&quot;,&quot;+&quot;]
+Output: 6
+Explanation: (4 + (13 / 5)) = 6
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: tokens = [&quot;10&quot;,&quot;6&quot;,&quot;9&quot;,&quot;3&quot;,&quot;+&quot;,&quot;-11&quot;,&quot;*&quot;,&quot;/&quot;,&quot;*&quot;,&quot;17&quot;,&quot;+&quot;,&quot;5&quot;,&quot;+&quot;]
+Output: 22
+Explanation: ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+= ((10 * (6 / (12 * -11))) + 17) + 5
+= ((10 * (6 / -132)) + 17) + 5
+= ((10 * 0) + 17) + 5
+= (0 + 17) + 5
+= 17 + 5
+= 22
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= tokens.length &lt;= 10^4</code></li>
+<li><code>tokens[i]</code> is either an operator: <code>&quot;+&quot;</code>, <code>&quot;-&quot;</code>, <code>&quot;*&quot;</code>, or <code>&quot;/&quot;</code>, or an integer in the range <code>[-200, 200]</code>.</li>
+</ul>
+<h2 id="solution-13"><a class="header" href="#solution-13">Solution</a></h2>
+<h3 id="code-rust-10"><a class="header" href="#code-rust-10">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn eval_rpn(tokens: Vec&lt;String&gt;) -&gt; i32 {
+        let mut stack = vec![];
+        for token in tokens {
+            match(token.as_str()){
+                &quot;+&quot; =&gt; {
+                    let b = stack.pop().unwrap();
+                    let a = stack.pop().unwrap();
+                    stack.push(a + b);
+                },
+                &quot;-&quot; =&gt; {
+                    let b = stack.pop().unwrap();
+                    let a = stack.pop().unwrap();
+                    stack.push(a - b);
+                },
+                &quot;*&quot; =&gt; {
+                    let b = stack.pop().unwrap();
+                    let a = stack.pop().unwrap();
+                    stack.push(a * b);
+                },
+                &quot;/&quot; =&gt; {
+                    let b = stack.pop().unwrap();
+                    let a = stack.pop().unwrap();
+                    stack.push(a / b);
+                },
+                _ =&gt; {
+                    stack.push(token.parse::&lt;i32&gt;().unwrap());
+                },
+            }
+        }
+
+        if stack.len() != 1{
+            panic!(&quot;Invalid Token&quot;);
+        }else{
+            return stack.pop().unwrap();
+        }
+
+    }
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="371-sum-of-two-integers"><a class="header" href="#371-sum-of-two-integers">371. Sum of Two Integers</a></h1>
+<h2 id="description-of-the-problem-15"><a class="header" href="#description-of-the-problem-15">Description of the Problem</a></h2>
+<p>Given two integers <code>a</code> and <code>b</code>, return <em>the sum of the two integers without using the operators <code>+</code> and <code>-</code></em>.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: a = 1, b = 2
+Output: 3
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: a = 2, b = 3
+Output: 5
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>-1000 &lt;= a, b &lt;= 1000</code></li>
+</ul>
+<h2 id="solution-14"><a class="header" href="#solution-14">Solution</a></h2>
+<h3 id="code-rust-11"><a class="header" href="#code-rust-11">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn get_sum(a: i32, b: i32) -&gt; i32 {
+        let mut a = a;
+        let mut b = b;
+        
+        while(b != 0){
+            let sum = a ^ b;
+            let carry = a &amp; b;
+            a = sum;
+            b = carry &lt;&lt; 1;
+        }
+
+        return a;
+    }
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
