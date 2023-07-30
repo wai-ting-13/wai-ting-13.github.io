@@ -86,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="medium-problems/151.html">151. Reverse Words in a String</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="hard-problems/65.html">65. Valid Number</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="medium-problems/7.html">7. Reverse Integer</a></li><li class="chapter-item expanded "><a href="medium-problems/78.html">78. Subsets</a></li><li class="chapter-item expanded "><a href="medium-problems/151.html">151. Reverse Words in a String</a></li><li class="chapter-item expanded "><a href="medium-problems/179.html">179. Largest Number</a></li><li class="chapter-item expanded "><a href="medium-problems/435.html">435. Non-overlapping Intervals</a></li><li class="chapter-item expanded "><a href="medium-problems/2095.html">2095. Delete the Middle Node of a Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="hard-problems/65.html">65. Valid Number</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -185,13 +185,14 @@
 </ul>
 <h2 id="update-notes"><a class="header" href="#update-notes">Update Notes</a></h2>
 <ul>
-<li>Last Updated: 2023.Jul.29
-<ul>
-<li>Add Problem 3, 65, 151.</li>
-<li>For Problem 3, Calucation of Average Time Complexity was added</li>
-<li>I suggest to read <strong>Problem 151</strong>. You will have deeper understanding about programming and Computer Science (If my explnation has no error). </li>
+<li>Last Updated: 2023.Jul.30</li>
 </ul>
-</li>
+<h2 id="unfinished-chapters"><a class="header" href="#unfinished-chapters">Unfinished Chapters</a></h2>
+<ul>
+<li>Problem 7: Reverse Integer</li>
+<li>Problem 179: Largest Number</li>
+<li>Problem 435: Non-overlapping Intervals</li>
+<li>Problem 2095: Delete the Middle Node of a Linked List</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="1-two-sum"><a class="header" href="#1-two-sum">1. Two Sum</a></h1>
 <h2 id="description-of-the-problem"><a class="header" href="#description-of-the-problem">Description of the Problem</a></h2>
@@ -595,16 +596,196 @@ Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence an
 <p>\(= \sum_{i = 0}^{n - 2} \sum_{j = i+1}^{n - 1} \frac{M!}{M^{(j-i)} (M - (j - i))! } \)</p>
 <p>\(= \sum_{i = 0}^{n - 2} \sum_{ k = 1}^{n - 1 - i} \frac{M!}{M^{k} (M - k)! } \)</p>
 <p>\( \le \sum_{i = 0}^{n - 2} \sum_{k = 1}^{M} \frac{M!}{M^{k} (M - k)! } \)</p>
-<p>\( \le \sum_{i = 0}^{n - 2} \int_{0}^{M} e^{ - x^2 / M^x} dx \ (\because \text{approximation of the &quot;birthday formula&quot;}) \)</p>
-<p>\( = \sum_{i = 0}^{n - 2} \frac{M\sqrt{\pi}}{2} \)</p>
-<p>\( = (n-1) \frac{M\sqrt{\pi}}{2} \)</p>
-<p>\( = (n-1) \frac{95 \cdot \sqrt{\pi}}{2} \ (\because \text{according to ASCII table, Dec32 to Dec126 are the characters the Leetcode program will choose}) \)</p>
-<p>\( \approx (n-1) 149 \)</p>
+<p>\( \le \sum_{i = 0}^{n - 2} \int_{0}^{M} e^{ - x^2 / 2M } dx \ (\because \text{approximation of the &quot;birthday formula&quot;}) \)</p>
+<p>\( = \sum_{i = 0}^{n - 2} \frac{\sqrt{M\pi}}{\sqrt{2}} \ erf(\sqrt{\frac{M}{2}}) \)</p>
+<p>\( \approx (n-1) 12.21 \)</p>
 <p>\( = O(n) \)</p>
 <h4 id="corollary-the-average-running-time-of-the-algorithm-is-on"><a class="header" href="#corollary-the-average-running-time-of-the-algorithm-is-on">Corollary: The average running time of the algorithm is \(O(n)\)</a></h4>
 <p>Followed by the lemma and theorem.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="151-reverse-words-in-a-string"><a class="header" href="#151-reverse-words-in-a-string">151. Reverse Words in a String</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="7-reverse-integer"><a class="header" href="#7-reverse-integer">7. Reverse Integer</a></h1>
 <h2 id="description-of-the-problem-4"><a class="header" href="#description-of-the-problem-4">Description of the Problem</a></h2>
+<p>Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range <code>[-2^31, 2^31 - 1]</code>, then return <code>0</code>.</p>
+<p><strong>Assume the environment does not allow you to store 64-bit integers (signed or unsigned).</strong></p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: x = 123
+Output: 321
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: x = -123
+Output: -321
+</code></pre>
+<p><strong>Example 3:</strong></p>
+<pre><code>Input: x = 120
+Output: 21
+</code></pre>
+<p><strong>Constraints:</strong>
+<code>-2^31 &lt;= x &lt;= 2^31 - 1</code></p>
+<h2 id="solution-4"><a class="header" href="#solution-4">Solution</a></h2>
+<p>Method 1: Use standard library to convert integer</p>
+<p>Method 2: Do the above by yourself. Do not rely on library functions</p>
+<p>If a reverse integer overflows (or underflows), then it has 10 digits. (Since i32::MAX and i32::MIN has 10 digits). By contraposition, any number has less than 10 digits does not overflows (nor underflows).</p>
+<p>To check whether a full-digit integer overflows (or underflows)</p>
+<p>After the checking, just simply calculate the reversed value.</p>
+<h3 id="explanation-4"><a class="header" href="#explanation-4">Explanation</a></h3>
+<h3 id="code---method-1-rust"><a class="header" href="#code---method-1-rust">Code - Method 1 (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn reverse(n: i32) -&gt; i32 {
+        let result = 
+        if n &gt; 0 {
+            n.to_string() // convert the number into String
+            .chars().rev() // reverse the number_string
+            .collect::&lt;String&gt;() 
+            .parse::&lt;i32&gt;() // try to parse the reversed number_string
+        }
+        else{
+            n.to_string() // convert the number into String
+            .chars().skip(1) // skip 1st character i.e. minus sign
+            .collect::&lt;String&gt;() // convert it into String due to its type
+            .chars().rev() // reverse the number_string
+            .collect::&lt;String&gt;()
+            .parse::&lt;i32&gt;() // try to parse the reversed number_string
+            .map(|x| -x)
+        };
+
+        // Unwrap the result
+        return if let Ok(x) = result{
+            x
+        }
+        else{
+            0
+        };
+    }
+}
+</code></pre>
+<h3 id="code---method-2-rust"><a class="header" href="#code---method-2-rust">Code - Method 2 (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+
+    pub fn reverse(n: i32) -&gt; i32 {
+        static MAX_POW : u32 = 9; // std::i32::MAX and std::i32::MIN has 10 digits
+        static TEN : i32 = 10;
+        if Solution::will_overflow_or_underflow(n){
+            return 0;
+        }
+
+        // Calculate the sum
+        let mut sum = 0;
+        let mut n = n;
+        while n != 0 {
+            sum *= 10;
+            sum += n % 10;
+            n /= 10;
+        }
+
+        return sum;
+    }
+
+    fn will_overflow_or_underflow(n : i32) -&gt; bool {
+        static MAX_POW : u32 = 9;
+        static TEN : i32 = 10;
+
+        // if the number is not in full-digit, so is its reverse
+        if ( n&gt;= 0 &amp;&amp; n &lt; TEN.pow(MAX_POW)) || (n &lt; 0 &amp;&amp; n &gt; -TEN.pow(MAX_POW)){
+            return false;
+        }
+
+        // Otherwise, check whether the reverse will overflow
+        let mut is_not_overflow = true;
+        let mut is_continued;
+        for p in 0..=MAX_POW{
+            let digit_n = n / TEN.pow(p) % 10;
+            if n &gt;= 0{
+                let digit_max = std::i32::MAX / TEN.pow(MAX_POW - p) % 10;
+                is_not_overflow = digit_n &lt;= digit_max;
+                // If the digits are equal, then we have to check next digits
+                // Otherwise, its reverse must be smaller than std::i32::MAX
+                is_continued = is_not_overflow &amp;&amp; digit_n == digit_max;
+            }else{
+                let digit_min = std::i32::MIN / TEN.pow(MAX_POW - p) % 10;
+                is_not_overflow = digit_n &gt;= digit_min;
+                // Similarly, if the digits are equal, then we have to check next digits
+                // Otherwise, its reverse must be smaller than std::i32::MIN
+                is_continued = is_not_overflow &amp;&amp; digit_n == digit_min;
+            }
+
+            if !is_continued{break;}
+        }
+        return !is_not_overflow;
+    }
+}
+</code></pre>
+<h3 id="complexity-d-is-the-number-of-digits"><a class="header" href="#complexity-d-is-the-number-of-digits">Complexity (\(d\) is the number of digits)</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="78-subsets"><a class="header" href="#78-subsets">78. Subsets</a></h1>
+<h2 id="description-of-the-problem-5"><a class="header" href="#description-of-the-problem-5">Description of the Problem</a></h2>
+<p>Given an integer array <code>nums</code> of unique elements, return all possible subsets (the power set).</p>
+<p>The solution set must not contain duplicate subsets. Return the solution in any order.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: nums = [0]
+Output: [[],[0]]
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 10</code></li>
+<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
+<li>All the numbers of nums are unique.</li>
+</ul>
+<h2 id="solution-5"><a class="header" href="#solution-5">Solution</a></h2>
+<h3 id="explanation-5"><a class="header" href="#explanation-5">Explanation</a></h3>
+<p>For any elements in a set, we have two options (Yes-No Question Method): either it is in the subset and it isn't in the subset.</p>
+<h3 id="code-rust-3"><a class="header" href="#code-rust-3">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+
+    fn helper_subset(mut xs: Vec&lt;i32&gt;) -&gt; Vec&lt;Vec&lt;i32&gt;&gt;{
+        if xs.len() == 0 {
+            return vec![vec![]];
+        }
+
+        let lst = xs.pop().unwrap();
+
+        // The left solution contains subset which `lst` isn't the member of these subsets
+        let mut left = Solution::helper_subset(xs.clone());
+
+        // The solution contains subsets which `lst` is the member of these subsets
+        let mut right = Solution::helper_subset(xs);
+        for s in right.iter_mut(){
+            (*s).push(lst);
+        }
+
+        for s in right.into_iter(){
+            left.push(s);
+        }
+
+        return left;
+    }
+
+    pub fn subsets(nums: Vec&lt;i32&gt;) -&gt; Vec&lt;Vec&lt;i32&gt;&gt; {
+        return Solution::helper_subset(nums);
+    }
+}
+</code></pre>
+<h3 id="complexity-n-is-the-number-of-elements-in-the-set"><a class="header" href="#complexity-n-is-the-number-of-elements-in-the-set">Complexity (n is the number of elements in the set)</a></h3>
+<p><strong>Time complexity:</strong></p>
+<ul>
+<li>\( \Theta(2^n) \)
+<ul>
+<li>Recursive Approach: \(T(n) = 2 \cdot T(n - 1)\)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Auxiliary Space:</strong></p>
+<ul>
+<li>\( O(2^n) \)
+<ul>
+<li>Stores \(2^n\) elements</li>
+<li>\(n\) for stack calls</li>
+</ul>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="151-reverse-words-in-a-string"><a class="header" href="#151-reverse-words-in-a-string">151. Reverse Words in a String</a></h1>
+<h2 id="description-of-the-problem-6"><a class="header" href="#description-of-the-problem-6">Description of the Problem</a></h2>
 <p>Given an input string <code>s</code>, reverse the order of the <strong>words</strong>.</p>
 <p>A <strong>word</strong> is defined as a sequence of non-space characters. The <strong>words</strong> in s will be separated by at least one space.</p>
 <p>Return <em>a string of the words in reverse order concatenated by a single space</em>.</p>
@@ -630,7 +811,8 @@ Explanation: You need to reduce multiple spaces between two words to a single sp
 <li>There is at least one word in <code>s</code>.</li>
 </ul>
 <p>Follow-up: If the string data type is mutable in your language, can you solve it in-place with <code>O(1)</code> extra space?</p>
-<h2 id="solution-4"><a class="header" href="#solution-4">Solution</a></h2>
+<h2 id="solution-6"><a class="header" href="#solution-6">Solution</a></h2>
+<h3 id="explanation-6"><a class="header" href="#explanation-6">Explanation</a></h3>
 <p>Simple Idea:</p>
 <ul>
 <li>To reverse each word in a string, do mirroring to each word and then do mirroring to the whole string.</li>
@@ -648,8 +830,7 @@ Explanation: You need to reduce multiple spaces between two words to a single sp
 <li>In my opinion, the key idea of the problems is to illistrate you are able to acheive \( O(1) \) conceptually. It is not necessary to implement it so carefully.</li>
 </ul>
 <p><strong>My definition to &quot;extra/auxiliary space&quot; is excluding input space and output space</strong></p>
-<h3 id="explanation-4"><a class="header" href="#explanation-4">Explanation</a></h3>
-<h3 id="code-rust-3"><a class="header" href="#code-rust-3">Code (Rust)</a></h3>
+<h3 id="code-rust-4"><a class="header" href="#code-rust-4">Code (Rust)</a></h3>
 <pre><code class="language-Rust">impl Solution {
     pub fn reverse_words(s: String) -&gt; String {
         let space_in_u8 = 32;
@@ -755,9 +936,62 @@ Explanation: You need to reduce multiple spaces between two words to a single sp
 </ul>
 <h2 id="further-discussion-1"><a class="header" href="#further-discussion-1">Further Discussion</a></h2>
 <h3 id="limitation-of-a-programming-language-and-turing-equivalence"><a class="header" href="#limitation-of-a-programming-language-and-turing-equivalence">Limitation of a Programming Language and Turing Equivalence(?)</a></h3>
-<p>Some people argue that each language has its limitation. For instance, Java cannot actually acheive \(O(1)\) extra space in this problem. To some extent, I will agree. Theoretically, however, if each programming language simluates <strong>Universal Turing Machine</strong>, they should be equivalent. This implies that there is no operation Rust can do but Java can't. The only matter is the cost for one language to simulate another. Just like to simulates Two-Tape Turing Machine by the One-Tape, we need more steps/operations in One-Tape Turing Machine.</p>
+<p>Some people argue that each language has its limitation. For instance, Java cannot actually acheive \(O(1)\) extra space in this problem. </p>
+<p>To some extent, I will agree. Theoretically, however, if each programming language simluates <strong>Universal Turing Machine</strong>, they should be equivalent. This implies that there is no operation Rust can do but Java can't. The only matter is the cost for one language to simulate another. Just like to simulates Two-Tape Turing Machine by the One-Tape, we need more steps/operations in One-Tape Turing Machine.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="179-largest-number"><a class="header" href="#179-largest-number">179. Largest Number</a></h1>
+<h2 id="description-of-the-problem-7"><a class="header" href="#description-of-the-problem-7">Description of the Problem</a></h2>
+<p>Given a list of non-negative integers <code>nums</code>, arrange them such that they form the largest number and return it.</p>
+<p>Since the result may be very large, so you need to return a string instead of an integer.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: nums = [10,2]
+Output: &quot;210&quot;
+</code></pre>
+<p><strong>Example 2:</strong></p>
+<pre><code>Input: nums = [3,30,34,5,9]
+Output: &quot;9534330&quot;
+</code></pre>
+<p><strong>Constraints:</strong></p>
+<ul>
+<li>1 &lt;= nums.length &lt;= 100</li>
+<li>0 &lt;= nums[i] &lt;= 10^9</li>
+</ul>
+<h2 id="solution-7"><a class="header" href="#solution-7">Solution</a></h2>
+<h3 id="explanation-7"><a class="header" href="#explanation-7">Explanation</a></h3>
+<h3 id="code-rust-5"><a class="header" href="#code-rust-5">Code (Rust)</a></h3>
+<pre><code class="language-Rust">impl Solution {
+    pub fn largest_number(mut nums: Vec&lt;i32&gt;) -&gt; String {
+        nums
+        .sort_by(
+            |a,b| format!(&quot;{}{}&quot;, b, a)
+            .partial_cmp(
+                &amp;format!(&quot;{}{}&quot;, a, b)
+            )
+            .unwrap()
+        );
+        
+        
+        nums.into_iter()
+        .fold( 
+            String::from(&quot;&quot;),
+            |mut acc, x| 
+                if acc == &quot;0&quot;  { 
+                    x.to_string() 
+                } 
+                else { 
+                    acc.push_str(&amp;x.to_string()); 
+                    acc 
+                }
+        )
+    }
+}
+</code></pre>
+<h3 id="complexity-n-is-length-of-the-array"><a class="header" href="#complexity-n-is-length-of-the-array">Complexity (\(n\) is length of the array)</a></h3>
+<p><strong>Time complexity:</strong></p>
+<p><strong>Auxiliary Space:</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="435-non-overlapping-intervals"><a class="header" href="#435-non-overlapping-intervals">435. Non-overlapping Intervals</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="2095-delete-the-middle-node-of-a-linked-list"><a class="header" href="#2095-delete-the-middle-node-of-a-linked-list">2095. Delete the Middle Node of a Linked List</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="65-valid-number"><a class="header" href="#65-valid-number">65. Valid Number</a></h1>
-<h2 id="description-of-the-problem-5"><a class="header" href="#description-of-the-problem-5">Description of the Problem</a></h2>
+<h2 id="description-of-the-problem-8"><a class="header" href="#description-of-the-problem-8">Description of the Problem</a></h2>
 <p>A <strong>valid number</strong> can be split up into these components (in order):</p>
 <ol>
 <li>A <strong>decimal number</strong> or an <strong>integer</strong>.</li>
@@ -798,10 +1032,10 @@ Output: false
 <li><code>1 &lt;= s.length &lt;= 20</code></li>
 <li><code>s</code> consists of only English letters (both uppercase and lowercase), digits (<code>0-9</code>), plus <code>'+'</code>, minus <code>'-'</code>, or dot <code>'.'</code>.</li>
 </ul>
-<h2 id="solution-5"><a class="header" href="#solution-5">Solution</a></h2>
+<h2 id="solution-8"><a class="header" href="#solution-8">Solution</a></h2>
 <p>For any problem about format. I suggest every one first to write a <strong>Extended Backus-Naur Form</strong> or <strong>Regular Expression</strong> to represent correct format.</p>
 <p>We can split the string by special char such as <code>e</code>, <code>E</code> and <code>.</code> and check the validity of substrings.</p>
-<h3 id="explanation-5"><a class="header" href="#explanation-5">Explanation</a></h3>
+<h3 id="explanation-8"><a class="header" href="#explanation-8">Explanation</a></h3>
 <h4 id="extended-backus-naur-form-of-valid-number"><a class="header" href="#extended-backus-naur-form-of-valid-number">Extended Backus-Naur Form of Valid Number</a></h4>
 <p>\( \langle goal \rangle ::= (\text{'+'} | \text{'-'})? \langle base \rangle  ((\text{'e'}|\text{'E'})?\langle  expo \rangle )? \)</p>
 <p>\(\langle  expo \rangle ::= (\text{'+'} | \text{'-'})? \langle  digits \rangle \)</p>
@@ -810,7 +1044,7 @@ Output: false
 <p>\( \ | \ \text{'.'} \langle  digits \rangle \)</p>
 <p>\( \ |  \langle  digits \rangle  \text{'.'} \langle  digits \rangle  \)</p>
 <p>\( \langle  digits \rangle ::= (\text{'0'} | \text{'1'} | ... | \text{'9'})^+  \)</p>
-<h3 id="code-rust-4"><a class="header" href="#code-rust-4">Code (Rust)</a></h3>
+<h3 id="code-rust-6"><a class="header" href="#code-rust-6">Code (Rust)</a></h3>
 <pre><code class="language-Rust">impl Solution {
 
     fn split_at_char(s: &amp;str, v : char) -&gt; (&amp;str, &amp;str){

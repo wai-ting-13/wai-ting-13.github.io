@@ -85,7 +85,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="../easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="../easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../medium-problems/3.html" class="active">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="../medium-problems/151.html">151. Reverse Words in a String</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../hard-problems/65.html">65. Valid Number</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Leetcode Problems and Solutions</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="../easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="../easy-problems/876.html">876.	Middle of the Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../medium-problems/3.html" class="active">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="../medium-problems/7.html">7. Reverse Integer</a></li><li class="chapter-item expanded "><a href="../medium-problems/78.html">78. Subsets</a></li><li class="chapter-item expanded "><a href="../medium-problems/151.html">151. Reverse Words in a String</a></li><li class="chapter-item expanded "><a href="../medium-problems/179.html">179. Largest Number</a></li><li class="chapter-item expanded "><a href="../medium-problems/435.html">435. Non-overlapping Intervals</a></li><li class="chapter-item expanded "><a href="../medium-problems/2095.html">2095. Delete the Middle Node of a Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../hard-problems/65.html">65. Valid Number</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -282,11 +282,9 @@ Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence an
 <p>\(= \sum_{i = 0}^{n - 2} \sum_{j = i+1}^{n - 1} \frac{M!}{M^{(j-i)} (M - (j - i))! } \)</p>
 <p>\(= \sum_{i = 0}^{n - 2} \sum_{ k = 1}^{n - 1 - i} \frac{M!}{M^{k} (M - k)! } \)</p>
 <p>\( \le \sum_{i = 0}^{n - 2} \sum_{k = 1}^{M} \frac{M!}{M^{k} (M - k)! } \)</p>
-<p>\( \le \sum_{i = 0}^{n - 2} \int_{0}^{M} e^{ - x^2 / M^x} dx \ (\because \text{approximation of the &quot;birthday formula&quot;}) \)</p>
-<p>\( = \sum_{i = 0}^{n - 2} \frac{M\sqrt{\pi}}{2} \)</p>
-<p>\( = (n-1) \frac{M\sqrt{\pi}}{2} \)</p>
-<p>\( = (n-1) \frac{95 \cdot \sqrt{\pi}}{2} \ (\because \text{according to ASCII table, Dec32 to Dec126 are the characters the Leetcode program will choose}) \)</p>
-<p>\( \approx (n-1) 149 \)</p>
+<p>\( \le \sum_{i = 0}^{n - 2} \int_{0}^{M} e^{ - x^2 / 2M } dx \ (\because \text{approximation of the &quot;birthday formula&quot;}) \)</p>
+<p>\( = \sum_{i = 0}^{n - 2} \frac{\sqrt{M\pi}}{\sqrt{2}} \ erf(\sqrt{\frac{M}{2}}) \)</p>
+<p>\( \approx (n-1) 12.21 \)</p>
 <p>\( = O(n) \)</p>
 <h4 id="corollary-the-average-running-time-of-the-algorithm-is-on"><a class="header" href="#corollary-the-average-running-time-of-the-algorithm-is-on">Corollary: The average running time of the algorithm is \(O(n)\)</a></h4>
 <p>Followed by the lemma and theorem.</p>
@@ -299,7 +297,7 @@ Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence an
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../medium-problems/151.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../medium-problems/7.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -313,7 +311,7 @@ Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence an
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../medium-problems/151.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../medium-problems/7.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
