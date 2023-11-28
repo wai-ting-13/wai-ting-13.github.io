@@ -1,6 +1,6 @@
 {
-    "name": "tic_tac_toe_nygaards",
-    "short_name": "tic_tac_toe_nygaards",
+    "name": "flutter_example_01",
+    "short_name": "flutter_example_01",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
