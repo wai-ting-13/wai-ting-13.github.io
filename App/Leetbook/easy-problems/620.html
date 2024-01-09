@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>620. Not Boring Movies - Leetbook</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../solutions-sorted-by-number.html">Solutions Sorted By Problem Number</a></li><li class="chapter-item expanded affix "><li class="part-title">Solutions for Interesting Problems</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../easy-problems/1.html">1. Two Sum</a></li><li class="chapter-item expanded "><a href="../easy-problems/13.html">13. Roman to Integer</a></li><li class="chapter-item expanded "><a href="../easy-problems/191.html">191. Number of 1 Bits</a></li><li class="chapter-item expanded "><a href="../easy-problems/197.html">197. Rising Temperature</a></li><li class="chapter-item expanded "><a href="../easy-problems/206.html">206. Reverse Linked Lists</a></li><li class="chapter-item expanded "><a href="../easy-problems/231.html">231. Power of Two</a></li><li class="chapter-item expanded "><a href="../easy-problems/234.html">234. Palindrome Linked List</a></li><li class="chapter-item expanded "><a href="../easy-problems/292.html">292. Nim Game</a></li><li class="chapter-item expanded "><a href="../easy-problems/876.html">876.	Middle of the Linked List</a></li><li class="chapter-item expanded "><a href="../easy-problems/1251.html">1251. Average Selling Price</a></li><li class="chapter-item expanded "><a href="../easy-problems/1280.html">1280. Students and Examinations</a></li><li class="chapter-item expanded "><a href="../easy-problems/1581.html">1581. Customer Who Visited but Did Not Make Any Transactions</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../medium-problems/3.html">3. Longest Substring Without Repeating Characters</a></li><li class="chapter-item expanded "><a href="../medium-problems/6.html">6. Zigzag Conversion</a></li><li class="chapter-item expanded "><a href="../medium-problems/7.html">7. Reverse Integer</a></li><li class="chapter-item expanded "><a href="../medium-problems/12.html">12. Integer to Roman</a></li><li class="chapter-item expanded "><a href="../medium-problems/24.html">24. Swap Nodes in Pairs</a></li><li class="chapter-item expanded "><a href="../medium-problems/39.html">39. Combination Sum</a></li><li class="chapter-item expanded "><a href="../medium-problems/50.html">50. Pow(x, n)</a></li><li class="chapter-item expanded "><a href="../medium-problems/55.html">55. Jump Game</a></li><li class="chapter-item expanded "><a href="../medium-problems/78.html">78. Subsets</a></li><li class="chapter-item expanded "><a href="../medium-problems/113.html">113. Path Sum II</a></li><li class="chapter-item expanded "><a href="../medium-problems/143.html">143. Reorder List</a></li><li class="chapter-item expanded "><a href="../medium-problems/98.html">98. Validate Binary Search Tree</a></li><li class="chapter-item expanded "><a href="../medium-problems/151.html">151. Reverse Words in a String</a></li><li class="chapter-item expanded "><a href="../medium-problems/179.html">179. Largest Number</a></li><li class="chapter-item expanded "><a href="../medium-problems/238.html">238. Product of Array Except Self</a></li><li class="chapter-item expanded "><a href="../medium-problems/322.html">322. Coin Change</a></li><li class="chapter-item expanded "><a href="../medium-problems/347.html">347. Top K Frequent Elements</a></li><li class="chapter-item expanded "><a href="../medium-problems/435.html">435. Non-overlapping Intervals</a></li><li class="chapter-item expanded "><a href="../medium-problems/518.html">518. Coin Change II</a></li><li class="chapter-item expanded "><a href="../medium-problems/2095.html">2095. Delete the Middle Node of a Linked List</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../hard-problems/60.html">60. Permutation Sequence</a></li><li class="chapter-item expanded "><a href="../hard-problems/65.html">65. Valid Number</a></li><li class="chapter-item expanded "><a href="../hard-problems/239.html">239. Sliding Window Maximum</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Solutions for Other Problems</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../easy-problems/9.html">9. Palindrome Number</a></li><li class="chapter-item expanded "><a href="../easy-problems/20.html">20. Valid Parentheses</a></li><li class="chapter-item expanded "><a href="../easy-problems/21.html">21. Merge Two Sorted Lists</a></li><li class="chapter-item expanded "><a href="../easy-problems/26.html">26. Remove Duplicates from Sorted Array</a></li><li class="chapter-item expanded "><a href="../easy-problems/27.html">27. Remove Element</a></li><li class="chapter-item expanded "><a href="../easy-problems/58.html">58. Length of Last Word</a></li><li class="chapter-item expanded "><a href="../easy-problems/70.html">70. Climbing Stairs</a></li><li class="chapter-item expanded "><a href="../easy-problems/100.html">100. Same Tree</a></li><li class="chapter-item expanded "><a href="../easy-problems/112.html">112. Path Sum</a></li><li class="chapter-item expanded "><a href="../easy-problems/118.html">118. Pascal's Triangle</a></li><li class="chapter-item expanded "><a href="../easy-problems/125.html">125. Valid Palindrome</a></li><li class="chapter-item expanded "><a href="../easy-problems/175.html">175. Combine Two Tables</a></li><li class="chapter-item expanded "><a href="../easy-problems/181.html">181. Employees Earning More Than Their Managers</a></li><li class="chapter-item expanded "><a href="../easy-problems/182.html">182. Duplicate Emails</a></li><li class="chapter-item expanded "><a href="../easy-problems/183.html">183. Customers Who Never Order</a></li><li class="chapter-item expanded "><a href="../easy-problems/193.html">193. Valid Phone Numbers</a></li><li class="chapter-item expanded "><a href="../easy-problems/195.html">195. Tenth Line</a></li><li class="chapter-item expanded "><a href="../easy-problems/203.html">203. Remove Linked List Elements</a></li><li class="chapter-item expanded "><a href="../easy-problems/217.html">217. Contains Duplicate</a></li><li class="chapter-item expanded "><a href="../easy-problems/226.html">226. Invert Binary Tree</a></li><li class="chapter-item expanded "><a href="../easy-problems/242.html">242. Valid Anagram</a></li><li class="chapter-item expanded "><a href="../easy-problems/344.html">344. Reverse String</a></li><li class="chapter-item expanded "><a href="../easy-problems/374.html">374. Guess Number Higher or Lower</a></li><li class="chapter-item expanded "><a href="../easy-problems/577.html">577. Employee Bonus</a></li><li class="chapter-item expanded "><a href="../easy-problems/584.html">584. Find Customer Referee</a></li><li class="chapter-item expanded "><a href="../easy-problems/595.html">595. Big Countries</a></li><li class="chapter-item expanded "><a href="../easy-problems/620.html" class="active">620. Not Boring Movies</a></li><li class="chapter-item expanded "><a href="../easy-problems/709.html">709. To Lower Case</a></li><li class="chapter-item expanded "><a href="../easy-problems/897.html">897. Increasing Order Search Tree</a></li><li class="chapter-item expanded "><a href="../easy-problems/1068.html">1068. Product Sales Analysis I</a></li><li class="chapter-item expanded "><a href="../easy-problems/1137.html">1137. N-th Tribonacci Number</a></li><li class="chapter-item expanded "><a href="../easy-problems/1148.html">1148. Article Views I</a></li><li class="chapter-item expanded "><a href="../easy-problems/1290.html">1290. Convert Binary Number in a Linked List to Integer</a></li><li class="chapter-item expanded "><a href="../easy-problems/1378.html">1378. Replace Employee ID With The Unique Identifier</a></li><li class="chapter-item expanded "><a href="../easy-problems/1683.html">1683. Invalid Tweets</a></li><li class="chapter-item expanded "><a href="../easy-problems/1757.html">1757. Recyclable and Low Fat Products</a></li><li class="chapter-item expanded "><a href="../easy-problems/1822.html">1822. Sign of the Product of an Array</a></li><li class="chapter-item expanded "><a href="../easy-problems/1929.html">1929. Concatenation of Array</a></li><li class="chapter-item expanded "><a href="../easy-problems/2331.html">2331. Evaluate Boolean Binary Tree</a></li><li class="chapter-item expanded "><a href="../easy-problems/2723.html">2723. Add Two Promises</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../medium-problems/2.html">2. Add Two Numbers</a></li><li class="chapter-item expanded "><a href="../medium-problems/17.html">17. Letter Combination of a Phone Number</a></li><li class="chapter-item expanded "><a href="../medium-problems/150.html">150. Evaluate Reverse Polish Notation</a></li><li class="chapter-item expanded "><a href="../medium-problems/184.html">184. Department Highest Salary</a></li><li class="chapter-item expanded "><a href="../medium-problems/237.html">237. Delete Node in a Linked List</a></li><li class="chapter-item expanded "><a href="../medium-problems/371.html">371. Sum of Two Integers</a></li><li class="chapter-item expanded "><a href="../medium-problems/1907.html">1907. Count Salary Categories</a></li><li class="chapter-item expanded "><a href="../medium-problems/2807.html">2807. Insert Greatest Common Divisors in Linked List</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Solutions w/o explanation</li><li class="chapter-item expanded "><div>Easy</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../easy-problems-no-explain/83.html">83. Remove Duplicates from Sorted List</a></li><li class="chapter-item expanded "><a href="../easy-problems-no-explain/94.html">94. Binary Tree Inorder Traversal</a></li><li class="chapter-item expanded "><a href="../easy-problems-no-explain/111.html">111. Minimum Depth of Binary Tree</a></li><li class="chapter-item expanded "><a href="../easy-problems-no-explain/141.html">141. Linked List Cycle</a></li><li class="chapter-item expanded "><a href="../easy-problems-no-explain/144.html">144. Binary Tree Preorder Traversal</a></li><li class="chapter-item expanded "><a href="../easy-problems-no-explain/145.html">145. Binary Tree Postorder Traversal</a></li></ol></li><li class="chapter-item expanded "><div>Medium</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../medium-problems-no-explain/19.html">19. Remove Nth Node From End of List</a></li><li class="chapter-item expanded "><a href="../medium-problems-no-explain/46.html">46. Permutations</a></li><li class="chapter-item expanded "><a href="../medium-problems-no-explain/207.html">207. Course Schedule</a></li><li class="chapter-item expanded "><a href="../medium-problems-no-explain/210.html">210. Course Schedule II</a></li></ol></li><li class="chapter-item expanded "><div>Hard</div></li><li><ol class="section"><li class="chapter-item expanded "><a href="../hard-problems-no-explain/68.html">68. Text Justification</a></li><li class="chapter-item expanded "><a href="../hard-problems-no-explain/295.html">295. Find Median from Data Stream</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Leetbook</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="620-not-boring-movies"><a class="header" href="#620-not-boring-movies">620. Not Boring Movies</a></h1>
+<h2 id="description-of-the-problem"><a class="header" href="#description-of-the-problem">Description of the Problem</a></h2>
+<p>Table: <code>Cinema</code></p>
+<pre><code>+----------------+----------+
+| Column Name    | Type     |
++----------------+----------+
+| id             | int      |
+| movie          | varchar  |
+| description    | varchar  |
+| rating         | float    |
++----------------+----------+
+id is the primary key (column with unique values) for this table.
+Each row contains information about the name of a movie, its genre, and its rating.
+rating is a 2 decimal places float in the range [0, 10]
+</code></pre>
+<p>Write a solution to report the movies with an odd-numbered ID and a description that is not <code>&quot;boring&quot;</code>.</p>
+<p>Return the result table ordered by <code>rating</code> in descending order.</p>
+<p>The result format is in the following example.</p>
+<p><strong>Example 1:</strong></p>
+<pre><code>Input: 
+Cinema table:
++----+------------+-------------+--------+
+| id | movie      | description | rating |
++----+------------+-------------+--------+
+| 1  | War        | great 3D    | 8.9    |
+| 2  | Science    | fiction     | 8.5    |
+| 3  | irish      | boring      | 6.2    |
+| 4  | Ice song   | Fantacy     | 8.6    |
+| 5  | House card | Interesting | 9.1    |
++----+------------+-------------+--------+
+Output: 
++----+------------+-------------+--------+
+| id | movie      | description | rating |
++----+------------+-------------+--------+
+| 5  | House card | Interesting | 9.1    |
+| 1  | War        | great 3D    | 8.9    |
++----+------------+-------------+--------+
+Explanation: 
+We have three movies with odd-numbered IDs: 1, 3, and 5. The movie with ID = 3 is boring so we do not include it in the answer.
+</code></pre>
+<h2 id="solution-of-the-problem"><a class="header" href="#solution-of-the-problem">Solution of the Problem</a></h2>
+<pre><code class="language-SQL">-- Write your MySQL query statement below
+SELECT *
+FROM Cinema
+WHERE id % 2 = 1 
+AND description != 'boring'
+ORDER BY rating DESC;
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../easy-problems/595.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../easy-problems/709.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../easy-problems/595.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../easy-problems/709.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
