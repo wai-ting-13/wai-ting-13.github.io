@@ -185,9 +185,18 @@
 </ul>
 <h2 id="update-notes"><a class="header" href="#update-notes">Update Notes</a></h2>
 <ul>
+<li>2024.Apr.21
+<ul>
+<li>Add appendix:
+<ul>
+<li><a href="medium-problems/146.html">146. LRU Cache</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li>2024.Apr.20
 <ul>
-<li>Add solutions:
+<li>Add solution:
 <ul>
 <li><a href="medium-problems/146.html">146. LRU Cache</a></li>
 </ul>
@@ -9639,7 +9648,7 @@ impl LRUCache {
 <p>It is so difficult to implement LinkedList with Rust. Fortunately, Rust source code provides a very good demostration for <a href="https://doc.rust-lang.org/src/alloc/collections/linked_list.rs.html#51-54">LinkedList</a>.</p>
 <p>Remember to use <strong>Unit Test</strong> when implementing these data strctures, it helps you DEBUG :).</p>
 <h3 id="code-rust-54"><a class="header" href="#code-rust-54">Code (Rust)</a></h3>
-<p><code>LRUCache</code></p>
+<p>** For implmentation details of double-end queue, please see <a href="medium-problems/146.html#appendix-a1---implementation-details">Apppendix A1</a></p>
 <pre><code class="language-Rust">use std::collections::HashMap;
 
 struct LRUCache{
@@ -9694,36 +9703,258 @@ impl LRUCache {
     
 }
 </code></pre>
-<p><code>Double-end Queue</code></p>
+<h3 id="complexity-70"><a class="header" href="#complexity-70">Complexity</a></h3>
+<h4 id="time-complexity-76"><a class="header" href="#time-complexity-76">Time Complexity</a></h4>
+<ul>
+<li>get: \(O(1)\)</li>
+<li>put: \(O(1)\)</li>
+</ul>
+<h4 id="auxiliary-space-75"><a class="header" href="#auxiliary-space-75">Auxiliary Space</a></h4>
+<ul>
+<li>get: \(O(1)\)</li>
+<li>put: \(O(1)\)</li>
+</ul>
+<h2 id="appendix-a1---implementation-details"><a class="header" href="#appendix-a1---implementation-details">Appendix A1 - Implementation Details</a></h2>
+<p><strong>Folder Strcture</strong></p>
+<pre><code>src
+├── deque
+│   ├── mod.rs
+│   └── tests.rs
+├── lib.rs
+└── lru_cache
+    ├── mod.rs
+    └── tests.rs
+</code></pre>
+<p><strong>Filename : src/lib.rs</strong></p>
+<pre><code class="language-Rust">mod deque;
+mod lru_cache;
+</code></pre>
+<p><strong>Filename : src/lru_cache/mod.rs</strong> (Same as <a href="medium-problems/146.html#solution-2">Solution 2</a>)</p>
+<pre><code class="language-Rust">use super::deque::{Deque, ListNode, NodeReference};
+use std::collections::HashMap;
+use std::{cell::RefCell, rc::Rc};
+
+mod tests;
+
+struct LRUCache{
+    capacity : usize,
+    hash_map : HashMap&lt;i32, NodeReference&lt;(i32, i32)&gt;&gt;,
+    deque : Deque&lt;(i32, i32)&gt;,
+}
+
+impl LRUCache {
+    fn new(capacity: i32) -&gt; LRUCache {
+        return LRUCache { 
+            capacity : capacity.try_into().unwrap(), 
+            hash_map: HashMap::new(), 
+            deque: Deque::new() 
+        };
+    }
+
+    fn get(&amp;mut self, key : i32) -&gt; i32 {
+        if let Some(node) = self.hash_map.get(&amp;key).cloned() {
+            self.move_into_back(node.clone());
+            return node.unwrap().borrow().val.1.clone();
+        }
+        return -1;
+    }
+
+    fn put(&amp;mut self, key : i32, value: i32) {
+        if let Some(node) = self.hash_map.get_mut(&amp;key).cloned() {
+            self.move_into_back(node.clone());
+            let node = node.unwrap();
+            let mut node = node.borrow_mut();
+            node.val.1 = value;
+            return;
+        }
+        
+        if self.deque.len &gt;= self.capacity {
+            let node = self.deque.pop_front_node();
+            if let Some(node) = node {
+                let lru_key = node.borrow().val.0;
+                self.hash_map.remove(&amp;lru_key);
+            }
+        }
+
+        let node = Some(Rc::new(RefCell::new(ListNode::new((key, value)))));
+        self.hash_map.insert(key, node.clone());
+        self.deque.push_back_node(node);
+    }
+
+    fn move_into_back(&amp;mut self, node : NodeReference&lt;(i32, i32)&gt;){
+        self.deque.remove_middle_node(node.clone());
+        self.deque.push_back_node(node);
+    }
+    
+}
+</code></pre>
+<p><strong>Filename : src/lru_cache/tests.rs</strong></p>
+<pre><code class="language-Rust">#[cfg(test)]
+mod tests{
+    use crate::lru_cache::LRUCache;
+
+    #[test]
+    fn test_01(){
+        let mut cache = LRUCache::new(2);
+        cache.put(1,1);
+        cache.put(2,2);
+        assert_eq!(cache.get(1),1);
+        cache.put(3,3);
+        assert_eq!(cache.get(2),-1);
+        cache.put(4,4);
+        assert_eq!(cache.get(1),-1);
+        assert_eq!(cache.get(3),3);
+        assert_eq!(cache.get(4),4);
+
+    }
+
+    #[test]
+    fn test_02_provided_by_leetcode(){
+        let mut cache = LRUCache::new(10);
+        cache.put(10,13);
+        cache.put(3,17);
+        cache.put(6,11);
+        cache.put(10,5);
+        cache.put(9,10);
+        assert_eq!(cache.get(13) , -1);
+        cache.put(2,19);
+        assert_eq!(cache.get(2) , 19);
+        assert_eq!(cache.get(3) , 17);
+        cache.put(5,25);
+        assert_eq!(cache.get(8) , -1);
+        cache.put(9,22);
+        cache.put(5,5);
+        cache.put(1,30);
+        assert_eq!(cache.get(11) , -1);
+        cache.put(9,12);
+        assert_eq!(cache.get(7) , -1);
+        assert_eq!(cache.get(5) , 5);
+        assert_eq!(cache.get(8) , -1);
+        assert_eq!(cache.get(9) , 12);
+        cache.put(4,30);
+        cache.put(9,3);
+        assert_eq!(cache.get(9) , 3);
+        assert_eq!(cache.get(10) , 5);
+        assert_eq!(cache.get(10) , 5);
+        cache.put(6,14);
+        cache.put(3,1);
+        assert_eq!(cache.get(3) , 1);
+        cache.put(10,11);
+        assert_eq!(cache.get(8) , -1);
+        cache.put(2,14);
+        assert_eq!(cache.get(1) , 30);
+        assert_eq!(cache.get(5) , 5);
+        assert_eq!(cache.get(4) , 30);
+        cache.put(11,4);
+        cache.put(12,24);
+        cache.put(5,18);
+        assert_eq!(cache.get(13) , -1);
+        cache.put(7,23);
+        assert_eq!(cache.get(8) , -1);
+        assert_eq!(cache.get(12) , 24);
+        cache.put(3,27);
+        cache.put(2,12);
+        assert_eq!(cache.get(5) , 18);
+        cache.put(2,9);
+        cache.put(13,4);
+        cache.put(8,18);
+        cache.put(1,7);
+        assert_eq!(cache.get(6) , -1);
+        cache.put(9,29);
+        cache.put(8,21);
+        assert_eq!(cache.get(5) , 18);
+        cache.put(6,30);
+        cache.put(1,12);
+        assert_eq!(cache.get(10) , -1);
+        cache.put(4,15);
+        cache.put(7,22);
+        cache.put(11,26);
+        cache.put(8,17);
+        cache.put(9,29);
+        assert_eq!(cache.get(5) , 18);
+        cache.put(3,4);
+        cache.put(11,30);
+        assert_eq!(cache.get(12) , -1);
+        cache.put(4,29);
+        assert_eq!(cache.get(3) , 4);
+        assert_eq!(cache.get(9) , 29);
+        assert_eq!(cache.get(6) , 30);
+        cache.put(3,4);
+        assert_eq!(cache.get(1) , 12);
+        assert_eq!(cache.get(10) , -1);
+        cache.put(3,29);
+        cache.put(10,28);
+        cache.put(1,20);
+        cache.put(11,13);
+        assert_eq!(cache.get(3) , 29);
+        cache.put(3,12);
+        cache.put(3,8);
+        cache.put(10,9);
+        cache.put(3,26);
+        assert_eq!(cache.get(8) , 17);
+        assert_eq!(cache.get(7) , 22);
+        assert_eq!(cache.get(5) , 18);
+        cache.put(13,17);
+        cache.put(2,27);
+        cache.put(11,15);
+        assert_eq!(cache.get(12) , -1);
+        cache.put(9,19);
+        cache.put(2,15);
+        cache.put(3,16);
+        assert_eq!(cache.get(1) , 20);
+        cache.put(12,17);
+        cache.put(9,1);
+        cache.put(6,19);
+        assert_eq!(cache.get(4) , -1);
+        assert_eq!(cache.get(5) , 18);
+        assert_eq!(cache.get(5) , 18);
+        cache.put(8,1);
+        cache.put(11,7);
+        cache.put(5,2);
+        cache.put(9,28);
+        assert_eq!(cache.get(1) , 20);
+        cache.put(2,2);
+        cache.put(7,4);
+        cache.put(4,22);
+        cache.put(7,24);
+        cache.put(9,26);
+        cache.put(13,28);
+        cache.put(11,26);
+    }
+}
+</code></pre>
+<p><strong>Filename : src/deque/mod.rs</strong></p>
 <pre><code class="language-Rust">use std::{cell::RefCell, rc::Rc};
 
-type NodeReference&lt;T&gt; = Option&lt;Rc&lt;RefCell&lt;ListNode&lt;T&gt;&gt;&gt;&gt;;
+mod tests;
 
-struct ListNode&lt;T&gt;{
-    val: T,
-    prev: NodeReference&lt;T&gt;,
-    next: NodeReference&lt;T&gt;,
+pub type NodeReference&lt;T&gt; = Option&lt;Rc&lt;RefCell&lt;ListNode&lt;T&gt;&gt;&gt;&gt;;
+
+pub struct ListNode&lt;T&gt;{
+    pub val: T,
+    pub prev: NodeReference&lt;T&gt;,
+    pub next: NodeReference&lt;T&gt;,
 }
 
 impl&lt;T&gt; ListNode&lt;T&gt; {
-    fn new(val : T) -&gt; ListNode&lt;T&gt;{
+    pub fn new(val : T) -&gt; ListNode&lt;T&gt;{
         return 
             ListNode{val, prev: None, next: None}
         ;
     }
 }
 
-struct Deque&lt;T&gt; {
-    len: usize,
-    front : NodeReference&lt;T&gt;,
-    back: NodeReference&lt;T&gt;
+pub struct Deque&lt;T&gt; {
+    pub len: usize,
+    pub front : NodeReference&lt;T&gt;,
+    pub back: NodeReference&lt;T&gt;
 }
 
 
 // Inspire by Rust Source Code
 impl&lt;T&gt; Deque&lt;T&gt; {
     /** Suppose to be Public APIs */ 
-    fn new() -&gt; Deque&lt;T&gt; {
+    pub fn new() -&gt; Deque&lt;T&gt; {
         return Deque{
             len: 0,
             front: None,
@@ -9731,15 +9962,15 @@ impl&lt;T&gt; Deque&lt;T&gt; {
         }
     }
 
-    fn push_front(&amp;mut self, val : T) {
+    pub fn push_front(&amp;mut self, val : T) {
         self.push_front_node(Some(Rc::new(RefCell::new(ListNode::new(val)))));
     }
 
-    fn push_back(&amp;mut self, val : T) {
+    pub fn push_back(&amp;mut self, val : T) {
         self.push_back_node(Some(Rc::new(RefCell::new(ListNode::new(val)))));
     }
 
-    fn pop_front(&amp;mut self) -&gt; Option&lt;T&gt; {
+    pub fn pop_front(&amp;mut self) -&gt; Option&lt;T&gt; {
         return 
             self
             .pop_front_node()
@@ -9748,7 +9979,7 @@ impl&lt;T&gt; Deque&lt;T&gt; {
             );
     }
 
-    fn pop_back(&amp;mut self) -&gt; Option&lt;T&gt; {
+    pub fn pop_back(&amp;mut self) -&gt; Option&lt;T&gt; {
         return 
             self
             .pop_back_node()
@@ -9757,7 +9988,7 @@ impl&lt;T&gt; Deque&lt;T&gt; {
             );
     }
 
-    fn remove_middle(&amp;mut self , mid_node : NodeReference&lt;T&gt;) -&gt; Option&lt;T&gt; {
+    pub fn remove_middle(&amp;mut self , mid_node : NodeReference&lt;T&gt;) -&gt; Option&lt;T&gt; {
         return self
             .remove_middle_node(mid_node)
             .map(|rc| 
@@ -9766,7 +9997,7 @@ impl&lt;T&gt; Deque&lt;T&gt; {
     }
 
     /** Auxiliary Functions */  
-    fn push_front_node(&amp;mut self, new_front : NodeReference&lt;T&gt;) {
+    pub fn push_front_node(&amp;mut self, new_front : NodeReference&lt;T&gt;) {
         let old_front = self.front.clone();
 
         // new_front --&gt; old_front
@@ -9789,7 +10020,7 @@ impl&lt;T&gt; Deque&lt;T&gt; {
         self.len += 1;
     }
 
-    fn push_back_node(&amp;mut self, new_back : NodeReference&lt;T&gt;){
+    pub fn push_back_node(&amp;mut self, new_back : NodeReference&lt;T&gt;){
         let old_back = self.back.clone();
        
         // old_back &lt;-- new_back
@@ -9811,7 +10042,7 @@ impl&lt;T&gt; Deque&lt;T&gt; {
         self.len += 1;
     }
 
-    fn pop_front_node(&amp;mut self) -&gt; NodeReference&lt;T&gt; {
+    pub fn pop_front_node(&amp;mut self) -&gt; NodeReference&lt;T&gt; {
         return self.front.take().map(|node|{
             {
                 let node = node.borrow_mut();
@@ -9830,7 +10061,7 @@ impl&lt;T&gt; Deque&lt;T&gt; {
         });
     }
 
-    fn pop_back_node(&amp;mut self) -&gt; NodeReference&lt;T&gt; {
+    pub fn pop_back_node(&amp;mut self) -&gt; NodeReference&lt;T&gt; {
         return self.back.take().map(|node|{
             {
                 let node = node.borrow_mut();
@@ -9849,7 +10080,7 @@ impl&lt;T&gt; Deque&lt;T&gt; {
         });
     }
 
-    fn remove_middle_node(&amp;mut self, mid_node : NodeReference&lt;T&gt;) -&gt; NodeReference&lt;T&gt;{
+    pub fn remove_middle_node(&amp;mut self, mid_node : NodeReference&lt;T&gt;) -&gt; NodeReference&lt;T&gt;{
         let left_node = mid_node
             .clone()
             .and_then(|node| {
@@ -9894,17 +10125,175 @@ impl&lt;T&gt; Deque&lt;T&gt; {
     }
 }
 </code></pre>
-<h3 id="complexity-70"><a class="header" href="#complexity-70">Complexity</a></h3>
-<h4 id="time-complexity-76"><a class="header" href="#time-complexity-76">Time Complexity</a></h4>
-<ul>
-<li>get: \(O(1)\)</li>
-<li>put: \(O(1)\)</li>
-</ul>
-<h4 id="auxiliary-space-75"><a class="header" href="#auxiliary-space-75">Auxiliary Space</a></h4>
-<ul>
-<li>get: \(O(1)\)</li>
-<li>put: \(O(1)\)</li>
-</ul>
+<p><strong>Filename: /src/deque/tests.rs</strong></p>
+<pre><code class="language-Rust">#[cfg(test)]
+mod tests{
+    use std::{cell::RefCell, rc::Rc};
+    use crate::deque::{Deque,ListNode};
+
+    // Pop Front Test
+    #[test]
+    fn pop_front_test(){
+        let mut deque = Deque::&lt;i32&gt;::new();
+        deque.push_front(3);
+        deque.push_front(2);
+        deque.push_front(1);
+
+        deque.push_back(4);
+        deque.push_back(5);
+        deque.push_back(6);
+        
+        assert_eq!(deque.pop_front(), Some(1));
+        assert_eq!(deque.pop_front(), Some(2));
+        assert_eq!(deque.pop_front(), Some(3));
+        assert_eq!(deque.pop_front(), Some(4));
+        assert_eq!(deque.pop_front(), Some(5));
+        assert_eq!(deque.pop_front(), Some(6));
+    }
+
+    // Pop Back Test
+    #[test]
+    fn pop_back_test(){
+        let mut deque = Deque::&lt;i32&gt;::new();
+        deque.push_front(3);
+        deque.push_front(2);
+        deque.push_front(1);
+
+        deque.push_back(4);
+        deque.push_back(5);
+        deque.push_back(6);
+
+        assert_eq!(deque.pop_back(), Some(6));
+        assert_eq!(deque.pop_back(), Some(5));
+        assert_eq!(deque.pop_back(), Some(4));
+        assert_eq!(deque.pop_back(), Some(3));
+        assert_eq!(deque.pop_back(), Some(2));
+        assert_eq!(deque.pop_back(), Some(1));
+    }
+
+    // Push Test
+    #[test]
+    fn push_test(){
+        let mut deque = Deque::&lt;i32&gt;::new();
+        deque.push_front(3);
+        deque.push_front(2);
+        deque.push_front(1);
+
+        deque.push_back(4);
+        deque.push_back(5);
+        deque.push_back(6);
+
+        let mut front = deque.front.clone();
+        for i in 1..=6 {
+            if let Some(node) = front.clone() {
+                let val = node.borrow().val;
+                assert_eq!(val, i);
+            } else{
+                panic!(&quot;There should be an element in the list&quot;);
+            }
+
+            front = front.and_then(
+                |rc| {
+                    let rc = rc.borrow(); 
+                    let rc = rc.next.clone(); 
+                    rc
+                }
+            );
+        }
+
+
+        let mut back = deque.back.clone();
+        for i in 1..=6 {
+            if let Some(node) = back.clone() {
+                let val = node.borrow().val;
+                assert_ne!(val, i);
+            } else{
+                panic!(&quot;There should be an element in the list&quot;);
+            }
+
+            back = back.and_then(
+                |rc| {
+                    let rc = rc.borrow(); 
+                    let rc = rc.prev.clone(); 
+                    rc
+                }
+            );
+        }
+
+        let mut back = deque.back.clone();
+        for i in (1..=6).rev() {
+            if let Some(node) = back.clone() {
+                let val = node.borrow().val;
+                assert_eq!(val, i);
+            } else{
+                panic!(&quot;There should be an element in the list&quot;);
+            }
+
+            back = back.and_then(
+                |rc| {
+                    let rc = rc.borrow(); 
+                    let rc = rc.prev.clone(); 
+                    rc
+                }
+            );
+        }
+    }
+
+    // Remove Middle Test 01
+    #[test]
+    fn remove_middle_test_01(){
+        let mut deque = Deque::&lt;i32&gt;::new();
+        let n1 = Some(Rc::new(RefCell::new(ListNode::new(1))));
+        let n2 = Some(Rc::new(RefCell::new(ListNode::new(2))));
+        let n3 = Some(Rc::new(RefCell::new(ListNode::new(3))));
+        let n4 = Some(Rc::new(RefCell::new(ListNode::new(4))));
+
+        deque.push_back_node(n1.clone());
+        deque.push_back_node(n2.clone());
+        deque.push_back_node(n3.clone());
+        deque.push_back_node(n4.clone());
+
+        // Remove 3
+        assert_eq!(deque.remove_middle(n3), Some(3));
+        let expected = [1,2,4]; let mut i = 0;
+        let mut node_ref = deque.front.clone();
+        while let Some(node) = node_ref {
+            let node = node.borrow();
+            assert_eq!(node.val, expected[i]);
+            node_ref = node.next.clone();
+            i += 1;
+        }
+
+        // Remove 1
+        assert_eq!(deque.remove_middle(n1), Some(1));
+        let expected = [2,4]; let mut i = 0;
+        let mut node_ref = deque.front.clone();
+        while let Some(node) = node_ref {
+            let node = node.borrow();
+            assert_eq!(node.val, expected[i]);
+            node_ref = node.next.clone();
+            i += 1;
+        }
+
+        // Remove 4
+        assert_eq!(deque.remove_middle(n4), Some(4));
+        let expected = [2]; let mut i = 0;
+        let mut node_ref = deque.front.clone();
+        while let Some(node) = node_ref {
+            let node = node.borrow();
+            assert_eq!(node.val, expected[i]);
+            node_ref = node.next.clone();
+            i += 1;
+        }
+
+        // Remove 2
+        assert_eq!(deque.remove_middle(n2), Some(2));
+        let node_ref = deque.front.clone();
+        assert!(node_ref.is_none());
+
+    }
+}
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="150-evaluate-reverse-polish-notation"><a class="header" href="#150-evaluate-reverse-polish-notation">150. Evaluate Reverse Polish Notation</a></h1>
 <h2 id="description-of-the-problem-64"><a class="header" href="#description-of-the-problem-64">Description of the Problem</a></h2>
 <p>You are given an array of strings tokens that represents an arithmetic expression in a Reverse Polish Notation.</p>
