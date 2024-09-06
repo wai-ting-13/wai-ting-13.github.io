@@ -10594,7 +10594,8 @@ Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We ret
 <h2 id="solution-110"><a class="header" href="#solution-110">Solution</a></h2>
 <p><strong>Tags:</strong> <code>Two Pointers</code></p>
 <h3 id="explanation-46"><a class="header" href="#explanation-46">Explanation</a></h3>
-<p>Since the array is sorted, we can use two pointers to find the solution. First, point to the first and last elements.If the sum is too big, move the right pointer to make the smaller and vice versa.</p>
+<p>Since the array is sorted, we can use two pointers to find the solution. First, point to the first and last elements. 
+If the sum is too big, move the right pointer to make it smaller and vice versa.</p>
 <h3 id="code-rust-57"><a class="header" href="#code-rust-57">Code (Rust)</a></h3>
 <pre><code class="language-Rust">impl Solution {
     pub fn two_sum(numbers: Vec&lt;i32&gt;, target: i32) -&gt; Vec&lt;i32&gt; {
