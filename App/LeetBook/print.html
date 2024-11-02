@@ -10882,7 +10882,7 @@ lRUCache.get(4);    // return 4
 <li><code>0 &lt;= value &lt;= 10^5</code></li>
 <li>At most <code>2 * 10^5</code> calls will be made to <code>get</code> and <code>put</code>.</li>
 </ul>
-<h2 id="solution-1-does-not-meet-the-requirement-of-complexity"><a class="header" href="#solution-1-does-not-meet-the-requirement-of-complexity">Solution 1 (Does not meet the requirement of complexity)</a></h2>
+<h2 id="solution-1---simple-idea-does-not-meet-the-requirement"><a class="header" href="#solution-1---simple-idea-does-not-meet-the-requirement">Solution 1 - Simple Idea (Does not meet the requirement)</a></h2>
 <h3 id="explanation-45"><a class="header" href="#explanation-45">Explanation</a></h3>
 <p>The whole idea is provided by <a href="https://www.youtube.com/watch?v=7ABFKPK2hD4">NeetCode's Video</a>: </p>
 <ul>
@@ -10944,7 +10944,9 @@ impl LRUCache {
 </code></pre>
 <h2 id="solution-2-1"><a class="header" href="#solution-2-1">Solution 2</a></h2>
 <h3 id="explanation-46"><a class="header" href="#explanation-46">Explanation</a></h3>
-<p>It is so difficult to implement LinkedList with Rust. Fortunately, Rust source code provides a very good demostration for <a href="https://doc.rust-lang.org/src/alloc/collections/linked_list.rs.html#51-54">LinkedList</a>.</p>
+<p>It is so difficult to implement Safe LinkedList with Rust. </p>
+<p>Fortunately, <a href="https://rust-unofficial.github.io/too-many-lists/index.html"><strong>Learn Rust With Entirely Too Many Linked Lists</strong></a> provides good demostration for the implementation of a safe LinkedList (see: <a href="https://rust-unofficial.github.io/too-many-lists/fourth-final.html">A Bad Safe Deque</a>)</p>
+<p>The source code of <code>std::collections::LinkedList</code> also provides a very good demostration for <a href="https://doc.rust-lang.org/src/alloc/collections/linked_list.rs.html#51-54">LinkedList</a>.</p>
 <p>Remember to use <strong>Unit Test</strong> when implementing these data strctures, it helps you DEBUG :).</p>
 <h3 id="code-rust-55"><a class="header" href="#code-rust-55">Code (Rust)</a></h3>
 <p>** For implmentation details of double-end queue, please see <a href="medium-problems/146.html#appendix-a1---implementation-details-of-lrucache-using-safe-deque">Apppendix A1</a></p>
