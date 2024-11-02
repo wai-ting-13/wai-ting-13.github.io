@@ -687,6 +687,222 @@ mod deque_tests {
     }
 }
 </code></pre>
+<h2 id="appendix-a1---implementation-of-lrucache-using-stdcollectionslinked_listlinkedlist"><a class="header" href="#appendix-a1---implementation-of-lrucache-using-stdcollectionslinked_listlinkedlist">Appendix A1 - Implementation of <code>LRUCache</code> using <code>std::collections::linked_list::LinkedList</code></a></h2>
+<pre><code class="language-Rust">//! # Least Recently Used Cache 
+//! Using unsafe `LinkedList` from std::collections::linked_list
+
+use std::{collections::HashMap, hash::Hash, marker::PhantomData, ptr::NonNull};
+
+type NodePtr&lt;T&gt; = NonNull&lt;Node&lt;T&gt;&gt;;
+
+pub struct LRUCache&lt;K, V&gt;     
+    where 
+        K: Copy + Eq + Hash, 
+        V: Clone 
+{
+    capacity: usize,
+    hash_map: HashMap&lt;K, NodePtr&lt;(K,V)&gt;&gt;,
+    deque: LinkedList&lt;(K,V)&gt;,
+}
+
+struct LinkedList&lt;T&gt; {
+    len: usize,
+    front: Option&lt;NodePtr&lt;T&gt;&gt;,
+    back: Option&lt;NodePtr&lt;T&gt;&gt;,
+    _marker: PhantomData&lt;Box&lt;Node&lt;T&gt;&gt;&gt;,
+}
+
+#[derive(Debug)]
+struct Node&lt;T&gt; {
+    val: T,
+    prev: Option&lt;NodePtr&lt;T&gt;&gt;,
+    next: Option&lt;NodePtr&lt;T&gt;&gt;,
+}
+
+impl&lt;K, V&gt; LRUCache&lt;K, V&gt; 
+    where 
+        K: Copy + Eq + Hash, 
+        V: Clone 
+{
+    pub fn new(capacity: usize) -&gt; Self {
+        LRUCache {
+            capacity,
+            hash_map: HashMap::new(),
+            deque: LinkedList::new()
+        }
+    }
+
+    pub fn get(&amp;mut self, key: &amp;K) -&gt; Option&lt;V&gt; {
+        self.hash_map.get_mut(key).map(|node_ptr| unsafe {
+            self.deque.move_node_into_back(*node_ptr);
+            (*node_ptr.as_ptr()).val.1.clone()
+        })
+    }
+
+    pub fn put(&amp;mut self, key: K, value: V) {
+        if let Some(node_ptr) = self.hash_map.get_mut(&amp;key)  {
+            unsafe {
+                self.deque.move_node_into_back(*node_ptr);
+                (*node_ptr.as_ptr()).val.1 = value;
+                return;
+            }
+        }
+
+        if self.hash_map.len() &gt;= self.capacity {
+            let old_node = self.deque.pop_front_node().unwrap();
+            let old_key = (*old_node).val.0;
+            self.hash_map.remove(&amp;old_key);
+        }
+        
+        let node_ptr = LinkedList::create_node_ptr((key, value));
+        self.hash_map.insert(key, node_ptr.clone());
+        unsafe { self.deque.push_back_node(node_ptr) };
+    }
+}
+
+// The implementation is copied and modified from `std::collections::linked_list`
+impl&lt;T&gt; LinkedList&lt;T&gt; {
+    fn new() -&gt; Self {
+        LinkedList {
+            len: 0,
+            front: None,
+            back: None,
+            _marker: PhantomData,
+        }
+    }
+
+    #[allow(unused)]
+    unsafe fn push_front_node(&amp;mut self, node: NonNull&lt;Node&lt;T&gt;&gt;) {
+        unsafe {
+            (*node.as_ptr()).next = self.front;
+            (*node.as_ptr()).prev = None;
+            let node = Some(node);
+
+            match self.front {
+                None =&gt; self.back = node,
+                Some(front) =&gt; (*front.as_ptr()).prev = node,
+            }
+
+            self.front = node;
+            self.len += 1;
+        }
+    }
+
+    #[allow(unused)]
+    unsafe fn push_back_node(&amp;mut self, node: NonNull&lt;Node&lt;T&gt;&gt;) {
+        unsafe {
+            (*node.as_ptr()).next = None;
+            (*node.as_ptr()).prev = self.back;
+            let node = Some(node);
+
+            match self.back {
+                None =&gt; self.front = node,
+                Some(back) =&gt; (*back.as_ptr()).next = node,
+            }
+
+            self.back = node;
+            self.len += 1;
+        }
+    }
+
+    fn pop_front_node(&amp;mut self) -&gt; Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt; {
+        self.front.map(|node| unsafe {
+            let node = Box::from_raw(node.as_ptr());
+            self.front = node.next;
+
+            match self.front {
+                None =&gt; self.back = None,
+                Some(front) =&gt; (*front.as_ptr()).prev = None,
+            }
+
+            self.len -= 1;
+            node
+        })
+    }
+
+    #[allow(unused)]
+    fn pop_back_node(&amp;mut self) -&gt; Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt; {
+        self.back.map(|node| unsafe {
+            let node = Box::from_raw(node.as_ptr());
+            self.back = node.prev;
+
+            match self.back {
+                None =&gt; self.front = None,
+                Some(back) =&gt; (*back.as_ptr()).next = None,
+            }
+
+            self.len -= 1;
+            node
+        })
+    }
+
+    /// # Safety
+    /// see reason from the below method
+    unsafe fn move_node_into_back(&amp;mut self, node: NodePtr&lt;T&gt;) {
+        unsafe { self.unlink_node(node) };
+        self.push_back_node(node.clone());
+    }
+
+    unsafe fn unlink_node(&amp;mut self, mut node: NonNull&lt;Node&lt;T&gt;&gt;) {
+        let node = unsafe { node.as_mut() };
+
+        match node.prev {
+            Some(prev) =&gt; unsafe { (*prev.as_ptr()).next = node.next },
+            None =&gt; self.front = node.next,
+        };
+
+        match node.next {
+            Some(next) =&gt; unsafe { (*next.as_ptr()).prev = node.prev },
+            None =&gt; self.back = node.prev,
+        };
+
+        self.len -= 1;
+    }
+
+    fn create_node_ptr(val: T) -&gt; NodePtr&lt;T&gt; {
+        let node = Box::leak(Box::new(Node::new(val)));
+        NonNull::new(node).unwrap()
+    }
+}
+
+impl&lt;T&gt; Node&lt;T&gt; {
+    fn new(val: T) -&gt; Self {
+        Node { val, prev: None, next: None }
+    }
+}
+
+
+
+#[cfg(test)]
+mod cache_tests{
+    use crate::LRUCache;
+
+    #[test]
+    fn test_01(){
+        let mut cache = LRUCache::new(2);
+        cache.put(1,1);
+        cache.put(2,2);
+        assert_eq!(cache.get(&amp;1),Some(1));
+        cache.put(3,3); 
+        assert_eq!(cache.get(&amp;2),None); 
+        cache.put(4,4); 
+        assert_eq!(cache.get(&amp;1),None); 
+        assert_eq!(cache.get(&amp;3),Some(3));
+        assert_eq!(cache.get(&amp;4),Some(4));
+    }
+
+    #[test]
+    fn test_02(){
+        let mut cache = LRUCache::new(2);
+        cache.put(1,1); 
+        cache.put(2,2); 
+        assert_eq!(cache.get(&amp;1),Some(1)); 
+        cache.put(2,3);
+        assert_eq!(cache.get(&amp;2),Some(3)); 
+        cache.put(2,3);
+    }
+}
+</code></pre>
 
                     </main>
 
