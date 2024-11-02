@@ -270,59 +270,30 @@ impl LRUCache {
 <p>It is so difficult to implement LinkedList with Rust. Fortunately, Rust source code provides a very good demostration for <a href="https://doc.rust-lang.org/src/alloc/collections/linked_list.rs.html#51-54">LinkedList</a>.</p>
 <p>Remember to use <strong>Unit Test</strong> when implementing these data strctures, it helps you DEBUG :).</p>
 <h3 id="code-rust-1"><a class="header" href="#code-rust-1">Code (Rust)</a></h3>
-<p>** For implmentation details of double-end queue, please see <a href="#appendix-a1---implementation-details">Apppendix A1</a></p>
-<pre><code class="language-Rust">use std::collections::HashMap;
-
-struct LRUCache{
-    capacity : usize,
-    hash_map : HashMap&lt;i32, NodeReference&lt;(i32, i32)&gt;&gt;,
-    deque : Deque&lt;(i32, i32)&gt;,
+<p>** For implmentation details of double-end queue, please see <a href="#appendix-a1---implementation-details-of-lrucache-using-safe-deque">Apppendix A1</a></p>
+<pre><code class="language-Rust">struct LRUCache {
+    cache : base::LRUCache&lt;i32, i32&gt;,
 }
 
 impl LRUCache {
-    fn new(capacity: i32) -&gt; LRUCache {
-        return LRUCache { 
-            capacity : capacity.try_into().unwrap(), 
-            hash_map: HashMap::new(), 
-            deque: Deque::new() 
-        };
-    }
-
-    fn get(&amp;mut self, key : i32) -&gt; i32 {
-        if let Some(node) = self.hash_map.get(&amp;key).cloned() {
-            self.move_into_back(node.clone());
-            return node.unwrap().borrow().val.1.clone();
+    fn new(capacity: i32) -&gt; Self {
+        LRUCache {
+            cache : base::LRUCache::new(capacity as usize)
         }
-        return -1;
-    }
-
-    fn put(&amp;mut self, key : i32, value: i32) {
-        if let Some(node) = self.hash_map.get_mut(&amp;key).cloned() {
-            self.move_into_back(node.clone());
-            let node = node.unwrap();
-            let mut node = node.borrow_mut();
-            node.val.1 = value;
-            return;
-        }
-        
-        if self.deque.len &gt;= self.capacity {
-            let node = self.deque.pop_front_node();
-            if let Some(node) = node {
-                let lru_key = node.borrow().val.0;
-                self.hash_map.remove(&amp;lru_key);
-            }
-        }
-
-        let node = Some(Rc::new(RefCell::new(ListNode::new((key, value)))));
-        self.hash_map.insert(key, node.clone());
-        self.deque.push_back_node(node);
-    }
-
-    fn move_into_back(&amp;mut self, node : NodeReference&lt;(i32, i32)&gt;){
-        self.deque.remove_middle_node(node.clone());
-        self.deque.push_back_node(node);
     }
     
+    fn get(&amp;mut self, key: i32) -&gt; i32 {
+        self.cache.get(&amp;key).unwrap_or(-1)
+    }
+    
+    fn put(&amp;mut self, key: i32, value: i32) {
+        self.cache.put(key, value);
+    }
+}
+
+mod base {
+    // -- Snip --
+    // Please see Appendix A1
 }
 </code></pre>
 <h3 id="complexity"><a class="header" href="#complexity">Complexity</a></h3>
@@ -336,424 +307,267 @@ impl LRUCache {
 <li>get: \(O(1)\)</li>
 <li>put: \(O(1)\)</li>
 </ul>
-<h2 id="appendix-a1---implementation-details"><a class="header" href="#appendix-a1---implementation-details">Appendix A1 - Implementation Details</a></h2>
-<p><strong>Folder Strcture</strong></p>
-<pre><code>src
-├── deque
-│   ├── mod.rs
-│   └── tests.rs
-├── lib.rs
-└── lru_cache
-    ├── mod.rs
-    └── tests.rs
-</code></pre>
-<p><strong>Filename : src/lib.rs</strong></p>
-<pre><code class="language-Rust">mod deque;
-mod lru_cache;
-</code></pre>
-<p><strong>Filename : src/lru_cache/mod.rs</strong> (Same as <a href="#solution-2">Solution 2</a>)</p>
-<pre><code class="language-Rust">use super::deque::{Deque, ListNode, NodeReference};
-use std::collections::HashMap;
-use std::{cell::RefCell, rc::Rc};
+<h2 id="appendix-a1---implementation-details-of-lrucache-using-safe-deque"><a class="header" href="#appendix-a1---implementation-details-of-lrucache-using-safe-deque">Appendix A1 - Implementation Details of <code>LRUCache</code> using Safe Deque</a></h2>
+<pre><code class="language-Rust">//! # Least Recently Used Cache 
+//! A LRU cache supports Generics with trait bounds.
 
-mod tests;
+use std::{hash::Hash, collections::HashMap, cell::RefCell, rc::Rc};
 
-struct LRUCache{
-    capacity : usize,
-    hash_map : HashMap&lt;i32, NodeReference&lt;(i32, i32)&gt;&gt;,
-    deque : Deque&lt;(i32, i32)&gt;,
+type NodeRef&lt;T&gt; = Rc&lt;RefCell&lt;Node&lt;T&gt;&gt;&gt;;
+
+/// `K` must be `Copy` to remind &quot;callers&quot; that the `K` should be small
+/// Otherwise it will be expensive to copy the key. 
+pub struct LRUCache&lt;K, V&gt;     
+    where 
+        K: Copy + Eq + Hash, 
+        V: Clone 
+{
+    capacity: usize,
+    hash_map: HashMap&lt;K, NodeRef&lt;(K,V)&gt;&gt;,
+    deque: Deque&lt;(K,V)&gt;,
 }
 
-impl LRUCache {
-    fn new(capacity: i32) -&gt; LRUCache {
-        return LRUCache { 
-            capacity : capacity.try_into().unwrap(), 
-            hash_map: HashMap::new(), 
-            deque: Deque::new() 
-        };
-    }
+/// The idea of the implementation of this deque mostly comes from the  **Learn Rust With Entirely Too Many Linked Lists**
+/// see: [A Bad but Safe Doubly-Linked Deque](https://rust-unofficial.github.io/too-many-lists/fourth-final.html)
+/// The idea of `unsafe fn unlink_node(&amp;mut self, node: &amp;NodeRef&lt;T&gt;)` comes from the offcial implementation of `std::collections::LinkedList`
+struct Deque&lt;T&gt; {
+    len: usize,
+    front: Option&lt;NodeRef&lt;T&gt;&gt;,
+    back: Option&lt;NodeRef&lt;T&gt;&gt;,
+}
 
-    fn get(&amp;mut self, key : i32) -&gt; i32 {
-        if let Some(node) = self.hash_map.get(&amp;key).cloned() {
-            self.move_into_back(node.clone());
-            return node.unwrap().borrow().val.1.clone();
+#[derive(Debug)]
+struct Node&lt;T&gt; {
+    val: T,
+    prev: Option&lt;NodeRef&lt;T&gt;&gt;,
+    next: Option&lt;NodeRef&lt;T&gt;&gt;,
+}
+
+impl&lt;K, V&gt; LRUCache&lt;K, V&gt; 
+    where 
+        K: Copy + Eq + Hash, 
+        V: Clone 
+{
+    pub fn new(capacity: usize) -&gt; Self {
+        LRUCache {
+            capacity,
+            hash_map: HashMap::new(),
+            deque: Deque::new(),
         }
-        return -1;
     }
 
-    fn put(&amp;mut self, key : i32, value: i32) {
-        if let Some(node) = self.hash_map.get_mut(&amp;key).cloned() {
-            self.move_into_back(node.clone());
-            let node = node.unwrap();
-            let mut node = node.borrow_mut();
-            node.val.1 = value;
+    pub fn get(&amp;mut self, key: &amp;K) -&gt; Option&lt;V&gt; {
+        self.hash_map.get_mut(key).map(|node_ref| {
+            unsafe { self.deque.move_node_into_back(node_ref) };
+            node_ref.borrow().val.1.clone()
+        })
+    }
+
+    pub fn put(&amp;mut self, key: K, value: V) {
+        if let Some(node_ref) = self.hash_map.get_mut(&amp;key) {
+            unsafe { self.deque.move_node_into_back(node_ref) };
+            node_ref.borrow_mut().val.1 = value;
             return;
         }
-        
-        if self.deque.len &gt;= self.capacity {
-            let node = self.deque.pop_front_node();
-            if let Some(node) = node {
-                let lru_key = node.borrow().val.0;
-                self.hash_map.remove(&amp;lru_key);
-            }
+
+        if self.hash_map.len() &gt;= self.capacity {
+            let old_node = self.deque.pop_front_node().unwrap();
+            let old_key = &amp;old_node.borrow().val.0;
+            self.hash_map.remove(old_key);
         }
-
-        let node = Some(Rc::new(RefCell::new(ListNode::new((key, value)))));
-        self.hash_map.insert(key, node.clone());
-        self.deque.push_back_node(node);
-    }
-
-    fn move_into_back(&amp;mut self, node : NodeReference&lt;(i32, i32)&gt;){
-        self.deque.remove_middle_node(node.clone());
-        self.deque.push_back_node(node);
-    }
-    
-}
-</code></pre>
-<p><strong>Filename : src/lru_cache/tests.rs</strong></p>
-<pre><code class="language-Rust">#[cfg(test)]
-mod tests{
-    use crate::lru_cache::LRUCache;
-
-    #[test]
-    fn test_01(){
-        let mut cache = LRUCache::new(2);
-        cache.put(1,1);
-        cache.put(2,2);
-        assert_eq!(cache.get(1),1);
-        cache.put(3,3);
-        assert_eq!(cache.get(2),-1);
-        cache.put(4,4);
-        assert_eq!(cache.get(1),-1);
-        assert_eq!(cache.get(3),3);
-        assert_eq!(cache.get(4),4);
-
-    }
-
-    #[test]
-    fn test_02_provided_by_leetcode(){
-        let mut cache = LRUCache::new(10);
-        cache.put(10,13);
-        cache.put(3,17);
-        cache.put(6,11);
-        cache.put(10,5);
-        cache.put(9,10);
-        assert_eq!(cache.get(13) , -1);
-        cache.put(2,19);
-        assert_eq!(cache.get(2) , 19);
-        assert_eq!(cache.get(3) , 17);
-        cache.put(5,25);
-        assert_eq!(cache.get(8) , -1);
-        cache.put(9,22);
-        cache.put(5,5);
-        cache.put(1,30);
-        assert_eq!(cache.get(11) , -1);
-        cache.put(9,12);
-        assert_eq!(cache.get(7) , -1);
-        assert_eq!(cache.get(5) , 5);
-        assert_eq!(cache.get(8) , -1);
-        assert_eq!(cache.get(9) , 12);
-        cache.put(4,30);
-        cache.put(9,3);
-        assert_eq!(cache.get(9) , 3);
-        assert_eq!(cache.get(10) , 5);
-        assert_eq!(cache.get(10) , 5);
-        cache.put(6,14);
-        cache.put(3,1);
-        assert_eq!(cache.get(3) , 1);
-        cache.put(10,11);
-        assert_eq!(cache.get(8) , -1);
-        cache.put(2,14);
-        assert_eq!(cache.get(1) , 30);
-        assert_eq!(cache.get(5) , 5);
-        assert_eq!(cache.get(4) , 30);
-        cache.put(11,4);
-        cache.put(12,24);
-        cache.put(5,18);
-        assert_eq!(cache.get(13) , -1);
-        cache.put(7,23);
-        assert_eq!(cache.get(8) , -1);
-        assert_eq!(cache.get(12) , 24);
-        cache.put(3,27);
-        cache.put(2,12);
-        assert_eq!(cache.get(5) , 18);
-        cache.put(2,9);
-        cache.put(13,4);
-        cache.put(8,18);
-        cache.put(1,7);
-        assert_eq!(cache.get(6) , -1);
-        cache.put(9,29);
-        cache.put(8,21);
-        assert_eq!(cache.get(5) , 18);
-        cache.put(6,30);
-        cache.put(1,12);
-        assert_eq!(cache.get(10) , -1);
-        cache.put(4,15);
-        cache.put(7,22);
-        cache.put(11,26);
-        cache.put(8,17);
-        cache.put(9,29);
-        assert_eq!(cache.get(5) , 18);
-        cache.put(3,4);
-        cache.put(11,30);
-        assert_eq!(cache.get(12) , -1);
-        cache.put(4,29);
-        assert_eq!(cache.get(3) , 4);
-        assert_eq!(cache.get(9) , 29);
-        assert_eq!(cache.get(6) , 30);
-        cache.put(3,4);
-        assert_eq!(cache.get(1) , 12);
-        assert_eq!(cache.get(10) , -1);
-        cache.put(3,29);
-        cache.put(10,28);
-        cache.put(1,20);
-        cache.put(11,13);
-        assert_eq!(cache.get(3) , 29);
-        cache.put(3,12);
-        cache.put(3,8);
-        cache.put(10,9);
-        cache.put(3,26);
-        assert_eq!(cache.get(8) , 17);
-        assert_eq!(cache.get(7) , 22);
-        assert_eq!(cache.get(5) , 18);
-        cache.put(13,17);
-        cache.put(2,27);
-        cache.put(11,15);
-        assert_eq!(cache.get(12) , -1);
-        cache.put(9,19);
-        cache.put(2,15);
-        cache.put(3,16);
-        assert_eq!(cache.get(1) , 20);
-        cache.put(12,17);
-        cache.put(9,1);
-        cache.put(6,19);
-        assert_eq!(cache.get(4) , -1);
-        assert_eq!(cache.get(5) , 18);
-        assert_eq!(cache.get(5) , 18);
-        cache.put(8,1);
-        cache.put(11,7);
-        cache.put(5,2);
-        cache.put(9,28);
-        assert_eq!(cache.get(1) , 20);
-        cache.put(2,2);
-        cache.put(7,4);
-        cache.put(4,22);
-        cache.put(7,24);
-        cache.put(9,26);
-        cache.put(13,28);
-        cache.put(11,26);
-    }
-}
-</code></pre>
-<p><strong>Filename : src/deque/mod.rs</strong></p>
-<pre><code class="language-Rust">use std::{cell::RefCell, rc::Rc};
-
-mod tests;
-
-pub type NodeReference&lt;T&gt; = Option&lt;Rc&lt;RefCell&lt;ListNode&lt;T&gt;&gt;&gt;&gt;;
-
-pub struct ListNode&lt;T&gt;{
-    pub val: T,
-    pub prev: NodeReference&lt;T&gt;,
-    pub next: NodeReference&lt;T&gt;,
-}
-
-impl&lt;T&gt; ListNode&lt;T&gt; {
-    pub fn new(val : T) -&gt; ListNode&lt;T&gt;{
-        return 
-            ListNode{val, prev: None, next: None}
-        ;
+        
+        let node_ref = Deque::create_node_ref((key, value));
+        self.hash_map.insert(key, node_ref.clone());
+        unsafe { self.deque.push_back_node(node_ref) };
     }
 }
 
-pub struct Deque&lt;T&gt; {
-    pub len: usize,
-    pub front : NodeReference&lt;T&gt;,
-    pub back: NodeReference&lt;T&gt;
-}
-
-
-// Inspire by Rust Source Code
 impl&lt;T&gt; Deque&lt;T&gt; {
-    /** Suppose to be Public APIs */ 
-    pub fn new() -&gt; Deque&lt;T&gt; {
-        return Deque{
+    /* &quot;Public&quot; Interfaces */    
+    fn new() -&gt; Self {
+        Deque {
             len: 0,
             front: None,
             back: None,
         }
     }
 
-    pub fn push_front(&amp;mut self, val : T) {
-        self.push_front_node(Some(Rc::new(RefCell::new(ListNode::new(val)))));
+    #[allow(dead_code)]
+    fn push_front(&amp;mut self, val: T) {
+        let new_front = Self::create_node_ref(val);
+        // Safety: `new_front` is newly created
+        unsafe { self.push_front_node(new_front) };
     }
 
-    pub fn push_back(&amp;mut self, val : T) {
-        self.push_back_node(Some(Rc::new(RefCell::new(ListNode::new(val)))));
+    #[allow(dead_code)]
+    fn push_back(&amp;mut self, val: T) {
+        let new_back = Self::create_node_ref(val);
+        // Safety: `new_back` is newly created
+        unsafe { self.push_back_node(new_back) };
     }
 
-    pub fn pop_front(&amp;mut self) -&gt; Option&lt;T&gt; {
-        return 
-            self
-            .pop_front_node()
-            .map(|rc|
-                Rc::try_unwrap(rc).ok().unwrap().into_inner().val
-            );
+    #[allow(dead_code)]
+    fn pop_front(&amp;mut self) -&gt; Option&lt;T&gt; {
+        self.pop_front_node()
+            .map(|old_front| Rc::try_unwrap(old_front).ok().unwrap().into_inner().val)
     }
 
-    pub fn pop_back(&amp;mut self) -&gt; Option&lt;T&gt; {
-        return 
-            self
-            .pop_back_node()
-            .map(|rc| 
-                Rc::try_unwrap(rc).ok().unwrap().into_inner().val
-            );
+    #[allow(dead_code)]
+    fn pop_back(&amp;mut self) -&gt; Option&lt;T&gt; {
+        self.pop_back_node()
+            .map(|old_back| Rc::try_unwrap(old_back).ok().unwrap().into_inner().val)
     }
 
-    pub fn remove_middle(&amp;mut self , mid_node : NodeReference&lt;T&gt;) -&gt; Option&lt;T&gt; {
-        return self
-            .remove_middle_node(mid_node)
-            .map(|rc| 
-                Rc::try_unwrap(rc).ok().unwrap().into_inner().val
-            );
-    }
-
-    /** Auxiliary Functions */  
-    pub fn push_front_node(&amp;mut self, new_front : NodeReference&lt;T&gt;) {
-        let old_front = self.front.clone();
-
-        // new_front --&gt; old_front
-        if let Some(node) = new_front.clone() {
-            let mut node = node.borrow_mut();
-            node.next = old_front.clone();
-        }
-      
-        match old_front {
-            // new_front &lt;-- old_front
-            Some(node) =&gt; {
-                let mut node = node.borrow_mut();
-                node.prev = new_front.clone();
+    /* &quot;Private&quot; Auxiliary Functions */
+    /// # Safety
+    /// The node must have only one strong reference. 
+    /// It cause problem when the node is popped later otherwise
+    #[allow(dead_code)]
+    unsafe fn push_front_node(&amp;mut self, new_front: NodeRef&lt;T&gt;) {
+        match self.front.take() {
+            Some(old_front) =&gt; {
+                old_front.borrow_mut().prev = Some(new_front.clone());
+                new_front.borrow_mut().next = Some(old_front);
+                new_front.borrow_mut().prev = None;
+                self.front = Some(new_front);
             },
-            None =&gt; self.back = new_front.clone()
-            
+            None =&gt; {
+                self.front = Some(new_front.clone());
+                self.back = Some(new_front);
+            }
         }
-
-        self.front = new_front;
         self.len += 1;
     }
 
-    pub fn push_back_node(&amp;mut self, new_back : NodeReference&lt;T&gt;){
-        let old_back = self.back.clone();
-       
-        // old_back &lt;-- new_back
-        if let Some(node) = new_back.clone() {
-            let mut node = node.borrow_mut();
-            node.prev = old_back.clone();
-        }
-
-        match old_back {
-            // old_back --&gt; new_back
-            Some(node) =&gt; {
-                let mut node = node.borrow_mut();
-                node.next = new_back.clone();
+    /// # Safety
+    /// The node must have only one strong reference. 
+    /// It cause problem when the node is popped later otherwise
+    unsafe fn push_back_node(&amp;mut self, new_back: NodeRef&lt;T&gt;) {
+        match self.back.take() {
+            Some(old_back) =&gt; {
+                old_back.borrow_mut().next = Some(new_back.clone());
+                new_back.borrow_mut().prev = Some(old_back);
+                new_back.borrow_mut().next = None;
+                self.back = Some(new_back);
             },
-            None =&gt; self.front = new_back.clone()
+            None =&gt; {
+                self.back = Some(new_back.clone());
+                self.front = Some(new_back);
+            }
         }
-
-        self.back = new_back;
         self.len += 1;
     }
 
-    pub fn pop_front_node(&amp;mut self) -&gt; NodeReference&lt;T&gt; {
-        return self.front.take().map(|node|{
-            {
-                let node = node.borrow_mut();
-                self.front = node.next.clone();
-
-                match self.front.clone() {
-                    None =&gt; self.back = None,
-                    Some(node) =&gt; {
-                        let mut node = node.borrow_mut();
-                        node.prev = None;
-                    },
+    fn pop_front_node(&amp;mut self) -&gt; Option&lt;NodeRef&lt;T&gt;&gt; {
+        self.front.take().map(|old_front| {
+            match old_front.borrow_mut().next.take() {
+                Some(new_front) =&gt; {
+                    new_front.borrow_mut().prev = None;
+                    self.front = Some(new_front);
+                },
+                None =&gt; {
+                    self.back = None;
                 }
-                self.len -= 1;
             }
-            node
-        });
+            self.len -= 1;
+            old_front
+        })
     }
 
-    pub fn pop_back_node(&amp;mut self) -&gt; NodeReference&lt;T&gt; {
-        return self.back.take().map(|node|{
-            {
-                let node = node.borrow_mut();
-                self.back = node.prev.clone();
-
-                match self.back.clone() {
-                    None =&gt; self.front = None,
-                    Some(node) =&gt; {
-                        let mut node = node.borrow_mut();
-                        node.next = None;
-                    },
+    #[allow(dead_code)]
+    fn pop_back_node(&amp;mut self) -&gt; Option&lt;NodeRef&lt;T&gt;&gt; {
+        self.back.take().map(|old_back| {
+            match old_back.borrow_mut().prev.take() {
+                Some(new_back) =&gt; {
+                    new_back.borrow_mut().next = None;
+                    self.back = Some(new_back);
+                },
+                None =&gt; {
+                    self.front = None;
                 }
-                self.len -= 1;
             }
-            node
-        });
+            self.len -= 1;
+            old_back
+        })
     }
 
-    pub fn remove_middle_node(&amp;mut self, mid_node : NodeReference&lt;T&gt;) -&gt; NodeReference&lt;T&gt;{
-        let left_node = mid_node
-            .clone()
-            .and_then(|node| {
-                let node = node.borrow();
-                node.prev.clone()
-            });
+    /// # Safety
+    /// see reason from the below method
+    unsafe fn move_node_into_back(&amp;mut self, node: &amp;NodeRef&lt;T&gt;) {
+        unsafe { self.unlink_node(node) };
+        self.push_back_node(node.clone());
+    }
 
-        let right_node = mid_node
-            .clone()
-            .and_then(|node| {
-                let node = node.borrow();
-                node.next.clone()
-            });
-        
-        
-        if let Some(node) = mid_node.clone() {
-            // left &lt;-/- mid -/-&gt; right
-            let mut node = node.borrow_mut();
-            node.prev = None;
-            node.next = None;
-        }
-        
-        if let Some(node) = left_node.clone() {
-             // left -&gt; right
-            let mut node = node.borrow_mut();
-            node.next = right_node.clone();
+    /// # Safety
+    /// Warning: it does not check whether `node` belongs to the lists.
+    unsafe fn unlink_node(&amp;mut self, node: &amp;NodeRef&lt;T&gt;) {
+        let prev = node.borrow_mut().prev.take();
+        let next = node.borrow_mut().next.take();
+
+        if let Some(ref prev) = prev {
+            prev.borrow_mut().next = next.clone();
         } else {
-            self.front = right_node.clone();
+            self.front = next.clone();
         }
 
-        
-        if let Some(node) = right_node.clone() {
-            // left &lt;- right
-            let mut node = node.borrow_mut();
-            node.prev = left_node.clone();
-        }else {
-            self.back = left_node;
+        if let Some(ref next) = next {
+            next.borrow_mut().prev = prev;
+        } else {
+            self.back = prev;
         }
 
         self.len -= 1;
-        return mid_node;
+    }
+
+    fn create_node_ref(val : T) -&gt; NodeRef&lt;T&gt; {
+        Rc::new(RefCell::new(Node::new(val)))
     }
 }
-</code></pre>
-<p><strong>Filename: /src/deque/tests.rs</strong></p>
-<pre><code class="language-Rust">#[cfg(test)]
-mod tests{
-    use std::{cell::RefCell, rc::Rc};
-    use crate::deque::{Deque,ListNode};
 
-    // Pop Front Test
+impl&lt;T&gt; Node&lt;T&gt; {
+    fn new(val: T) -&gt; Self {
+        Node { val, prev: None, next: None }
+    }
+}
+
+
+
+#[cfg(test)]
+mod cache_tests{
+    use crate::LRUCache;
+
+    #[test]
+    fn test_01(){
+        let mut cache = LRUCache::new(2);
+        cache.put(1,1);
+        cache.put(2,2);
+        assert_eq!(cache.get(&amp;1),Some(1));
+        cache.put(3,3); 
+        assert_eq!(cache.get(&amp;2),None); 
+        cache.put(4,4); 
+        assert_eq!(cache.get(&amp;1),None); 
+        assert_eq!(cache.get(&amp;3),Some(3));
+        assert_eq!(cache.get(&amp;4),Some(4));
+    }
+
+    #[test]
+    fn test_02(){
+        let mut cache = LRUCache::new(2);
+        cache.put(1,1); 
+        cache.put(2,2); 
+        assert_eq!(cache.get(&amp;1),Some(1)); 
+        cache.put(2,3);
+        assert_eq!(cache.get(&amp;2),Some(3)); 
+        cache.put(2,3);
+    }
+
+
+}
+
+#[cfg(test)]
+mod deque_tests {
+    use crate::Deque;
+
     #[test]
     fn pop_front_test(){
         let mut deque = Deque::&lt;i32&gt;::new();
@@ -823,25 +637,6 @@ mod tests{
             );
         }
 
-
-        let mut back = deque.back.clone();
-        for i in 1..=6 {
-            if let Some(node) = back.clone() {
-                let val = node.borrow().val;
-                assert_ne!(val, i);
-            } else{
-                panic!(&quot;There should be an element in the list&quot;);
-            }
-
-            back = back.and_then(
-                |rc| {
-                    let rc = rc.borrow(); 
-                    let rc = rc.prev.clone(); 
-                    rc
-                }
-            );
-        }
-
         let mut back = deque.back.clone();
         for i in (1..=6).rev() {
             if let Some(node) = back.clone() {
@@ -861,58 +656,34 @@ mod tests{
         }
     }
 
-    // Remove Middle Test 01
+    // unlink test
     #[test]
-    fn remove_middle_test_01(){
-        let mut deque = Deque::&lt;i32&gt;::new();
-        let n1 = Some(Rc::new(RefCell::new(ListNode::new(1))));
-        let n2 = Some(Rc::new(RefCell::new(ListNode::new(2))));
-        let n3 = Some(Rc::new(RefCell::new(ListNode::new(3))));
-        let n4 = Some(Rc::new(RefCell::new(ListNode::new(4))));
+    fn unlink_test(){
+        unsafe {
+            let mut deque = Deque::&lt;i32&gt;::new();
+            let node_6 = Deque::create_node_ref(6);
+            let node_5 = Deque::create_node_ref(5);
+            let node_4 = Deque::create_node_ref(4);
+            let node_3 = Deque::create_node_ref(3);
+            let node_2 = Deque::create_node_ref(2);
+            let node_1 = Deque::create_node_ref(1);
 
-        deque.push_back_node(n1.clone());
-        deque.push_back_node(n2.clone());
-        deque.push_back_node(n3.clone());
-        deque.push_back_node(n4.clone());
+            deque.push_front_node(node_3.clone());
+            deque.push_front_node(node_2);
+            deque.push_front_node(node_1);
 
-        // Remove 3
-        assert_eq!(deque.remove_middle(n3), Some(3));
-        let expected = [1,2,4]; let mut i = 0;
-        let mut node_ref = deque.front.clone();
-        while let Some(node) = node_ref {
-            let node = node.borrow();
-            assert_eq!(node.val, expected[i]);
-            node_ref = node.next.clone();
-            i += 1;
+            deque.push_back_node(node_4);
+            deque.push_back_node(node_5);
+            deque.push_back_node(node_6);
+
+            deque.unlink_node(&amp;node_3);
+
+            for i in &amp;[1,2,4,5,6] {
+                let i = *i;
+                let j = deque.pop_front().unwrap();
+                assert_eq!(i, j);
+            }
         }
-
-        // Remove 1
-        assert_eq!(deque.remove_middle(n1), Some(1));
-        let expected = [2,4]; let mut i = 0;
-        let mut node_ref = deque.front.clone();
-        while let Some(node) = node_ref {
-            let node = node.borrow();
-            assert_eq!(node.val, expected[i]);
-            node_ref = node.next.clone();
-            i += 1;
-        }
-
-        // Remove 4
-        assert_eq!(deque.remove_middle(n4), Some(4));
-        let expected = [2]; let mut i = 0;
-        let mut node_ref = deque.front.clone();
-        while let Some(node) = node_ref {
-            let node = node.borrow();
-            assert_eq!(node.val, expected[i]);
-            node_ref = node.next.clone();
-            i += 1;
-        }
-
-        // Remove 2
-        assert_eq!(deque.remove_middle(n2), Some(2));
-        let node_ref = deque.front.clone();
-        assert!(node_ref.is_none());
-
     }
 }
 </code></pre>
